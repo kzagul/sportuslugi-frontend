@@ -18,6 +18,7 @@
     "flowbite": "^1.6.3",
     "flowbite-vue": "^0.0.10",
     "nuxt-icons": "^3.1.0",
+    "nuxt-viewport": "^2.0.3",
     "pinia": "^2.0.30"
   }
 }
