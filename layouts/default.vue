@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <!-- <LayoutsTheHeader /> -->
-        <slot />
-    </div>
+  <div>
+    <!-- <LayoutsTheHeader /> -->
+    <slot />
+  </div>
 </template>
