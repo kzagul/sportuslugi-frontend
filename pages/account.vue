@@ -5,9 +5,9 @@ const currentUser = useAuthUser();
 
 <template>
   <div>
-    <PageTitle title="Home" />
+    <PageTitle title="Account page" />
     <PageDescription
-      description="Simple authentification example using Nuxt3"
+      description="This page should only be visible if user is connected"
     />
     <PageUser :user="currentUser" />
   </div>
