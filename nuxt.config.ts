@@ -6,6 +6,11 @@ export default defineNuxtConfig({
             'nuxt-viewport', {
                 /* Viewport options */
             }
+        ],
+        [
+            'nuxt-swiper', {
+                // Swiper options
+            }
         ]
     ],
     css: ['~/assets/css/main.css']

@@ -972,7 +972,7 @@
   resolved "https://registry.yarnpkg.com/@nuxt/devalue/-/devalue-2.0.0.tgz#c7bd7e9a516514e612d5d2e511ffc399e0eac322"
   integrity sha512-YBI/6o2EBz02tdEJRBK8xkt3zvOFOWlLBf7WKYGBsSYSRtjjgrqPe2skp6VLLmKx5WbHHDNcW+6oACaurxGzeA==
 
-"@nuxt/kit@3.2.3", "@nuxt/kit@^3.0.0", "@nuxt/kit@^3.0.0-rc.13", "@nuxt/kit@^3.2.0":
+"@nuxt/kit@3.2.3", "@nuxt/kit@^3.0.0", "@nuxt/kit@^3.0.0-rc.13", "@nuxt/kit@^3.2.0", "@nuxt/kit@^3.2.3":
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/@nuxt/kit/-/kit-3.2.3.tgz#97d8b4a4bedda4452ea18629c73c6301a964d492"
   integrity sha512-wcsVlQLwGkh1cRhAFWHc3uYHdIxFTRNdRUzNyfqoX9DL0Fuga3K75q/PBY0xg1viA9R6F5BMPhc7KDLSWbXtWg==
@@ -4466,6 +4466,14 @@ nuxt-icons@^3.1.0:
   dependencies:
     "@nuxt/kit" "^3.0.0"
 
+nuxt-swiper@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/nuxt-swiper/-/nuxt-swiper-1.0.1.tgz#ecc414587d5f3126e94dcff3bb936c05861657ab"
+  integrity sha512-NHrPnnxJtM9asKkvxJlyKUhgO/1o3p4ghX+j6xAq1+A2qm8C7l/7WntklQf5t3H7Y7OZXS9e763MXgrCrnZOww==
+  dependencies:
+    "@nuxt/kit" "^3.2.3"
+    swiper "^9.1.0"
+
 nuxt-viewport@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/nuxt-viewport/-/nuxt-viewport-2.0.3.tgz#9febe3a756fbbd797541ec246660a6521a5787c1"
@@ -5536,6 +5544,11 @@ sourcemap-codec@^1.4.8:
   resolved "https://registry.yarnpkg.com/sourcemap-codec/-/sourcemap-codec-1.4.8.tgz#ea804bd94857402e6992d05a38ef1ae35a9ab4c4"
   integrity sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==
 
+ssr-window@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/ssr-window/-/ssr-window-4.0.2.tgz#dc6b3ee37be86ac0e3ddc60030f7b3bc9b8553be"
+  integrity sha512-ISv/Ch+ig7SOtw7G2+qkwfVASzazUnvlDTwypdLoPoySv+6MqlOV10VwPSE6EWkGjhW50lUmghPmpYZXMu/+AQ==
+
 stable@^0.1.8:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/stable/-/stable-0.1.8.tgz#836eb3c8382fe2936feaf544631017ce7d47a3cf"
@@ -5678,6 +5691,13 @@ svgo@^2.7.0:
     csso "^4.2.0"
     picocolors "^1.0.0"
     stable "^0.1.8"
+
+swiper@^9.1.0:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/swiper/-/swiper-9.1.0.tgz#1a804254aa5b52724038ea1b4007193742a6bbf3"
+  integrity sha512-Ck8CywwfUghkbUAHbxTAWyeUAcNrIDNJ6EnKFBGGcHDjeqbh0Jq08RbmD5fMu1a0oOv1eIkUGVkqNJy/asm+yA==
+  dependencies:
+    ssr-window "^4.0.2"
 
 tailwind-config-viewer@^1.7.2:
   version "1.7.2"
