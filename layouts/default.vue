@@ -1,31 +1,6 @@
-<script lang="ts" setup>
-import { useAuthUser, useAdmin, useAuth } from "~~/composables/auth";
-
-const currentUser = useAuthUser();
-const isAdmin = useAdmin();
-const { logout } = useAuth();
-
-const form = reactive({
-  pending: false,
-});
-
-async function onLogoutClick() {
-  try {
-    form.pending = true;
-
-    await logout();
-
-    await navigateTo("/");
-  } catch (error) {
-    console.error(error);
-  } finally {
-    form.pending = false;
-  }
-}
-</script>
-
 <template>
   <div min-h-screen flex flex-col bg-slate-900>
+    <LayoutsTheHeader />
     <header p-3 mx-auto w-full max-w-4xl>
       <nav flex gap-3>
         <PageLink to="/"> Home </PageLink>
@@ -75,3 +50,29 @@ async function onLogoutClick() {
     </main>
   </div>
 </template>
+
+<script lang="ts" setup>
+import { useAuthUser, useAdmin, useAuth } from "~~/composables/auth";
+
+const currentUser = useAuthUser();
+const isAdmin = useAdmin();
+const { logout } = useAuth();
+
+const form = reactive({
+  pending: false,
+});
+
+async function onLogoutClick() {
+  try {
+    form.pending = true;
+
+    await logout();
+
+    await navigateTo("/");
+  } catch (error) {
+    console.error(error);
+  } finally {
+    form.pending = false;
+  }
+}
+</script>
