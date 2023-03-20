@@ -3,12 +3,46 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "dev:pwa": "VITE_PLUGIN_PWA=true nuxi dev",
+    "start": "node .output/server/index.mjs",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint:js": "eslint --ext \".ts,.vue\" --ignore-path .gitignore .",
+    "lint:prettier": "prettier --check .",
+    "lint": "yarn lint:js && yarn lint:prettier",
+    "lintfix": "prettier --write --list-different . && yarn lint:js --fix"
   },
   "devDependencies": {
+    "@nuxt/devtools": "^0.2.5",
+    "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@nuxtjs/tailwindcss": "^6.2.0",
-    "nuxt": "3.0.0"
+    "@types/cookie-signature": "^1.1.0",
+    "@typescript-eslint/eslint-plugin": "^5.54.0",
+    "@typescript-eslint/parser": "^5.54.0",
+    "@vite-pwa/nuxt": "^0.0.7",
+    "@vueuse/nuxt": "^9.13.0",
+    "eslint": "^8.35.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-nuxt": "^4.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.9.0",
+    "nuxt": "^3.2.3",
+    "prettier": "^2.8.4",
+    "typescript": "^4.9.5",
+    "vite-plugin-eslint": "^1.8.1"
+  },
+  "dependencies": {
+    "@headlessui/vue": "^1.7.8",
+    "@pinia/nuxt": "^0.4.6",
+    "@types/bcryptjs": "^2.4.2",
+    "bcryptjs": "^2.4.3",
+    "cookie-signature": "^1.2.1",
+    "flowbite": "^1.6.3",
+    "flowbite-vue": "^0.0.10",
+    "nuxt-icons": "^3.1.0",
+    "nuxt-swiper": "^1.0.1",
+    "nuxt-viewport": "^2.0.3",
+    "pinia": "^2.0.30"
   }
 }
