@@ -3,6 +3,8 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "dev:pwa": "VITE_PLUGIN_PWA=true nuxi dev",
+    "start": "node .output/server/index.mjs",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
@@ -18,6 +20,8 @@
     "@types/cookie-signature": "^1.1.0",
     "@typescript-eslint/eslint-plugin": "^5.54.0",
     "@typescript-eslint/parser": "^5.54.0",
+    "@vite-pwa/nuxt": "^0.0.7",
+    "@vueuse/nuxt": "^9.13.0",
     "eslint": "^8.35.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-nuxt": "^4.0.0",

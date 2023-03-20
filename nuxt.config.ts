@@ -16,7 +16,9 @@ export default defineNuxtConfig({
     ), // 7 days
   },
   modules: [
+    "@vueuse/nuxt",
     "@nuxtjs/tailwindcss",
+    "@vite-pwa/nuxt",
     [
       "@nuxt/devtools",
       {
