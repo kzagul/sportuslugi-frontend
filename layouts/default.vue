@@ -1,61 +1,18 @@
 <template>
   <div min-h-screen flex flex-col bg-slate-900>
     <LayoutsTheHeader />
-    <header p-3 mx-auto w-full max-w-4xl>
-      <nav flex gap-3>
-        <PageLink to="/"> Home </PageLink>
 
-        <template v-if="currentUser">
-          <PageLink to="/private"> Private </PageLink>
-
-          <PageLink v-if="isAdmin" to="/admin"> Admin </PageLink>
-
-          <button
-            mb-3
-            ml-auto
-            py-1
-            px-2
-            rounded
-            bg-light-100
-            hover="bg-light-700"
-            transition-colors
-            :disabled="form.pending"
-            @click="onLogoutClick"
-          >
-            Logout
-          </button>
-        </template>
-
-        <template v-else>
-          <PageLink to="/guest"> Public </PageLink>
-
-          <NuxtLink
-            to="/login"
-            ml-auto
-            py-1
-            px-2
-            rounded
-            bg-light-100
-            hover="bg-light-700"
-            transition-colors
-          >
-            Login
-          </NuxtLink>
-        </template>
-      </nav>
-    </header>
-
-    <main p-3 mx-auto w-full max-w-4xl>
+    <main class="wrapper">
       <slot />
     </main>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { useAuthUser, useAdmin, useAuth } from "~~/composables/auth";
+// import { useAuthUser, useAdmin, useAuth } from "~~/composables/auth";
 
-const currentUser = useAuthUser();
-const isAdmin = useAdmin();
+// const currentUser = useAuthUser();
+// const isAdmin = useAdmin();
 const { logout } = useAuth();
 
 const form = reactive({

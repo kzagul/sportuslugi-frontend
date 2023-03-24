@@ -5,3 +5,7 @@
 html {
     height: 100%;
 }
+
+.wrapper {
+    @apply px-4 md:px-0 md:w-[1200px] mx-auto;
+}
