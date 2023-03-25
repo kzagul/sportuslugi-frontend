@@ -1,1 +1,0 @@
-import{a4 as t,a5 as i,E as n}from"./entry.9c9bff3e.js";import{u as o}from"./useAdmin.3a7902ab.js";/* empty css                   */const l=t(async(s,m)=>{let e,a;if(!([e,a]=i(()=>o()),e=await e,a(),e).value)return n({name:"login"})});export{l as default};
