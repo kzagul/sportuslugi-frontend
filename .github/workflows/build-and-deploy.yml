@@ -1,40 +1,38 @@
-name: deploy-develop
+name: Build and Deploy
 
-on:
+on: 
   push:
-    branches: 
+    branches:
       - develop
 
+permissions:
+  contents: write
+
 jobs:
-  all:
+  build-and-deploy:
     concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [18]
     steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v3
+    - name: Checkout 🛎️
+      uses: actions/checkout@v3
 
-      - name: Cache node modules
-        id: cache-npm
-        uses: actions/cache@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
+    - name: Install dependencies
+      run: yarn install
+    
+    - name: Build
+      run: npm run build
+      env:
+        NUXT_APP_BASE_URL: ${{ vars.NUXT_APP_BASE_URL  }}
 
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Build
-        run: npm run build
-        env:
-          NUXT_APP_BASE_URL: ${{ vars.NUXT_APP_BASE_URL  }}
-
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: dist
-
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: dist
