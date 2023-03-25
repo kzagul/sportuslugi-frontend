@@ -27,8 +27,10 @@ jobs:
     - name: Install dependencies
       run: yarn install
     
-    - name: Build
-      run: npm run build
+    - name: Generate
+      run: npm run generate
+      env:
+        NUXT_APP_BASE_URL: ${{ vars.NUXT_APP_BASE_URL  }}
 
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@v4
