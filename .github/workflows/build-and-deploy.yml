@@ -1,12 +1,12 @@
-name: Build and Deploy
+name: deploy-develop
+
 on:
   push:
-    branches:
+    branches: 
       - develop
-permissions:
-  contents: write
+
 jobs:
-  build-and-deploy:
+  all:
     concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
     strategy:
@@ -16,19 +16,25 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v3
 
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install & Generate 🔧
-        run: |
-          npm ci
-          npm run generate
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build
+        run: npm run build
         env:
           NUXT_APP_BASE_URL: ${{ vars.NUXT_APP_BASE_URL  }}
 
-      - name: Deploy 🚀
+      - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: dist
+
