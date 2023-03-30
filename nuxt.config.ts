@@ -3,7 +3,14 @@ const ONE_DAY = 60 * 60 * 24 * 1000;
 const ONE_WEEK = ONE_DAY * 7;
 
 export default defineNuxtConfig({
+  ssr: false,
   runtimeConfig: {
+    public: {
+      baseUrl:
+        process.env.NODE_ENV === "development" ? process.env.BASE_URL : "/",
+      dataUrl:
+        process.env.NODE_ENV === "development" ? process.env.DATA_URL : "",
+    },
     cookieName: process.env.COOKIE_NAME || "__session",
     cookieSecret: process.env.COOKIE_SECRET || "secret",
     cookieExpires: parseInt(
@@ -16,6 +23,7 @@ export default defineNuxtConfig({
     ), // 7 days
   },
   modules: [
+    "@pinia/nuxt",
     "@vueuse/nuxt",
     "@nuxtjs/tailwindcss",
     "@vite-pwa/nuxt",

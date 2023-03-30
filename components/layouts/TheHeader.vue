@@ -34,7 +34,8 @@
           </div>
 
           <div class="flex items-center gap-4 lg:order-2">
-            <template v-if="currentUser">
+            <!-- v-if="currentUser" -->
+            <template v-if="authStore.user">
               <PageLink to="/private" class="text-gray-800"> Private </PageLink>
 
               <PageLink v-if="isAdmin" to="/admin"> Admin </PageLink>
@@ -48,11 +49,8 @@
                 @click="dropdownOpened = !dropdownOpened"
               >
                 <span class="sr-only">Open user menu</span>
-                <img
-                  class="w-8 h-8 rounded-full"
-                  :src="currentUser.image"
-                  alt="user photo"
-                />
+                <img class="w-8 h-8 rounded-full" alt="user photo" />
+                <!-- :src="currentUser.image" -->
               </button>
 
               <!-- Dropdown menu -->
@@ -63,11 +61,15 @@
               >
                 <div class="py-3 px-4">
                   <span class="block text-sm font-semibold text-gray-900">
-                    {{ currentUser.name }}
+                    <!-- {{ currentUser.name }} -->
+                    {{ authStore.user.name }}
+                    <!-- name -->
                     <!-- Neil sims -->
                   </span>
                   <span class="block text-sm font-light text-gray-500 truncate">
-                    {{ currentUser.email }}
+                    <!-- {{ currentUser.email }} -->
+                    {{ authStore.user.email }}
+                    <!-- email -->
                     <!-- name@flowbite.com -->
                   </span>
                 </div>
@@ -146,7 +148,8 @@
                     <a
                       href="#"
                       class="block py-2 px-4 text-sm hover:bg-gray-100"
-                      >Sign out</a
+                      @click="authStore.handleLogout"
+                      >Выход</a
                     >
                   </li>
                 </ul>
@@ -154,22 +157,29 @@
 
               <button
                 class="text-gray-800 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
-                :disabled="form.pending"
-                @click="onLogoutClick"
+                @click="authStore.handleLogout"
               >
-                Logout
+                Выход
               </button>
             </template>
 
             <template v-else>
               <PageLink to="/guest" class="text-gray-800"> Public </PageLink>
+              <div class="flex flex-row gap-2">
+                <NuxtLink
+                  to="/login"
+                  class="text-gray-800 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
+                >
+                  Вход
+                </NuxtLink>
 
-              <NuxtLink
-                to="/login"
-                class="text-gray-800 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
-              >
-                Login
-              </NuxtLink>
+                <NuxtLink
+                  to="/register"
+                  class="text-gray-800 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
+                >
+                  Регистрация
+                </NuxtLink>
+              </div>
             </template>
           </div>
         </div>
@@ -181,6 +191,9 @@
 <script setup lang="ts">
 import { initModals } from "flowbite";
 import { useAuthUser, useAdmin, useAuth } from "~~/composables/auth";
+
+import { useUserStore } from "~~/stores/user";
+const authStore = useUserStore();
 
 const currentUser = useAuthUser();
 const isAdmin = useAdmin();

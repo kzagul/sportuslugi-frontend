@@ -6662,6 +6662,14 @@ nuxt-icons@^3.1.0:
   dependencies:
     "@nuxt/kit" "^3.0.0"
 
+nuxt-sanctum-auth@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/nuxt-sanctum-auth/-/nuxt-sanctum-auth-0.3.2.tgz#a910d47d7a3fbb0ab0117b9d6e03b1bc1d0f63c3"
+  integrity sha512-5BIcOIxWEK+spUbovsV2ZghItH1nKxu9vKHuraWpW38IOThghCfTZxUMaBLFdI6sN4Cxg6Cv6f4APR6cyVxbag==
+  dependencies:
+    "@nuxt/kit" "^3.0.0"
+    ofetch "^1.0.0"
+
 nuxt-swiper@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/nuxt-swiper/-/nuxt-swiper-1.0.1.tgz#ecc414587d5f3126e94dcff3bb936c05861657ab"
@@ -6768,7 +6776,7 @@ object.values@^1.1.6:
     define-properties "^1.1.4"
     es-abstract "^1.20.4"
 
-ofetch@^1.0.1:
+ofetch@^1.0.0, ofetch@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ofetch/-/ofetch-1.0.1.tgz#68b410d4494e37fa67b99e9a60172ae447b2c44c"
   integrity sha512-icBz2JYfEpt+wZz1FRoGcrMigjNKjzvufE26m9+yUiacRQRHwnNlGRPiDnW4op7WX/MR6aniwS8xw8jyVelF2g==
