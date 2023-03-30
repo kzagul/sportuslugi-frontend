@@ -10,6 +10,10 @@ export default defineNuxtConfig({
         process.env.NODE_ENV === "development" ? process.env.BASE_URL : "/",
       dataUrl:
         process.env.NODE_ENV === "development" ? process.env.DATA_URL : "",
+      openaiUrl:
+        process.env.NODE_ENV === "development"
+          ? process.env.OPENAI_SERVICE_URL
+          : "",
     },
     cookieName: process.env.COOKIE_NAME || "__session",
     cookieSecret: process.env.COOKIE_SECRET || "secret",
