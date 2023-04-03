@@ -1,7 +1,7 @@
 <template>
   <div>
-    <header class="wrapper relative">
-      <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5">
+    <header class="relative border-b-[0.5px] border-black">
+      <nav class="wrapper bg-white border-gray-200 px-4 lg:px-6 py-2.5">
         <div
           class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl"
         >
@@ -16,7 +16,13 @@
 
             <!-- navigation -->
             <div class="flex gap-4">
-              <PageLink to="/"> Главная </PageLink>
+              <PageLink
+                v-for="(nav, index) in navs"
+                :key="index"
+                :to="nav.link"
+              >
+                {{ nav.title }}
+              </PageLink>
 
               <template v-if="currentUser">
                 <PageLink to="/private"> Private </PageLink>
@@ -198,6 +204,12 @@ const { logout } = useAuth();
 const form = reactive({
   pending: false,
 });
+
+const navs = ref([
+  { id: 1, title: "Главная", link: "/" },
+  { id: 2, title: "Учреждения", link: "/" },
+  { id: 3, title: "Услуги", link: "/" },
+]);
 
 // states
 const dropdownOpened = ref(false);
