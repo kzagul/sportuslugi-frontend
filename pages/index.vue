@@ -27,7 +27,8 @@ onMounted(async () => {
         <p>{{ authStore.user.email }}</p>
       </div>
       <div v-else>
-        <h1>Go and login</h1>
+        <!-- <h1>Спорт-услуги - онлайн сервис для подбора спортивных занятий</h1> -->
+        <BlockBegin />
       </div>
     </div>
   </div>

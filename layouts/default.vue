@@ -1,7 +1,7 @@
 <template>
   <div min-h-screen flex flex-col bg-slate-900>
-    <LayoutsTheHeader />
-
+    <LayoutTheHeader />
+    <!-- <main class="wrapper"> -->
     <main class="wrapper">
       <slot />
     </main>

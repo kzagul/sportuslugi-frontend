@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 export default <Partial<Config>>{
+  darkMode: "class",
   theme: {
     screens: {
       mobile: "375px",
@@ -97,7 +98,7 @@ export default <Partial<Config>>{
       ],
     },
   },
-  plugins: [require("flowbite")],
+  plugins: [require("flowbite"), require("flowbite/plugin")],
   content: [
     "./components/**/*.{js,vue,ts}",
     "./layouts/**/*.vue",
@@ -105,5 +106,6 @@ export default <Partial<Config>>{
     "./plugins/**/*.{js,ts}",
     "./nuxt.config.{js,ts}",
     "./node_modules/flowbite.{js,ts}",
+    "node_modules/flowbite-vue/**/*.{js,jsx,ts,tsx}",
   ],
 };
