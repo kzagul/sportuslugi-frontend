@@ -1,7 +1,7 @@
 <template>
   <div>
-    <header class="relative border-b-[0.5px] border-black">
-      <nav class="wrapper bg-white border-gray-200 px-4 lg:px-6 py-2.5">
+    <header class="wrapper relative">
+      <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5">
         <div
           class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl"
         >
@@ -186,6 +186,9 @@
           </div>
         </div>
       </nav>
+      <hr
+        class="my-2 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"
+      />
     </header>
   </div>
 </template>

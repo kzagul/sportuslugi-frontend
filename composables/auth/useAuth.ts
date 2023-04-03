@@ -1,10 +1,19 @@
 import { useAuthUser } from "./useAuthUser";
+//
+// import { useUserStore } from "~~/stores/user";
+// const userStore = useUserStore();
 
 export const useAuth = () => {
   const authUser = useAuthUser();
 
+  // const getUser = computed(() => {
+  //   return userStore.user;
+  // });
+
   const setUser = (user: any) => {
     authUser.value = user;
+    // authUser.value = null;
+    // authUser.value = getUser.value;
   };
 
   const setCookie = (cookie: any) => {

@@ -5,6 +5,7 @@
     <main class="wrapper">
       <slot />
     </main>
+    <LayoutTheFooter />
   </div>
 </template>
 
