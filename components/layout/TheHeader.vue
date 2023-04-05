@@ -8,8 +8,8 @@
           <div class="flex flex-row items-center gap-4">
             <NuxtLink to="/" class="flex items-center">
               <img
-                src="/images/logo.svg"
-                class="mr-3 h-4 sm:h-6"
+                src="/images/logo_header.svg"
+                class="mr-3 h-4 sm:h-8"
                 alt="Flowbite Logo"
               />
             </NuxtLink>
@@ -211,7 +211,7 @@ const form = reactive({
 const navs = ref([
   { id: 1, title: "Главная", link: "/" },
   { id: 2, title: "Учреждения", link: "/" },
-  { id: 3, title: "Услуги", link: "/" },
+  { id: 3, title: "Услуги", link: "/uslugi" },
 ]);
 
 // states

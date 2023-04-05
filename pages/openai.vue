@@ -5,13 +5,18 @@ const openAIStore = useOpenAIStore();
 
 const { fetchOpenAIAnswer } = openAIStore;
 
-const questionInput = ref("");
-const favoriteSportsInput = ref("");
-const diseaseInput = ref("");
+const question = ref({
+  questionInput: "",
+  pasfavoriteSportsInputsword: "",
+  diseaseInput: "",
+});
+// const questionInput = ref("");
+// const favoriteSportsInput = ref("");
+// const diseaseInput = ref("");
 
 const openAIAnswer = computed(() => {
   return openAIStore.getOpenAIAnswer;
-})
+});
 </script>
 
 <template>
@@ -19,27 +24,31 @@ const openAIAnswer = computed(() => {
     <main class="main">
       <form
         @submit.prevent="
-          fetchOpenAIAnswer(questionInput, favoriteSportsInput, diseaseInput)
+          fetchOpenAIAnswer(
+            question.questionInput,
+            question.favoriteSportsInput,
+            question.diseaseInput
+          )
         "
       >
         <!-- <div> -->
         <input
+          v-model="question.questionInput"
           type="text"
           name="animal"
           placeholder="Enter an question"
-          :v-model="questionInput"
         />
         <input
+          v-model="question.favoriteSportsInput"
           type="text"
           name="animal"
           placeholder="Enter favorite Sports"
-          :v-model="favoriteSportsInput"
         />
         <input
+          v-model="question.diseaseInput"
           type="text"
           name="animal"
           placeholder="Enter an desease"
-          :v-model="diseaseInput"
         />
         <input type="submit" value="Generate answer" />
       </form>

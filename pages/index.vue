@@ -26,9 +26,11 @@ onMounted(async () => {
         <h1>{{ authStore.user.name }}</h1>
         <p>{{ authStore.user.email }}</p>
       </div>
-      <div v-else>
+      <div class="flex flex-col gap-10" v-else>
         <!-- <h1>Спорт-услуги - онлайн сервис для подбора спортивных занятий</h1> -->
         <BlockBegin />
+        <BlockAbout />
+        <BlockArticles />
       </div>
     </div>
   </div>
