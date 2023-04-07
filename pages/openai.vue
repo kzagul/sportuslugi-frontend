@@ -7,8 +7,8 @@ const { fetchOpenAIAnswer } = openAIStore;
 
 const question = ref({
   questionInput: "",
-  pasfavoriteSportsInputsword: "",
-  diseaseInput: "",
+  favoriteSportsInput: "football",
+  diseaseInput: "flat feet",
 });
 // const questionInput = ref("");
 // const favoriteSportsInput = ref("");
@@ -54,5 +54,7 @@ const openAIAnswer = computed(() => {
       </form>
       <div class="result">{{ openAIAnswer }}</div>
     </main>
+
+    <CardRecommendation />
   </div>
 </template>

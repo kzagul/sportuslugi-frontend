@@ -26,6 +26,7 @@ export default defineNuxtConfig({
       10
     ), // 7 days
   },
+  // plugins: [require("flowbite/plugin")],
   modules: [
     "@pinia/nuxt",
     "@vueuse/nuxt",

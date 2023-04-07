@@ -11,9 +11,9 @@ export const useOpenAIStore = defineStore("openai", {
   },
   actions: {
     async fetchOpenAIAnswer(
-      question: string,
-      favoriteSports: string,
-      disease: string
+      questionValue: string,
+      favoriteSportsValue: string,
+      diseaseValue: string
     ) {
       try {
         const config = useRuntimeConfig();
@@ -22,14 +22,14 @@ export const useOpenAIStore = defineStore("openai", {
           method: "post",
           baseURL: openaiUrl,
           body: {
-            question,
-            favoriteSports,
-            disease,
+            question: questionValue,
+            favoriteSports: favoriteSportsValue,
+            disease: diseaseValue,
           },
         });
 
         const data = await response;
-        this.openAIAnswer = data.choices[0].text;
+        this.openAIAnswer = data?.choices[0].text;
         console.log(data);
 
         if (response.status !== 200) {
