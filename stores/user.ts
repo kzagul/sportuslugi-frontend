@@ -13,6 +13,10 @@ export const useUserStore = defineStore("user", {
     user: (state) => state.authUser,
     errors: (state) => state.authErrors,
     status: (state) => state.authStatus,
+    // isAdmin(): boolean {
+    //   return this.authUser[0]?.roles.some((role: any) => (role.name = "admin"));
+    //   // authUser.value.roles.includes("ADMIN");
+    // },
   },
 
   actions: {

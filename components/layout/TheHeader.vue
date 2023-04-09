@@ -8,8 +8,8 @@
           <div class="flex flex-row items-center gap-4">
             <NuxtLink to="/" class="flex items-center">
               <img
-                src="/images/logo_header.svg"
-                class="mr-3 h-4 sm:h-8"
+                src="/images/sport_logo.svg"
+                class="mr-3 h-4 sm:h-14"
                 alt="Flowbite Logo"
               />
             </NuxtLink>
@@ -40,7 +40,8 @@
             <template v-if="authStore.user">
               <PageLink to="/private" class="text-gray-800"> Private </PageLink>
 
-              <PageLink v-if="isAdmin" to="/admin"> Admin </PageLink>
+              <!-- <PageLink v-if="authStore.isAdmin" to="/admin"> Admin </PageLink> -->
+              <!-- <PageLink v-if="isAdmin" to="/admin"> Admin </PageLink> -->
 
               <button
                 id="user-menu-button"
@@ -210,8 +211,8 @@ const form = reactive({
 
 const navs = ref([
   { id: 1, title: "Главная", link: "/" },
-  { id: 2, title: "Учреждения", link: "/" },
-  { id: 3, title: "Услуги", link: "/uslugi" },
+  { id: 2, title: "Учреждения", link: "/institution" },
+  { id: 3, title: "Услуги", link: "/service" },
 ]);
 
 // states
@@ -221,7 +222,8 @@ async function onLogoutClick() {
   try {
     form.pending = true;
 
-    await logout();
+    // await logout();
+    // await authStore.handleLogout();
 
     await navigateTo("/");
   } catch (error) {
@@ -233,5 +235,6 @@ async function onLogoutClick() {
 
 onMounted(() => {
   initModals();
+  console.log(authStore.isAdmin);
 });
 </script>
