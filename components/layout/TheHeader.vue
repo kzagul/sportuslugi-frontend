@@ -24,10 +24,20 @@
                 {{ nav.title }}
               </PageLink>
 
-              <template v-if="currentUser">
+              <template v-if="authStore.user">
+                <!-- <PageLink to="/private"> Private </PageLink> -->
+                <!-- <PageLink v-if="authStore.isAdmin" to="/admin">
+                  Admin
+                </PageLink> -->
+                <PageLink v-if="isAdmin" to="/admin">
+                  Admin composables
+                </PageLink>
+              </template>
+
+              <!-- <template v-if="currentUser">
                 <PageLink to="/private"> Private </PageLink>
                 <PageLink v-if="isAdmin" to="/admin"> Admin </PageLink>
-              </template>
+              </template> -->
 
               <template v-else>
                 <PageLink to="/guest"> Public </PageLink>
@@ -197,12 +207,17 @@
 <script setup lang="ts">
 import { initModals } from "flowbite";
 import { useAuthUser, useAdmin, useAuth } from "~~/composables/auth";
+import { User } from "~~/types/user";
 
 import { useUserStore } from "~~/stores/user";
 const authStore = useUserStore();
 
 const currentUser = useAuthUser();
-const isAdmin = useAdmin();
+const isAdmin = ref();
+// onMounted(() => {
+isAdmin.value = useAdmin();
+// })
+// const isAdmin = await useAdmin();
 const { logout } = useAuth();
 
 const form = reactive({
@@ -235,6 +250,6 @@ async function onLogoutClick() {
 
 onMounted(() => {
   initModals();
-  console.log(authStore.isAdmin);
+  console.log(useAdmin());
 });
 </script>

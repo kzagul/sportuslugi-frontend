@@ -3,15 +3,10 @@
 // const currentUser = useAuthUser();
 // import { onMounted } from "vue";
 import { useUserStore } from "~~/stores/user";
-
 const authStore = useUserStore();
 
 // const { getUser } = authStore;
 // await getUser();
-
-onMounted(async () => {
-  await authStore.getUser();
-});
 </script>
 
 <template>
@@ -25,8 +20,11 @@ onMounted(async () => {
       <div v-if="authStore.user">
         <h1>{{ authStore.user.name }}</h1>
         <p>{{ authStore.user.email }}</p>
+        <BlockBegin />
+        <BlockAbout />
+        <BlockArticles />
       </div>
-      <div class="flex flex-col gap-10" v-else>
+      <div v-else class="flex flex-col gap-10">
         <!-- <h1>Спорт-услуги - онлайн сервис для подбора спортивных занятий</h1> -->
         <BlockBegin />
         <BlockAbout />

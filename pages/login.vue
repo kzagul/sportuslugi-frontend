@@ -13,6 +13,7 @@ const form = ref({
   password: "",
 });
 </script>
+
 <template>
   <NuxtLayout name="auth">
     <section

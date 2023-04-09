@@ -10,13 +10,14 @@ export const useUserStore = defineStore("user", {
   }),
 
   getters: {
-    user: (state) => state.authUser,
+    user(): User | null {
+      return this.authUser !== null ? (this.authUser as User) : null;
+    },
     errors: (state) => state.authErrors,
     status: (state) => state.authStatus,
-    // isAdmin(): boolean {
-    //   return this.authUser[0]?.roles.some((role: any) => (role.name = "admin"));
-    //   // authUser.value.roles.includes("ADMIN");
-    // },
+    isAdmin(): boolean {
+      return !!this.user?.roles.some((role: any) => role.name === "admin");
+    },
   },
 
   actions: {
@@ -45,7 +46,7 @@ export const useUserStore = defineStore("user", {
         baseURL: baseUrl,
         credentials: "include",
       });
-      this.authUser = data;
+      this.authUser = data[0];
     },
     async handleLogin(data: any) {
       this.authErrors = [];

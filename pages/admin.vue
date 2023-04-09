@@ -1,16 +1,16 @@
 <script lang="ts" setup>
-import { useAuthUser } from "~~/composables/auth";
+// import { useAuthUser } from "~~/composables/auth";
 definePageMeta({
   middleware: ["admin-only"],
 });
 
-const { data: users } = await useAsyncData("users", () =>
-  $fetch("/api/users", {
-    headers: useRequestHeaders(["cookie"]) as HeadersInit,
-  })
-);
+// const { data: users } = await useAsyncData("users", () =>
+//   $fetch("/api/users", {
+//     headers: useRequestHeaders(["cookie"]) as HeadersInit,
+//   })
+// );
 
-const currentUser = useAuthUser();
+// const currentUser = useAuthUser();
 </script>
 
 <template>
@@ -19,7 +19,7 @@ const currentUser = useAuthUser();
     <PageDescription
       description="This page should only be visible if user is connected and has admin role"
     />
-    <PageUser :user="currentUser" />
+    <!-- <PageUser :user="currentUser" />
     <div mb-3 text-light-100>
       <div table w-full>
         <div table-header-group font-bold>
@@ -37,6 +37,6 @@ const currentUser = useAuthUser();
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>

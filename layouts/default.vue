@@ -14,6 +14,18 @@
 
 // const currentUser = useAuthUser();
 // const isAdmin = useAdmin();
+
+import { useUserStore } from "~~/stores/user";
+
+const authStore = useUserStore();
+
+// const { getUser } = authStore;
+// await getUser();
+
+onMounted(async () => {
+  await authStore.getUser();
+});
+
 const { logout } = useAuth();
 
 const form = reactive({
