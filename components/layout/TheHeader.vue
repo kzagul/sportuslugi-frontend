@@ -226,8 +226,9 @@ const form = reactive({
 
 const navs = ref([
   { id: 1, title: "Главная", link: "/" },
-  { id: 2, title: "Учреждения", link: "/institution" },
-  { id: 3, title: "Услуги", link: "/service" },
+  { id: 2, title: "О нас", link: "/about" },
+  { id: 3, title: "Учреждения", link: "/institution" },
+  { id: 4, title: "Услуги", link: "/service" },
 ]);
 
 // states

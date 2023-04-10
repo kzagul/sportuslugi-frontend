@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from "vue";
 import { RouterLink } from "vue-router";
+import { getButtonColor } from "@/colors.js";
 
 const props = defineProps({
   label: {
@@ -87,6 +88,7 @@ const componentClass = computed(() => {
     "border",
     props.disabled ? "cursor-not-allowed" : "cursor-pointer",
     props.roundedFull ? "rounded-full" : "rounded",
+    getButtonColor(props.color, props.outline, !props.disabled, props.active),
   ];
 
   if (!props.label && props.icon) {
@@ -115,7 +117,7 @@ const componentClass = computed(() => {
     :target="target"
     :disabled="disabled"
   >
-    <UIBaseIcon v-if="icon" :path="icon" :size="iconSize" />
+    <BaseIcon v-if="icon" :path="icon" :size="iconSize" />
     <span v-if="label" :class="labelClass">{{ label }}</span>
   </component>
 </template>
