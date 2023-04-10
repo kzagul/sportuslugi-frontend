@@ -229,6 +229,7 @@ const navs = ref([
   { id: 2, title: "О нас", link: "/about" },
   { id: 3, title: "Учреждения", link: "/institution" },
   { id: 4, title: "Услуги", link: "/service" },
+  { id: 5, title: "Виды спорта", link: "/sport" },
 ]);
 
 // states

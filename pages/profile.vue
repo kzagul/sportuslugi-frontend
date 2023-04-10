@@ -9,7 +9,7 @@
 // const mainStore = useMainStore();
 
 // const userName = computed(() => mainStore.userName);
-const userName = ref("Mike");
+// const userName = ref("Mike");
 </script>
 
 <template>

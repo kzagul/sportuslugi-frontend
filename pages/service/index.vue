@@ -1,13 +1,17 @@
 <template>
   <div>
-    все Услуги
-    <br />
+    <h2
+      class="flex justify-center mb-4 text-3xl tracking-tight font-extrabold text-gray-900 py-16"
+    >
+      Спортивные услуги
+    </h2>
 
-    <div>
+    <GridServices :services="services" />
+    <!-- <div>
       <p v-for="(service, index) in services" :key="index">
         {{ service.name }}
       </p>
-    </div>
+    </div> -->
   </div>
 </template>
 

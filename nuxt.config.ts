@@ -1,4 +1,5 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+// import eslintPlugin from "vite-plugin-eslint";
+
 const ONE_DAY = 60 * 60 * 24 * 1000;
 const ONE_WEEK = ONE_DAY * 7;
 
@@ -26,6 +27,9 @@ export default defineNuxtConfig({
       10
     ), // 7 days
   },
+  // vite: {
+  //   plugins: [eslintPlugin()],
+  // },
   // plugins: [require("flowbite/plugin")],
   modules: [
     "@pinia/nuxt",
