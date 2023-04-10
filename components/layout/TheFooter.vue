@@ -6,8 +6,8 @@
           <a href="https://flowbite.com" class="flex items-center">
             <NuxtLink to="/" class="flex items-center">
               <img
-                src="/images/logo.svg"
-                class="mr-3 h-4 sm:h-6"
+                src="/images/sport_logo.svg"
+                class="mr-3 h-4 sm:h-14"
                 alt="Flowbite Logo"
               />
             </NuxtLink>
