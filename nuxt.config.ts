@@ -55,5 +55,13 @@ export default defineNuxtConfig({
       },
     ],
   ],
-  css: ["~/assets/css/main.css"],
+  css: [
+    "~/assets/css/main.css",
+    "primevue/resources/themes/lara-light-blue/theme.css",
+    "primevue/resources/primevue.css",
+    "primeicons/primeicons.css",
+  ],
+  build: {
+    transpile: ["primevue"],
+  },
 });

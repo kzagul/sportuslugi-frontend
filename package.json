@@ -47,6 +47,8 @@
     "nuxt-sanctum-auth": "^0.3.2",
     "nuxt-swiper": "^1.0.1",
     "nuxt-viewport": "^2.0.3",
-    "pinia": "^2.0.30"
+    "pinia": "^2.0.30",
+    "primeicons": "^6.0.1",
+    "primevue": "^3.26.1"
   }
 }
