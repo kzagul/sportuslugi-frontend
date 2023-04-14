@@ -3,7 +3,16 @@ import { useAdmin } from "~/composables/auth/useAdmin";
 // const userStore = useUserStore();
 export default defineNuxtRouteMiddleware(async (_to, _from) => {
   // const isAdmin = await userStore.isAdmin;
-  const isAdmin = await useAdmin();
+  if (process.client) {
+    const isAdmin = await useAdmin();
 
-  if (!isAdmin.value) return navigateTo({ name: "index" });
+    if (!isAdmin.value) return navigateTo({ name: "login" });
+
+    // if (!isAdmin.value) {
+    //   return navigateTo({ name: "index" });
+    // } else {
+    //   return navigateTo({ name: "about" });
+    // }
+  }
+  // process.client
 });

@@ -1,8 +1,16 @@
 <script lang="ts" setup>
 // import { useAuthUser } from "~~/composables/auth";
+// import { useUserStore } from "~~/stores/user";
+
+// const authStore = useUserStore();
 definePageMeta({
   middleware: ["admin-only"],
 });
+
+// onMounted(async () => {
+//   await authStore.getUser();
+//   await authStore.getUserRoles();
+// });
 
 // const { data: users } = await useAsyncData("users", () =>
 //   $fetch("/api/users", {

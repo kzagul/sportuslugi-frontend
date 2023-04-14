@@ -22,10 +22,21 @@ const authStore = useUserStore();
 // const { getUser } = authStore;
 // await getUser();
 
-onMounted(async () => {
+// onMounted(async () => {
+//   await authStore.getUser();
+//   await authStore.getUserRoles();
+// });
+
+onBeforeMount(async () => {
   await authStore.getUser();
   await authStore.getUserRoles();
 });
+// onBeforeMount(() => {
+//   authStore.getUser();
+//   authStore.getUserRoles();
+// });
+// authStore.getUser();
+// authStore.getUserRoles();
 
 const { logout } = useAuth();
 

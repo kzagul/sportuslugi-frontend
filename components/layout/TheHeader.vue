@@ -29,9 +29,10 @@
                 <!-- <PageLink v-if="authStore.isAdmin" to="/admin">
                   Admin
                 </PageLink> -->
-                <PageLink v-if="isAdmin" to="/admin">
+                <PageLink v-if="authStore.isAdmin" to="/admin">
                   Admin composables
                 </PageLink>
+                <!-- v-if="isAdmin" -->
               </template>
 
               <!-- <template v-if="currentUser">

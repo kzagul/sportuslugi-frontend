@@ -1,12 +1,23 @@
 <script setup>
 import { ref } from "vue";
 import { useUserStore } from "~~/stores/user";
+// import { useAdmin } from "~~/composables/auth";
 
 definePageMeta({
   layout: false,
 });
 
 const authStore = useUserStore();
+
+// onMounted(() => {
+//   if (useAdmin()) {
+//     console.log("admin");
+//     console.log(useAdmin());
+//     navigateTo({ name: "index" });
+//     // const router = useRouter();
+//     // router.push("/");
+//   }
+// });
 
 const form = ref({
   email: "",

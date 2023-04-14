@@ -11,16 +11,19 @@
 // };
 
 import { useUserStore } from "~~/stores/user";
+import { Role } from "~~/types/user";
 
 const userStore = useUserStore();
 
 export const useAdmin = () => {
-  const authUser = userStore.user;
+  // const authUser = userStore.user;
+  const userRoles = userStore.userRoles;
 
   return computed(() => {
-    if (!authUser) return false;
+    if (!userRoles) return false;
 
-    return !!authUser?.roles.some((role: any) => role.name === "admin");
+    // return !!authUser?.roles.some((role: any) => role.name === "admin");
+    return !!userRoles.some((role: Role) => role.name === "admin");
 
     // return authUser?.roles.includes("ADMIN");
   });

@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { User, Role } from "~~/types/user";
+// import { fetchApi } from "~~/composables/useFetchApi";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
@@ -16,7 +17,7 @@ export const useUserStore = defineStore("user", {
     },
     // user: (state) => state.authUser,
     // userRoles: (state) => state.authUserRoles,
-    userRoles(): Role | null {
+    userRoles(): Role[] | null {
       return this.authUserRoles !== null
         ? (this.authUserRoles as Role[])
         : null;
@@ -27,7 +28,7 @@ export const useUserStore = defineStore("user", {
     //   return !!this.user?.roles.some((role: any) => role.name === "admin");
     // },
     isAdmin(): boolean {
-      return !!this.userRoles.some((role: any) => role.name === "admin");
+      return !!this.userRoles?.some((role: any) => role.name === "admin");
     },
   },
 
@@ -39,6 +40,7 @@ export const useUserStore = defineStore("user", {
         method: "GET",
         baseURL: baseUrl,
         credentials: "include",
+        referer: config.public.baseUrl,
       });
     },
     async getUser() {
@@ -47,6 +49,7 @@ export const useUserStore = defineStore("user", {
       const config = useRuntimeConfig();
       const baseUrl = config.public.baseUrl;
       const data: any = await $fetch("/api/user", {
+        // const response: any = await fetchApi("/api/user", {
         method: "GET",
         headers: {
           "X-XSRF-TOKEN": token,
@@ -56,6 +59,7 @@ export const useUserStore = defineStore("user", {
         },
         baseURL: baseUrl,
         credentials: "include",
+        referer: config.public.baseUrl,
       });
       this.authUser = data;
     },
@@ -65,6 +69,7 @@ export const useUserStore = defineStore("user", {
       const config = useRuntimeConfig();
       const baseUrl = config.public.baseUrl;
       const data: any = await $fetch("/api/user/roles", {
+        // const data: any = await fetchApi("/api/user/roles", {
         method: "GET",
         headers: {
           "X-XSRF-TOKEN": token,
@@ -74,6 +79,7 @@ export const useUserStore = defineStore("user", {
         },
         baseURL: baseUrl,
         credentials: "include",
+        referer: config.public.baseUrl,
       });
       this.authUserRoles = data;
     },
@@ -98,6 +104,7 @@ export const useUserStore = defineStore("user", {
             password: data.password,
           },
           credentials: "include",
+          referer: config.public.baseUrl,
         });
         const router = useRouter();
         router.push("/");
@@ -160,6 +167,9 @@ export const useUserStore = defineStore("user", {
         credentials: "include",
       });
       this.authUser = null;
+      this.authUserRoles = null;
+      const router = useRouter();
+      router.push("/");
     },
     async handleForgotPassword(email: any) {
       this.authErrors = [];
