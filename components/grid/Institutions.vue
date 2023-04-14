@@ -1,13 +1,14 @@
 <template>
-  <section class="bg-white py-8 sm:py-16">
-    <h2
-      class="flex justify-center mb-4 text-3xl tracking-tight font-extrabold text-gray-900"
-    >
-      Спортивные учреждения
-    </h2>
+  <section class="bg-white">
     <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
       <div class="grid gap-8 sm:grid-cols-3 lg:grid-cols-3">
-        <article
+        <CardInstitution
+          v-for="(institution, index) in institutions"
+          :key="index"
+          :institution="institution"
+        />
+
+        <!-- <article
           v-for="(service, index) in services"
           :key="index"
           class="p-4 bg-white rounded-lg border border-gray-200 shadow-md"
@@ -41,20 +42,40 @@
               <div class="text-sm font-normal text-gray-500">Aug 15, 2021</div>
             </div>
           </div>
-        </article>
+        </article> -->
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { useServiceStore } from "~/stores/service";
+// import { useInstitutionStore } from "~~/stores/institution";
 
-const serviceStore = useServiceStore();
-
-await serviceStore.fetchServices();
-
-const services = computed(() => {
-  return serviceStore.getServices;
+defineProps({
+  institutions: {
+    type: Object,
+    default: null,
+  },
+  rounded: {
+    type: String,
+    default: "rounded-2xl",
+  },
+  flex: {
+    type: String,
+    default: "flex-col",
+  },
+  hasComponentLayout: Boolean,
+  hasTable: Boolean,
+  isForm: Boolean,
+  isHoverable: Boolean,
+  isModal: Boolean,
 });
+
+// const institutionStore = useInstitutionStore();
+
+// await institutionStore.fetchInstitutions();
+
+// const institutions = computed(() => {
+//   return institutionStore.getInstitutions;
+// });
 </script>

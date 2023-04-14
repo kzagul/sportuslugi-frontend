@@ -6,6 +6,8 @@
       Спортивные услуги
     </h2>
 
+    <FormServiceAdd />
+
     <GridServices :services="services" />
     <!-- <div>
       <p v-for="(service, index) in services" :key="index">

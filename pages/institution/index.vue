@@ -6,11 +6,13 @@
       Cпортивные учреждения
     </h2>
 
-    <div class="flex flex-col">
+    <GridInstitutions :institutions="institutions" />
+
+    <!-- <div class="flex flex-col">
       <p v-for="(institution, index) in institutions" :key="index">
         {{ institution.name }}
       </p>
-    </div>
+    </div> -->
   </div>
 </template>
 

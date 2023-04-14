@@ -1,10 +1,11 @@
 import { defineStore } from "pinia";
-import { User } from "~~/types/user";
+import { User, Role } from "~~/types/user";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
     currentUser: ({} as User) || null,
     authUser: null,
+    authUserRoles: null,
     authErrors: [],
     authStatus: null,
   }),
@@ -13,10 +14,20 @@ export const useUserStore = defineStore("user", {
     user(): User | null {
       return this.authUser !== null ? (this.authUser as User) : null;
     },
+    // user: (state) => state.authUser,
+    // userRoles: (state) => state.authUserRoles,
+    userRoles(): Role | null {
+      return this.authUserRoles !== null
+        ? (this.authUserRoles as Role[])
+        : null;
+    },
     errors: (state) => state.authErrors,
     status: (state) => state.authStatus,
+    // isAdmin(): boolean {
+    //   return !!this.user?.roles.some((role: any) => role.name === "admin");
+    // },
     isAdmin(): boolean {
-      return !!this.user?.roles.some((role: any) => role.name === "admin");
+      return !!this.userRoles.some((role: any) => role.name === "admin");
     },
   },
 
@@ -46,7 +57,25 @@ export const useUserStore = defineStore("user", {
         baseURL: baseUrl,
         credentials: "include",
       });
-      this.authUser = data[0];
+      this.authUser = data;
+    },
+    async getUserRoles() {
+      await this.getToken();
+      const token: any = useCookie("XSRF-TOKEN").value;
+      const config = useRuntimeConfig();
+      const baseUrl = config.public.baseUrl;
+      const data: any = await $fetch("/api/user/roles", {
+        method: "GET",
+        headers: {
+          "X-XSRF-TOKEN": token,
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        baseURL: baseUrl,
+        credentials: "include",
+      });
+      this.authUserRoles = data;
     },
     async handleLogin(data: any) {
       this.authErrors = [];
@@ -106,6 +135,7 @@ export const useUserStore = defineStore("user", {
         });
         const router = useRouter();
         router.push("/");
+        this.authUser = data;
       } catch (error) {
         console.log(error);
         // if (error.response.status === 422) {

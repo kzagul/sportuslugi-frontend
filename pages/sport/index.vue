@@ -9,7 +9,7 @@
     <GridSports :sports="sports" />
   </div>
 </template>
-p
+
 <script setup>
 import { useSportStore } from "~~/stores/sport";
 

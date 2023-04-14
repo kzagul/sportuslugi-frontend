@@ -24,6 +24,7 @@ const authStore = useUserStore();
 
 onMounted(async () => {
   await authStore.getUser();
+  await authStore.getUserRoles();
 });
 
 const { logout } = useAuth();
