@@ -28,7 +28,10 @@ export const useUserStore = defineStore("user", {
     //   return !!this.user?.roles.some((role: any) => role.name === "admin");
     // },
     isAdmin(): boolean {
-      return !!this.userRoles?.some((role: any) => role.name === "admin");
+      return !!this.userRoles?.some((role: Role) => role.name === "admin");
+    },
+    isModerator(): boolean {
+      return !!this.userRoles?.some((role: Role) => role.name === "moderator");
     },
   },
 
@@ -37,51 +40,58 @@ export const useUserStore = defineStore("user", {
       const config = useRuntimeConfig();
       const baseUrl = config.public.baseUrl;
       await $fetch("/sanctum/csrf-cookie", {
+        // await $larafetch("/sanctum/csrf-cookie", {
         method: "GET",
         baseURL: baseUrl,
         credentials: "include",
-        referer: config.public.baseUrl,
+        referer: config.public.frontendUrl,
       });
     },
     async getUser() {
-      await this.getToken();
-      const token: any = useCookie("XSRF-TOKEN").value;
-      const config = useRuntimeConfig();
-      const baseUrl = config.public.baseUrl;
-      const data: any = await $fetch("/api/user", {
-        // const response: any = await fetchApi("/api/user", {
+      // await this.getToken();
+      // const token: any = useCookie("XSRF-TOKEN").value;
+      // const config = useRuntimeConfig();
+      // const baseUrl = config.public.baseUrl;
+
+      // const data: any = await $fetch("/api/user", {
+      // const data: any = await $larafetch("/api/user", {
+      const { data: res } = await fetchApi("/api/user", {
         method: "GET",
-        headers: {
-          "X-XSRF-TOKEN": token,
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json",
-          "X-Requested-With": "XMLHttpRequest",
-        },
-        baseURL: baseUrl,
-        credentials: "include",
-        referer: config.public.baseUrl,
+        // headers: {
+        //   "X-XSRF-TOKEN": token,
+        //   Accept: "application/json, text/plain, */*",
+        //   "Content-Type": "application/json",
+        //   "X-Requested-With": "XMLHttpRequest",
+        // },
+        // baseURL: baseUrl,
+        // credentials: "include",
+        // referer: config.public.frontendUrl,
       });
-      this.authUser = data;
+      // this.authUser = data;
+      const result: any = res.value;
+      this.authUser = result;
     },
     async getUserRoles() {
-      await this.getToken();
-      const token: any = useCookie("XSRF-TOKEN").value;
-      const config = useRuntimeConfig();
-      const baseUrl = config.public.baseUrl;
-      const data: any = await $fetch("/api/user/roles", {
-        // const data: any = await fetchApi("/api/user/roles", {
+      // await this.getToken();
+      // const token: any = useCookie("XSRF-TOKEN").value;
+      // const config = useRuntimeConfig();
+      // const baseUrl = config.public.baseUrl;
+      // const data: any = await $fetch("/api/user/roles", {
+      // const data: any = await $larafetch("/api/user/roles", {
+      const { data: res } = await fetchApi("/api/user/roles", {
         method: "GET",
-        headers: {
-          "X-XSRF-TOKEN": token,
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json",
-          "X-Requested-With": "XMLHttpRequest",
-        },
-        baseURL: baseUrl,
-        credentials: "include",
-        referer: config.public.baseUrl,
+        // headers: {
+        //   "X-XSRF-TOKEN": token,
+        //   Accept: "application/json, text/plain, */*",
+        //   "Content-Type": "application/json",
+        //   "X-Requested-With": "XMLHttpRequest",
+        // },
+        // baseURL: baseUrl,
+        // credentials: "include",
+        // referer: config.public.frontendUrl,
       });
-      this.authUserRoles = data;
+      const result: any = res.value;
+      this.authUserRoles = result;
     },
     async handleLogin(data: any) {
       this.authErrors = [];

@@ -26,11 +26,14 @@ const authStore = useUserStore();
 //   await authStore.getUser();
 //   await authStore.getUserRoles();
 // });
-
-onBeforeMount(async () => {
-  await authStore.getUser();
-  await authStore.getUserRoles();
-});
+// await authStore.getUser();
+// await authStore.getUser();
+await authStore.getUser();
+await authStore.getUserRoles();
+// onBeforeMount(async () => {
+//   await authStore.getUser();
+//   await authStore.getUserRoles();
+// });
 // onBeforeMount(() => {
 //   authStore.getUser();
 //   authStore.getUserRoles();

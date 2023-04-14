@@ -30,7 +30,11 @@
                   Admin
                 </PageLink> -->
                 <PageLink v-if="authStore.isAdmin" to="/admin">
-                  Admin composables
+                  Admin
+                </PageLink>
+
+                <PageLink v-if="authStore.isModerator" to="/mod">
+                  Moderator
                 </PageLink>
                 <!-- v-if="isAdmin" -->
               </template>
@@ -207,16 +211,24 @@
 
 <script setup lang="ts">
 import { initModals } from "flowbite";
-import { useAuthUser, useAdmin, useAuth } from "~~/composables/auth";
+import {
+  useAuthUser,
+  useAdmin,
+  useModerator,
+  useAuth,
+} from "~~/composables/auth";
 import { User } from "~~/types/user";
 
 import { useUserStore } from "~~/stores/user";
 const authStore = useUserStore();
 
 const currentUser = useAuthUser();
+
 const isAdmin = ref();
+const isModerator = ref();
 // onMounted(() => {
 isAdmin.value = useAdmin();
+isModerator.value = useModerator();
 // })
 // const isAdmin = await useAdmin();
 const { logout } = useAuth();

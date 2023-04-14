@@ -12,7 +12,7 @@ export const fetchApi = (request: any, options: any) => {
     headers = {
       ...headers,
       ...useRequestHeaders(["cookie"]),
-      referer: config.public.baseUrl,
+      referer: config.public.frontendUrl,
     };
   }
   if (process.client) {
