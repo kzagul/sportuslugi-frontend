@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <header class="wrapper relative">
-      <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5">
+  <div class="fixed top-0 w-full z-40">
+    <header class="wrapper">
+      <nav class="bg-white py-2.5">
         <div
           class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl"
         >
@@ -9,13 +9,13 @@
             <NuxtLink to="/" class="flex items-center">
               <img
                 src="/images/sport_logo.svg"
-                class="mr-3 h-4 sm:h-14"
+                class="mr-3 h-10 sm:h-14"
                 alt="Flowbite Logo"
               />
             </NuxtLink>
 
             <!-- navigation -->
-            <div class="flex gap-4">
+            <div class="hidden sm:flex gap-4">
               <PageLink
                 v-for="(nav, index) in navs"
                 :key="index"
@@ -23,41 +23,27 @@
               >
                 {{ nav.title }}
               </PageLink>
+            </div>
+          </div>
 
+          <div class="hidden sm:flex items-center gap-4 lg:order-2">
+            <!-- v-if="currentUser" -->
+            <template v-if="authStore.user">
               <template v-if="authStore.user">
-                <!-- <PageLink to="/private"> Private </PageLink> -->
-                <!-- <PageLink v-if="authStore.isAdmin" to="/admin">
-                  Admin
-                </PageLink> -->
                 <PageLink v-if="authStore.isAdmin" to="/admin">
-                  Admin
+                  Админ панель
                 </PageLink>
 
                 <PageLink v-if="authStore.isModerator" to="/mod">
-                  Moderator
+                  Панель учреждения
                 </PageLink>
 
                 <!-- v-if="isAdmin" -->
               </template>
 
-              <!-- <template v-if="currentUser">
-                <PageLink to="/private"> Private </PageLink>
-                <PageLink v-if="isAdmin" to="/admin"> Admin </PageLink>
-              </template> -->
-
               <template v-else>
                 <PageLink to="/guest"> Public </PageLink>
               </template>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-4 lg:order-2">
-            <!-- v-if="currentUser" -->
-            <template v-if="authStore.user">
-              <PageLink to="/private" class="text-gray-800"> Private </PageLink>
-
-              <!-- <PageLink v-if="authStore.isAdmin" to="/admin"> Admin </PageLink> -->
-              <!-- <PageLink v-if="isAdmin" to="/admin"> Admin </PageLink> -->
 
               <button
                 id="user-menu-button"
@@ -201,17 +187,167 @@
               </div>
             </template>
           </div>
+
+          <div class="flex sm:hidden items-center lg:order-2">
+            <template v-if="authStore.user">
+              <button
+                id="user-menu-button"
+                type="button"
+                class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"
+                aria-expanded="false"
+                data-dropdown-toggle="dropdown"
+                @click="dropdownOpened = !dropdownOpened"
+              >
+                <span class="sr-only">Open user menu</span>
+                <img class="w-8 h-8 rounded-full" alt="user photo" />
+                <!-- :src="currentUser.image" -->
+              </button>
+              <button
+                class="text-gray-800 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
+                @click="authStore.handleLogout"
+              >
+                Выход
+              </button>
+            </template>
+            <template v-else>
+              <div class="flex flex-row gap-1">
+                <NuxtLink
+                  to="/login"
+                  class="text-gray-800 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-2 lg:px-5 py-2 lg:py-2.5 focus:outline-none"
+                >
+                  Вход
+                </NuxtLink>
+
+                <NuxtLink
+                  to="/register"
+                  class="text-gray-800 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-2 lg:px-5 py-2 lg:py-2.5 focus:outline-none"
+                >
+                  Регистрация
+                </NuxtLink>
+              </div>
+            </template>
+            <button
+              data-collapse-toggle="mobile-menu-2"
+              type="button"
+              class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+              aria-controls="mobile-menu-2"
+              aria-expanded="false"
+              @click="modalOpened = !modalOpened"
+            >
+              <span class="sr-only">Open main menu</span>
+              <svg
+                class="w-6 h-6"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <svg
+                class="hidden w-6 h-6"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </button>
+          </div>
         </div>
       </nav>
-      <hr
-        class="my-2 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"
-      />
     </header>
+    <hr class="border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+
+    <div
+      v-if="modalOpened === true"
+      class="fixed z-40 flex justify-center inset-0 bg-gray-300 bg-opacity-40 backdrop-blur-[24px] overflow-hidden overflow-y-auto h-full w-full"
+      :style="modalOpened ? `body {height: 100%; overflow-y: fixed;}` : ``"
+    >
+      <div class="flex flex-col gap-[22px] w-full z-30">
+        <button
+          class="flex justify-end items-center"
+          @click="modalOpened = !modalOpened"
+        >
+          <span class="sr-only">Open main menu</span>
+          <BaseIcon
+            :path="mdiClose"
+            h="h-16"
+            w="w-16"
+            :size="42"
+            class="fill-blue-500"
+          />
+        </button>
+
+        <div class="flex justify-center items-center flex-col gap-4">
+          <button
+            class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"
+            aria-expanded="false"
+            data-dropdown-toggle="dropdown"
+          >
+            <span class="sr-only">Open user menu</span>
+            <img class="w-24 h-24 rounded-full" alt="user photo" />
+          </button>
+
+          <template v-if="authStore.user">
+            <PageLink
+              v-if="authStore.isAdmin"
+              to="/admin"
+              class="text-3xl text-black"
+              @click="modalOpened = !modalOpened"
+            >
+              Админ панель
+            </PageLink>
+
+            <PageLink
+              v-if="authStore.isModerator"
+              to="/mod"
+              class="text-3xl text-black"
+              @click="modalOpened = !modalOpened"
+            >
+              Панель учреждения
+            </PageLink>
+          </template>
+
+          <template v-else>
+            <PageLink
+              to="/guest"
+              class="text-3xl text-black"
+              @click="modalOpened = !modalOpened"
+            >
+              Public
+            </PageLink>
+          </template>
+
+          <hr
+            class="border-white w-full sm:mx-auto dark:border-gray-700 lg:my-8"
+          />
+
+          <PageLink
+            v-for="(nav, index) in navs"
+            :key="index"
+            :to="nav.link"
+            class="text-2xl text-black"
+            @click="modalOpened = !modalOpened"
+          >
+            {{ nav.title }}
+          </PageLink>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { initModals } from "flowbite";
+import { mdiClose } from "@mdi/js";
 
 import { useUserStore } from "~~/stores/user";
 const authStore = useUserStore();
@@ -226,6 +362,7 @@ const navs = ref([
 
 // states
 const dropdownOpened = ref(false);
+const modalOpened = ref(false);
 
 onMounted(() => {
   initModals();

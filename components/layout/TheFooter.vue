@@ -7,7 +7,7 @@
             <NuxtLink to="/" class="flex items-center">
               <img
                 src="/images/sport_logo.svg"
-                class="mr-3 h-4 sm:h-14"
+                class="mr-3 h-10 sm:h-14"
                 alt="Flowbite Logo"
               />
             </NuxtLink>
