@@ -2,6 +2,10 @@
 import { ref } from "vue";
 import { useUserStore } from "~~/stores/user";
 
+definePageMeta({
+  layout: false,
+});
+
 const authStore = useUserStore();
 
 const form = ref({
@@ -12,22 +16,49 @@ const form = ref({
 });
 </script>
 <template>
-  <!-- ====== Forms Section Start -->
-  <section class="bg-[#F4F7FF] py-20 lg:py-[120px]">
-    <div class="container mx-auto">
-      <div class="-mx-4 flex flex-wrap">
-        <div class="w-full px-4">
-          <div
-            class="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white py-16 px-10 text-center sm:px-12 md:px-[60px]"
-          >
-            <div class="mb-10 text-center md:mb-16">Регистрация</div>
-            <form @submit.prevent="authStore.handleRegister(form)">
+  <NuxtLayout name="auth">
+    <section
+      class="bg-[url('/images/bg-1.jpeg')] bg-no-repeat bg-cover bg-center bg-gray-700 bg-blend-multiply bg-opacity-60"
+    >
+      <div
+        class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen pt:mt-0"
+      >
+        <nuxt-link
+          to="/"
+          class="flex items-center mb-6 text-2xl font-semibold text-white"
+        >
+          <img
+            class="w-auto h-[64px] mr-2"
+            src="/images/logo-white.svg"
+            alt="logo"
+          />
+          <!-- src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" -->
+        </nuxt-link>
+        <div
+          class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800"
+        >
+          <div class="p-6 space-y-4 md:space-y-6 lg:space-y-8 sm:p-8">
+            <h1
+              class="text-xl font-bold leading-tight tracking-tight text-center text-gray-900 md:text-2xl dark:text-white"
+            >
+              Создайте аккаунт
+            </h1>
+            <form
+              class="space-y-4 md:space-y-6"
+              @submit.prevent="authStore.handleRegister(form)"
+            >
               <div class="mb-6">
+                <label
+                  for="name"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Имя</label
+                >
                 <input
                   v-model="form.name"
                   type="text"
-                  placeholder="Name"
-                  class="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
+                  placeholder="Имя"
+                  class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                  required=""
                 />
                 <div v-if="authStore.errors.name" class="flex">
                   <span class="text-red-400 text-sm m-2 p-2">{{
@@ -35,12 +66,19 @@ const form = ref({
                   }}</span>
                 </div>
               </div>
-              <div class="mb-6">
+
+              <div>
+                <label
+                  for="email"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Email</label
+                >
                 <input
                   v-model="form.email"
                   type="email"
                   placeholder="Email"
-                  class="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
+                  class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                  required=""
                 />
                 <div v-if="authStore.errors.email" class="flex">
                   <span class="text-red-400 text-sm m-2 p-2">{{
@@ -48,12 +86,18 @@ const form = ref({
                   }}</span>
                 </div>
               </div>
+
               <div class="mb-6">
+                <label
+                  for="password"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Пароль</label
+                >
                 <input
                   v-model="form.password"
                   type="password"
-                  placeholder="Password"
-                  class="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
+                  placeholder="Пароль"
+                  class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                 />
                 <div v-if="authStore.errors.password" class="flex">
                   <span class="text-red-400 text-sm m-2 p-2">{{
@@ -62,30 +106,47 @@ const form = ref({
                 </div>
               </div>
               <div class="mb-6">
+                <label
+                  for="password"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Подтверждение пароля</label
+                >
                 <input
                   v-model="form.password_confirmation"
                   type="password"
-                  placeholder="Password Confirmation"
-                  class="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
+                  placeholder="Пароль"
+                  class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                 />
               </div>
               <div class="mb-10">
                 <button
                   type="submit"
-                  class="w-full px-4 py-3 bg-indigo-500 hover:bg-indigo-700 rounded-md text-white"
+                  class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
-                  Register
+                  Зарегестрироваться
                 </button>
               </div>
+              <p
+                class="text-sm font-light text-center text-gray-500 dark:text-gray-300"
+              >
+                Уже есть аккаунт?
+                <nuxt-link
+                  to="/login"
+                  class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                >
+                  Войти
+                </nuxt-link>
+              </p>
+              <nuxt-link
+                to="/"
+                class="flex justify-center font-medium text-black hover:underline dark:text-primary-500"
+              >
+                Вернуться на главную
+              </nuxt-link>
             </form>
-            <p class="text-base text-[#adadad]">
-              <router-link to="/login" class="text-primary hover:underline">
-                Sign In
-              </router-link>
-            </p>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </NuxtLayout>
 </template>

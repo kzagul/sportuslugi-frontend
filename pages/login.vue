@@ -9,16 +9,6 @@ definePageMeta({
 
 const authStore = useUserStore();
 
-// onMounted(() => {
-//   if (useAdmin()) {
-//     console.log("admin");
-//     console.log(useAdmin());
-//     navigateTo({ name: "index" });
-//     // const router = useRouter();
-//     // router.push("/");
-//   }
-// });
-
 const form = ref({
   email: "",
   password: "",
