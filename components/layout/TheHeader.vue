@@ -83,10 +83,11 @@
                   aria-labelledby="dropdown"
                 >
                   <li>
-                    <a
-                      href="#"
+                    <nuxt-link
+                      to="/profile"
                       class="block py-2 px-4 text-sm hover:bg-gray-100"
-                      >Мой профиль</a
+                    >
+                      Мой профиль</nuxt-link
                     >
                   </li>
                   <li>
