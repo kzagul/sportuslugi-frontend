@@ -1,8 +1,4 @@
 <script lang="ts" setup>
-// import { useAuthUser } from "~~/composables/auth";
-// import { useUserStore } from "~~/stores/user";
-
-// const authStore = useUserStore();
 definePageMeta({
   middleware: ["moderator-only"],
 });

@@ -2,7 +2,9 @@ export const fetchApi = (request: any, options: any) => {
   const config = useRuntimeConfig();
   const xsrfToken = useCookie("XSRF-TOKEN");
   let headers = {
-    accept: "application/json",
+    Accept: "application/json, text/plain, */*",
+    "Content-Type": "application/json",
+    "X-Requested-With": "XMLHttpRequest",
     ...options?.headers,
   };
   if (xsrfToken && xsrfToken.value !== null) {
@@ -12,12 +14,16 @@ export const fetchApi = (request: any, options: any) => {
     headers = {
       ...headers,
       ...useRequestHeaders(["cookie"]),
+      "Content-Type": "application/json",
+      "X-Requested-With": "XMLHttpRequest",
       referer: config.public.frontendUrl,
     };
   }
   if (process.client) {
     headers = {
       ...headers,
+      "Content-Type": "application/json",
+      "X-Requested-With": "XMLHttpRequest",
       ...useRequestHeaders(["cookie"]),
     };
   }

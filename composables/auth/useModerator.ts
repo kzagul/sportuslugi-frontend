@@ -1,13 +1,11 @@
 import { useUserStore } from "~~/stores/user";
-import { Role } from "~~/types/user";
-
 const userStore = useUserStore();
 
 export const useModerator = () => {
-  const userRoles = userStore.userRoles;
+  const isModerator = userStore.isModerator;
 
   return computed(() => {
-    if (!userRoles) return false;
-    return !!userRoles.some((role: Role) => role.name === "moderator");
+    if (!isModerator) return false;
+    return isModerator;
   });
 };

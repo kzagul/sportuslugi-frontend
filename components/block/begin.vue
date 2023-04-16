@@ -5,8 +5,8 @@
         class="grid items-center gap-8 mb-8 lg:mb-16 lg:gap-12 lg:grid-cols-12"
       >
         <div class="col-span-6 text-center sm:mb-6 lg:text-left lg:mb-0">
-          <a
-            href="#"
+          <NuxtLink
+            to="/register"
             class="inline-flex items-center justify-between px-1 py-1 pr-4 mb-6 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
             role="alert"
           >
@@ -29,7 +29,7 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-          </a>
+          </NuxtLink>
           <h1
             class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl xl:text-6xl dark:text-white"
           >

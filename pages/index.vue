@@ -20,6 +20,8 @@ const authStore = useUserStore();
       <div v-if="authStore.user">
         <h1>{{ authStore.user.name }}</h1>
         <p>{{ authStore.user.email }}</p>
+        <p>is admin: {{ authStore.isAdmin }}</p>
+        <p>is moderator: {{ authStore.isModerator }}</p>
         <BlockBegin />
         <BlockAbout />
         <BlockArticles />
