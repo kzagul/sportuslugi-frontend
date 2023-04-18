@@ -11,7 +11,7 @@ await authStore.getUserRoles();
 <template>
   <div class="flex">
     <LayoutTheDrawbar />
-    <div class="wrapper w-full mt-4 md:mt-8">
+    <div class="wrapper w-full sm:px-4 mt-4 md:mt-8">
       <slot />
     </div>
   </div>
