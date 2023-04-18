@@ -1,3 +1,8 @@
+<script setup>
+import { useUserStore } from "~~/stores/user";
+const authStore = useUserStore();
+</script>
+
 <template>
   <section class="bg-white dark:bg-gray-900">
     <div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-16">
@@ -6,6 +11,7 @@
       >
         <div class="col-span-6 text-center sm:mb-6 lg:text-left lg:mb-0">
           <NuxtLink
+            v-if="!authStore.user"
             to="/register"
             class="inline-flex items-center justify-between px-1 py-1 pr-4 mb-6 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
             role="alert"
@@ -30,6 +36,32 @@
               ></path>
             </svg>
           </NuxtLink>
+          <NuxtLink
+            v-else
+            to="/about"
+            class="inline-flex items-center justify-between px-1 py-1 pr-4 mb-6 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+            role="alert"
+          >
+            <span
+              class="px-3 py-1 mr-3 text-xs text-white rounded-full bg-primary-600"
+              >New</span
+            >
+            <span class="text-sm font-regular"
+              >Спорт-услуги на бета тесте, узнайте о нас больше!</span
+            >
+            <svg
+              class="w-5 h-5 ml-2"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </NuxtLink>
           <h1
             class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl xl:text-6xl dark:text-white"
           >
@@ -38,8 +70,9 @@
           <p
             class="max-w-xl mx-auto mb-6 font-light text-gray-500 lg:mx-0 xl:mb-8 md:text-lg xl:text-xl dark:text-gray-400"
           >
-            Here at Flowbite we focus on markets where innovation can unlock
-            long-term value and drive economic growth.
+            Вы сможете выбрать занятие спортом, спротивное учреждение, а также
+            подобрать спортивную услугу основываясь на ваших предпочтениях
+            Jнлайн сервис для подбора спортивных занятий
           </p>
           <form class="max-w-lg mx-auto lg:ml-0" action="#">
             <label
@@ -95,7 +128,7 @@
             <h3
               class="mb-1 text-lg font-semibold leading-tight text-gray-900 dark:text-white"
             >
-              Customizable Categories
+              Выбор спортивных услуг и учреждений
             </h3>
             <p class="font-light text-gray-500 dark:text-gray-400">
               Host code that you don't want to share with the world in private.
@@ -119,7 +152,7 @@
             <h3
               class="mb-1 text-lg font-semibold leading-tight text-gray-900 dark:text-white"
             >
-              Private repos
+              Подбор услуг с помощью умных рекомендаций
             </h3>
             <p class="font-light text-gray-500 dark:text-gray-400">
               Host code that you don't want to share with the world in private.
@@ -143,7 +176,7 @@
             <h3
               class="mb-1 text-lg font-semibold leading-tight text-gray-900 dark:text-white"
             >
-              Tracking Saving Rate
+              Интерактивный подход в выборе
             </h3>
             <p class="font-light text-gray-500 dark:text-gray-400">
               Host code that you don't want to share with the world in private.

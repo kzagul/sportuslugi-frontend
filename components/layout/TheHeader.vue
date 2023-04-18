@@ -1,3 +1,28 @@
+<script setup lang="ts">
+import { initModals } from "flowbite";
+import { mdiClose } from "@mdi/js";
+import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
+
+import { useUserStore } from "~~/stores/user";
+const authStore = useUserStore();
+
+const navs = ref([
+  { id: 1, title: "Главная", link: "/" },
+  { id: 2, title: "О нас", link: "/about" },
+  { id: 3, title: "Учреждения", link: "/institution" },
+  { id: 4, title: "Услуги", link: "/service" },
+  { id: 5, title: "Виды спорта", link: "/sport" },
+]);
+
+// states
+const dropdownOpened = ref(false);
+const modalOpened = ref(false);
+
+onMounted(() => {
+  initModals();
+});
+</script>
+
 <template>
   <div class="fixed top-0 w-full z-40">
     <header class="wrapper">
@@ -10,7 +35,7 @@
               <img
                 src="/images/sport_logo2.svg"
                 class="mr-3 h-10 sm:h-14"
-                alt="Flowbite Logo"
+                alt="Спорт услуги лого"
               />
             </NuxtLink>
 
@@ -20,6 +45,7 @@
                 v-for="(nav, index) in navs"
                 :key="index"
                 :to="nav.link"
+                class="font-medium transition-colors duration-100 hover:text-primary-600"
               >
                 {{ nav.title }}
               </PageLink>
@@ -45,6 +71,144 @@
                 <PageLink to="/guest"> Public </PageLink>
               </template>
 
+              <!-- Dropdown menu -->
+              <Menu as="div" class="relative inline-block text-left">
+                <div>
+                  <MenuButton
+                    class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"
+                  >
+                    <span class="sr-only">Open user menu</span>
+                    <img class="w-8 h-8 rounded-full" alt="user photo" />
+                    <!-- :src="currentUser.image" -->
+                  </MenuButton>
+                </div>
+
+                <transition
+                  enter-active-class="transition duration-100 ease-out"
+                  enter-from-class="transform scale-95 opacity-0"
+                  enter-to-class="transform scale-100 opacity-100"
+                  leave-active-class="transition duration-75 ease-in"
+                  leave-from-class="transform scale-100 opacity-100"
+                  leave-to-class="transform scale-95 opacity-0"
+                >
+                  <MenuItems
+                    class="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  >
+                    <div class="px-1 py-1">
+                      <div class="py-3 px-4">
+                        <span class="block text-sm font-semibold text-gray-900">
+                          {{ authStore.user.name }}
+                        </span>
+                        <span
+                          class="block text-sm font-light text-gray-500 truncate"
+                        >
+                          {{ authStore.user.email }}
+                        </span>
+                      </div>
+                      <MenuItem v-slot="{ active }">
+                        <button
+                          :class="[
+                            active
+                              ? 'transition-colors duration-100 hover:text-primary-600'
+                              : '',
+                          ]"
+                          class="w-full group flex items-center py-2 px-4 text-sm hover:bg-gray-100"
+                        >
+                          <nuxt-link to="/profile"> Мой профиль </nuxt-link>
+                        </button>
+                      </MenuItem>
+                      <MenuItem v-slot="{ active }">
+                        <button
+                          :class="[
+                            active
+                              ? 'transition-colors duration-100 hover:text-primary-600'
+                              : '',
+                          ]"
+                          class="w-full group flex items-center py-2 px-4 text-sm hover:bg-gray-100"
+                        >
+                          <nuxt-link to="/profile">
+                            Карта рекомендаций
+                          </nuxt-link>
+                        </button>
+                      </MenuItem>
+                    </div>
+                    <div class="px-1 py-1">
+                      <MenuItem v-slot="{ active }">
+                        <button
+                          :class="[
+                            active
+                              ? 'transition-colors duration-100 hover:text-primary-600'
+                              : '',
+                          ]"
+                          class="w-full group flex items-center py-2 px-4 text-sm hover:bg-gray-100"
+                        >
+                          <nuxt-link to="/profile"> Избранное </nuxt-link>
+                        </button>
+                      </MenuItem>
+                      <MenuItem v-slot="{ active }">
+                        <button
+                          :class="[
+                            active
+                              ? 'transition-colors duration-100 hover:text-primary-600'
+                              : '',
+                          ]"
+                          class="w-full group flex items-center py-2 px-4 text-sm hover:bg-gray-100"
+                        >
+                          <nuxt-link to="/profile"> Мои услуги </nuxt-link>
+                        </button>
+                      </MenuItem>
+                    </div>
+
+                    <div class="px-1 py-1">
+                      <MenuItem v-slot="{ active }">
+                        <button
+                          :class="[
+                            active
+                              ? 'transition-colors duration-100 hover:text-error'
+                              : '',
+                          ]"
+                          class="w-full group flex items-center py-2 px-4 text-sm hover:bg-gray-100"
+                        >
+                          <nuxt-link to="/" @click="authStore.handleLogout">
+                            Выход
+                          </nuxt-link>
+                        </button>
+                      </MenuItem>
+                    </div>
+                  </MenuItems>
+                </transition>
+              </Menu>
+
+              <button
+                class="text-gray-800 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
+                @click="authStore.handleLogout"
+              >
+                Выход
+              </button>
+            </template>
+
+            <template v-else>
+              <PageLink to="/guest" class="text-gray-800"> Public </PageLink>
+              <div class="flex flex-row gap-2">
+                <NuxtLink
+                  to="/login"
+                  class="text-gray-800 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
+                >
+                  Вход
+                </NuxtLink>
+
+                <NuxtLink
+                  to="/register"
+                  class="text-gray-800 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
+                >
+                  Регистрация
+                </NuxtLink>
+              </div>
+            </template>
+          </div>
+
+          <div class="flex md:hidden items-center lg:order-2">
+            <template v-if="authStore.user">
               <button
                 id="user-menu-button"
                 type="button"
@@ -58,7 +222,6 @@
                 <!-- :src="currentUser.image" -->
               </button>
 
-              <!-- Dropdown menu -->
               <div
                 v-show="dropdownOpened"
                 id="dropdown"
@@ -160,49 +323,6 @@
                   </li>
                 </ul>
               </div>
-
-              <button
-                class="text-gray-800 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
-                @click="authStore.handleLogout"
-              >
-                Выход
-              </button>
-            </template>
-
-            <template v-else>
-              <PageLink to="/guest" class="text-gray-800"> Public </PageLink>
-              <div class="flex flex-row gap-2">
-                <NuxtLink
-                  to="/login"
-                  class="text-gray-800 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
-                >
-                  Вход
-                </NuxtLink>
-
-                <NuxtLink
-                  to="/register"
-                  class="text-gray-800 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
-                >
-                  Регистрация
-                </NuxtLink>
-              </div>
-            </template>
-          </div>
-
-          <div class="flex md:hidden items-center lg:order-2">
-            <template v-if="authStore.user">
-              <button
-                id="user-menu-button"
-                type="button"
-                class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"
-                aria-expanded="false"
-                data-dropdown-toggle="dropdown"
-                @click="dropdownOpened = !dropdownOpened"
-              >
-                <span class="sr-only">Open user menu</span>
-                <img class="w-8 h-8 rounded-full" alt="user photo" />
-                <!-- :src="currentUser.image" -->
-              </button>
               <button
                 class="text-gray-800 hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
                 @click="authStore.handleLogout"
@@ -345,27 +465,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { initModals } from "flowbite";
-import { mdiClose } from "@mdi/js";
-
-import { useUserStore } from "~~/stores/user";
-const authStore = useUserStore();
-
-const navs = ref([
-  { id: 1, title: "Главная", link: "/" },
-  { id: 2, title: "О нас", link: "/about" },
-  { id: 3, title: "Учреждения", link: "/institution" },
-  { id: 4, title: "Услуги", link: "/service" },
-  { id: 5, title: "Виды спорта", link: "/sport" },
-]);
-
-// states
-const dropdownOpened = ref(false);
-const modalOpened = ref(false);
-
-onMounted(() => {
-  initModals();
-});
-</script>

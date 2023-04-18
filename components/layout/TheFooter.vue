@@ -8,7 +8,7 @@
               <img
                 src="/images/sport_logo2.svg"
                 class="mr-3 h-10 sm:h-14"
-                alt="Flowbite Logo"
+                alt="Спорт услуги лого"
               />
             </NuxtLink>
           </a>
