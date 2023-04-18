@@ -8,14 +8,14 @@
           <div class="flex flex-row items-center gap-4">
             <NuxtLink to="/" class="flex items-center">
               <img
-                src="/images/sport_logo.svg"
+                src="/images/sport_logo2.svg"
                 class="mr-3 h-10 sm:h-14"
                 alt="Flowbite Logo"
               />
             </NuxtLink>
 
             <!-- navigation -->
-            <div class="hidden sm:flex gap-4">
+            <div class="hidden md:flex gap-4">
               <PageLink
                 v-for="(nav, index) in navs"
                 :key="index"
@@ -26,7 +26,7 @@
             </div>
           </div>
 
-          <div class="hidden sm:flex items-center gap-4 lg:order-2">
+          <div class="hidden md:flex items-center gap-4 lg:order-2">
             <!-- v-if="currentUser" -->
             <template v-if="authStore.user">
               <template v-if="authStore.user">
@@ -189,7 +189,7 @@
             </template>
           </div>
 
-          <div class="flex sm:hidden items-center lg:order-2">
+          <div class="flex md:hidden items-center lg:order-2">
             <template v-if="authStore.user">
               <button
                 id="user-menu-button"
