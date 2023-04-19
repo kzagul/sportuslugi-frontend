@@ -12,6 +12,7 @@ const navs = ref([
   { id: 3, title: "Учреждения", link: "/institution" },
   { id: 4, title: "Услуги", link: "/service" },
   { id: 5, title: "Виды спорта", link: "/sport" },
+  { id: 6, title: "Карта", link: "/ymap" },
 ]);
 
 // states
