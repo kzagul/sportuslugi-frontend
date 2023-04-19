@@ -3,6 +3,9 @@ import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import Toast from "primevue/toast";
 import ToastService from "primevue/toastservice";
+import Dropdown from "primevue/dropdown";
+import Rating from "primevue/rating";
+import Tag from "primevue/tag";
 
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
@@ -11,12 +14,18 @@ import Row from "primevue/row";
 
 import Chart from "primevue/chart";
 
+import DataView from "primevue/dataview";
+import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
+
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(PrimeVue, { ripple: true });
   nuxtApp.vueApp.use(ToastService);
   nuxtApp.vueApp.component("Button", Button);
   nuxtApp.vueApp.component("InputText", InputText);
   nuxtApp.vueApp.component("Toast", Toast);
+  nuxtApp.vueApp.component("Dropdown", Dropdown);
+  nuxtApp.vueApp.component("Rating", Rating);
+  nuxtApp.vueApp.component("Tag", Tag);
 
   nuxtApp.vueApp.component("DataTable", DataTable);
   nuxtApp.vueApp.component("Column", Column);
@@ -24,4 +33,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("Row", Row);
 
   nuxtApp.vueApp.component("Chart", Chart);
+
+  nuxtApp.vueApp.component("DataView", DataView);
+  nuxtApp.vueApp.component("DataViewLayoutOptions", DataViewLayoutOptions);
 });

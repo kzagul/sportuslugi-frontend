@@ -1,8 +1,8 @@
 <script setup>
 // import { YandexMap, YandexMarker } from "vue-yandex-maps";
 import { useGeolocation } from "@vueuse/core";
-import CustomBalloon from "~/components/CustomBalloon.vue";
-import CustomBalloonInstitution from "~/components/CustomBalloonInstitution.vue";
+import CustomBalloon from "~~/components/ymap/CustomBalloon.vue";
+import CustomBalloonInstitution from "~~/components/ymap/CustomBalloonInstitution.vue";
 definePageMeta({ pageTransition: false });
 
 const { coords, locatedAt, error, resume, pause } = useGeolocation();
@@ -21,11 +21,6 @@ const coordinates = [
   { latitude: 57.1392911, longitude: 65.5665347 },
 ];
 
-// onMounted(() => {
-//   const userMarkerHTML = userMarker.value.innerHTML;
-//   console.log(userMarkerHTML);
-// });
-
 const name = ref("Custom");
 </script>
 
@@ -37,7 +32,7 @@ const name = ref("Custom");
         :marker-id="123"
       >
         <template #component>
-          <CustomBalloon v-model="name" />
+          <CustomBalloon ref="userMarker" v-model="name" />
         </template>
       </YandexMarker>
       <YandexMarker :coordinates="[57.1371831, 65.5615347]" :marker-id="1234">
@@ -86,9 +81,9 @@ const name = ref("Custom");
 .yandex-container {
   height: 600px;
 }
-
 .yandex-balloon {
-  height: 200px;
-  width: 200px;
+  height: 60px;
+  width: 60px;
+  border-radius: 100px;
 }
 </style>
