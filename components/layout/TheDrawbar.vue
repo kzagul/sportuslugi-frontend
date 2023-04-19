@@ -34,9 +34,10 @@ const isDrawbarOpened = ref(false);
 
     <aside
       id="sidebar-user"
-      class="hidden sm:flex z-40 sm:w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+      class="fixed top-0 left-0 z-40 sm:w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
       aria-label="Sidebar"
     >
+      <!-- hidden sm:flex -->
       <div
         class="overflow-y-auto py-4 px-3 w-full h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700"
       >
@@ -148,7 +149,7 @@ const isDrawbarOpened = ref(false);
           <button
             class="w-full group flex items-center py-2 px-4 text-sm transition-colors duration-100 hover:text-primary-600 hover:bg-gray-100"
           >
-            <nuxt-link to="/"> Статистика </nuxt-link>
+            <nuxt-link to="/admin/statistics"> Статистика </nuxt-link>
           </button>
         </div>
 
@@ -178,16 +179,6 @@ const isDrawbarOpened = ref(false);
             class="w-full group flex items-center py-2 px-4 text-sm transition-colors duration-100 hover:text-primary-600 hover:bg-gray-100"
           >
             <nuxt-link to="/"> Виды спорта </nuxt-link>
-          </button>
-        </div>
-
-        <div
-          class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700"
-        >
-          <button
-            class="w-full group flex items-center py-2 px-4 text-sm transition-colors duration-100 hover:text-primary-600 hover:bg-gray-100"
-          >
-            <nuxt-link to="/"> Контакты </nuxt-link>
           </button>
         </div>
       </div>
