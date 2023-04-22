@@ -1,4 +1,5 @@
 <script setup>
+import { FilterMatchMode } from "primevue/api";
 import { useSportStore } from "~~/stores/sport";
 // import { ProductService } from "@/service/ProductService";
 
@@ -15,6 +16,15 @@ const sports = computed(() => {
 //     (data) => (products.value = data.slice(0, 5))
 //   );
 // });
+
+const filters = ref({
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  "country.name": { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  representative: { value: null, matchMode: FilterMatchMode.IN },
+  status: { value: null, matchMode: FilterMatchMode.EQUALS },
+  verified: { value: null, matchMode: FilterMatchMode.EQUALS },
+});
 
 const layout = ref("grid");
 
@@ -255,6 +265,16 @@ const getSeverity = (product) => {
             @change="onSortChange($event)"
           />
           <DataViewLayoutOptions v-model="layout" />
+
+          <div class="flex justify-content-end">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search" />
+              <InputText
+                v-model="filters['global'].value"
+                placeholder="Поиск"
+              />
+            </span>
+          </div>
         </template>
 
         <template #list="slotProps">
@@ -312,8 +332,10 @@ const getSeverity = (product) => {
         </template>
 
         <template #grid="slotProps">
-          <div class="col-12 sm:col-6 lg:col-12 xl:col-4 p-2">
-            <div class="p-4 border-1 surface-border surface-card border-round">
+          <div class="grid grid-cols-4" style="flex: 0 0 auto; width: 100%">
+            <div
+              class="flex flex-col items-start bg-gray-10 rounded-lg shadow p-4"
+            >
               <div
                 class="flex flex-wrap align-items-center justify-content-between gap-2"
               >

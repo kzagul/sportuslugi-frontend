@@ -17,6 +17,9 @@ import Chart from "primevue/chart";
 import DataView from "primevue/dataview";
 import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
 
+import ScrollTop from "primevue/scrolltop";
+import Dialog from "primevue/dialog";
+
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(PrimeVue, { ripple: true });
   nuxtApp.vueApp.use(ToastService);
@@ -36,4 +39,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   nuxtApp.vueApp.component("DataView", DataView);
   nuxtApp.vueApp.component("DataViewLayoutOptions", DataViewLayoutOptions);
+
+  nuxtApp.vueApp.component("ScrollTop", ScrollTop);
+  nuxtApp.vueApp.component("Dialog", Dialog);
 });
