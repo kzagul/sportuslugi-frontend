@@ -1,9 +1,33 @@
 <script setup>
 // import { initDrawers } from "flowbite";
+import { mdiClose, mdiCheck } from "@mdi/js";
 import { useUserStore } from "~~/stores/user";
 const authStore = useUserStore();
 // initialize components based on data attribute selectors
 const isDrawbarOpened = ref(false);
+
+const exitDialog = ref(false);
+
+function confirmExitAccount() {
+  exitDialog.value = false;
+  authStore.handleLogout();
+}
+function cancelExitAccount() {
+  exitDialog.value = false;
+}
+
+const menuNavsAdmin = ref([
+  { name: "Дашборд", path: "/admin" },
+  { name: "Мой профиль", path: "/profile" },
+  { name: "Статистика", path: "/admin/statistics" },
+]);
+
+const menuNavsManaging = ref([
+  { name: "Пользователи", path: "/admin" },
+  { name: "Учреждения", path: "/" },
+  { name: "Услуги", path: "/" },
+  { name: "Виды спорта", path: "/admin/edit/sports" },
+]);
 </script>
 
 <template>
@@ -65,123 +89,68 @@ const isDrawbarOpened = ref(false);
 
           <button
             class="w-full group flex justify-center items-center py-2 px-4 text-sm transition-colors duration-100 hover:text-error hover:bg-gray-100"
+            @click="exitDialog = !exitDialog"
           >
-            <nuxt-link to="/" @click="authStore.handleLogout">
-              Выход
-            </nuxt-link>
-          </button>
-
-          <div class="flex justify-center mb-4 space-x-1">
-            <div>
-              <a
-                href="#"
-                class="inline-flex text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5"
-              >
-                <svg
-                  class="w-6 h-6"
-                  aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-                  ></path>
-                </svg>
-              </a>
-            </div>
-            <div>
-              <a
-                href="#"
-                class="inline-flex text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5"
-              >
-                <svg
-                  class="w-6 h-6"
-                  aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"
-                  ></path>
-                </svg>
-              </a>
-            </div>
-            <div>
-              <a
-                href="#"
-                class="inline-flex text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5"
-              >
-                <svg
-                  class="w-6 h-6"
-                  aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700"
-        >
-          <button
-            class="w-full group flex items-center py-2 px-4 text-sm transition-colors duration-100 hover:text-primary-600 hover:bg-gray-100"
-          >
-            <nuxt-link to="/admin"> Дашборд </nuxt-link>
-          </button>
-
-          <button
-            class="w-full group flex items-center py-2 px-4 text-sm transition-colors duration-100 hover:text-primary-600 hover:bg-gray-100"
-          >
-            <nuxt-link to="/profile"> Мой профиль </nuxt-link>
-          </button>
-
-          <button
-            class="w-full group flex items-center py-2 px-4 text-sm transition-colors duration-100 hover:text-primary-600 hover:bg-gray-100"
-          >
-            <nuxt-link to="/admin/statistics"> Статистика </nuxt-link>
+            <!-- @click="authStore.handleLogout" -->
+            Выход
           </button>
         </div>
 
         <div
           class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700"
         >
-          <p class="text-sm">Управление</p>
-          <button
+          <nuxt-link
+            v-for="(menuNav, index) in menuNavsAdmin"
+            :key="index"
+            :to="menuNav.path"
             class="w-full group flex items-center py-2 px-4 text-sm transition-colors duration-100 hover:text-primary-600 hover:bg-gray-100"
           >
-            <nuxt-link to="/"> Пользователи </nuxt-link>
-          </button>
+            {{ menuNav.name }}
+          </nuxt-link>
+        </div>
 
-          <button
+        <div
+          class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700"
+        >
+          <p class="text-sm pb-2">Управление</p>
+          <nuxt-link
+            v-for="(menuNav, index) in menuNavsManaging"
+            :key="index"
+            :to="menuNav.path"
             class="w-full group flex items-center py-2 px-4 text-sm transition-colors duration-100 hover:text-primary-600 hover:bg-gray-100"
           >
-            <nuxt-link to="/"> Учреждения </nuxt-link>
-          </button>
-
-          <button
-            class="w-full group flex items-center py-2 px-4 text-sm transition-colors duration-100 hover:text-primary-600 hover:bg-gray-100"
-          >
-            <nuxt-link to="/"> Услуги </nuxt-link>
-          </button>
-
-          <button
-            class="w-full group flex items-center py-2 px-4 text-sm transition-colors duration-100 hover:text-primary-600 hover:bg-gray-100"
-          >
-            <nuxt-link to="/"> Виды спорта </nuxt-link>
-          </button>
+            {{ menuNav.name }}
+          </nuxt-link>
         </div>
       </div>
     </aside>
+
+    <Dialog
+      v-model:visible="exitDialog"
+      :style="{ width: '450px' }"
+      header="Выход"
+      :modal="true"
+    >
+      <div class="flex align-items-center justify-content-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+        <span>
+          {{ authStore.user.name }}, вы действительно хотите выйти из аккаунта?
+        </span>
+      </div>
+      <template #footer>
+        <Button class="flex flex-row gap-3" @click="cancelExitAccount">
+          <BaseIcon :path="mdiClose" :size="24" />
+          Отменить
+        </Button>
+        <Button
+          severity="danger"
+          class="flex flex-row gap-3"
+          @click="confirmExitAccount"
+        >
+          <BaseIcon :path="mdiCheck" :size="24" />
+          Выйти
+        </Button>
+      </template>
+    </Dialog>
   </div>
 </template>

@@ -145,7 +145,7 @@
           </Dropdown>
         </template>
       </Column> -->
-      <Column field="redirect" style="min-width: 6rem">
+      <Column field="redirect" style="min-width: 2rem">
         <template #body="{ data }">
           <button
             class="flex flex-row gap-2 justify-center items-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -156,11 +156,6 @@
           </button>
         </template>
       </Column>
-      <Column
-        :row-editor="true"
-        style="width: 10%; min-width: 8rem"
-        body-style="text-align:center"
-      ></Column>
     </DataTable>
   </div>
 </template>
@@ -169,7 +164,10 @@
 import { FilterMatchMode } from "primevue/api";
 import { mdiArrowUpLeft } from "@mdi/js";
 
+// import { useUserStore } from "~~/stores/user";
 import { useSportStore } from "~~/stores/sport";
+
+// const authStore = useUserStore();
 
 const sportStore = useSportStore();
 
@@ -201,38 +199,4 @@ function redirectToPage(id) {
 onMounted(() => {
   loading.value = false;
 });
-
-const getCustomers = (data) => {
-  return [...(data || [])].map((d) => {
-    d.date = new Date(d.date);
-
-    return d;
-  });
-};
-const formatDate = (value) => {
-  return value.toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
-};
-
-const getSeverity = (status) => {
-  switch (status) {
-    case "unqualified":
-      return "danger";
-
-    case "qualified":
-      return "success";
-
-    case "new":
-      return "info";
-
-    case "negotiation":
-      return "warning";
-
-    case "renewal":
-      return null;
-  }
-};
 </script>
