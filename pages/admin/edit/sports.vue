@@ -48,13 +48,7 @@
         </template>
         <template #empty> No customers found. </template>
         <template #loading> Loading customers data. Please wait. </template>
-        <Column
-          field="name"
-          header="Название"
-          style="min-width: 12rem"
-          sortable
-          filter
-        >
+        <Column field="name" header="Название" sortable filter>
           <template #body="{ data }">
             {{ data?.name }}
           </template>
@@ -68,7 +62,7 @@
             />
           </template>
         </Column>
-        <Column field="redirect" style="min-width: 6rem">
+        <Column field="redirect">
           <template #body="{ data }">
             <button
               class="flex flex-row gap-2 justify-center items-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -82,17 +76,21 @@
         <Column>
           <template #body="slotProps">
             <Button
-              icon="pi pi-pencil"
-              class="p-button-rounded p-button-success mr-2"
+              severity="secondary"
+              text
+              class="border p-button-rounded"
               @click="updateProductDialogShow(slotProps.data)"
-            />
+            >
+              <BaseIcon :path="mdiPencil" :size="20" />
+            </Button>
             <Button
-              icon="pi pi-trash"
-              class="p-button-rounded p-button-warning"
+              severity="danger"
+              text
+              class="border p-button-rounded"
               @click="confirmDeleteProduct(slotProps.data)"
-            />
-            <!-- @click="confirmDeleteProduct(slotProps.data)" -->
-            <!-- @click="lala(slotProps.data)" -->
+            >
+              <BaseIcon :path="mdiDelete" :size="20" />
+            </Button>
           </template>
         </Column>
       </DataTable>
@@ -100,7 +98,7 @@
       <Dialog
         v-model:visible="updateProductDialog"
         :style="{ width: '450px' }"
-        header="Product Details"
+        header="Изменение вида спорта"
         :modal="true"
         class="p-fluid"
       >
@@ -112,7 +110,7 @@
           class="mt-0 mx-auto mb-5 block shadow-2"
         /> -->
         <div class="field">
-          <label for="name">Name</label>
+          <label for="name">Название</label>
           <InputText
             id="name"
             v-model.trim="selectedProduct.name"
@@ -121,7 +119,7 @@
             :class="{ 'p-invalid': submitted && !selectedProduct.name }"
           />
           <small v-if="submitted && !selectedProduct.name" class="p-invalid"
-            >Name is required.</small
+            >Поле обязательно</small
           >
         </div>
         <!-- <div class="field">
@@ -226,28 +224,31 @@
         </div> -->
         <template #footer>
           <Button
-            label="Cancel"
-            icon="pi pi-times"
-            class="p-button-text"
+            class="flex flex-row gap-3"
             @click="updateProductDialog = !updateProductDialog"
-          />
+          >
+            <BaseIcon :path="mdiClose" :size="24" />
+            Отменить
+          </Button>
           <Button
-            label="Save"
-            icon="pi pi-check"
-            class="p-button-text"
+            severity="success"
+            class="flex flex-row gap-3"
             @click="updateProduct"
-          />
+          >
+            <BaseIcon :path="mdiCheck" :size="24" />
+            Изменить
+          </Button>
         </template>
       </Dialog>
 
       <Dialog
         v-model:visible="addProductDialog"
         :style="{ width: '450px' }"
-        header="Confirm"
+        header="Добавить вид спорта"
         :modal="true"
       >
-        <div class="field">
-          <label for="name">Name</label>
+        <div class="field flex flex-col">
+          <label for="name">Название</label>
           <InputText
             id="name"
             v-model="request.name"
@@ -256,7 +257,7 @@
             :class="{ 'p-invalid': submitted && !selectedProduct.name }"
           />
           <small v-if="submitted && !selectedProduct.name" class="p-invalid"
-            >Name is required.</small
+            >Поле обязательно</small
           >
         </div>
 
@@ -268,18 +269,18 @@
           >
         </div> -->
         <template #footer>
+          <Button class="flex flex-row gap-3" @click="addProductDialog = false">
+            <BaseIcon :path="mdiClose" :size="24" />
+            Отменить
+          </Button>
           <Button
-            label="No"
-            icon="pi pi-times"
-            class="p-button-text"
-            @click="addProductDialog = false"
-          />
-          <Button
-            label="Yes"
-            icon="pi pi-check"
-            class="p-button-text"
+            severity="success"
+            class="flex flex-row gap-3"
             @click="addProduct()"
-          />
+          >
+            <BaseIcon :path="mdiCheck" :size="24" />
+            Добавить
+          </Button>
           <!-- @click="deleteProduct" -->
         </template>
       </Dialog>
@@ -321,7 +322,14 @@
 
 <script setup>
 import { FilterMatchMode } from "primevue/api";
-import { mdiArrowUpLeft, mdiPlus, mdiClose, mdiCheck } from "@mdi/js";
+import {
+  mdiArrowUpLeft,
+  mdiPlus,
+  mdiClose,
+  mdiCheck,
+  mdiPencil,
+  mdiDelete,
+} from "@mdi/js";
 import { useToast } from "primevue/usetoast";
 
 // import { useUserStore } from "~~/stores/user";

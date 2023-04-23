@@ -1,11 +1,55 @@
 <script setup lang="ts">
+import {
+  mdiRunFast,
+  mdiBasketball,
+  mdiHome,
+  mdiAccountMultiple,
+} from "@mdi/js";
 import { useUserStore } from "~~/stores/user";
+import { useSportStore } from "~~/stores/sport";
+import { useServiceStore } from "~/stores/service";
+import { useInstitutionStore } from "~~/stores/institution";
+
 definePageMeta({
   middleware: ["admin-only"],
   layout: false,
 });
 
 const authStore = useUserStore();
+
+// sports
+const sportStore = useSportStore();
+await sportStore.fetchSports();
+
+const sports = computed(() => {
+  return sportStore.getSports;
+});
+
+const amountSports = computed(() => (sports.value ? sports?.value.length : 0));
+
+// services
+const serviceStore = useServiceStore();
+await serviceStore.fetchServices();
+
+const services = computed(() => {
+  return serviceStore.getServices;
+});
+
+const amountServices = computed(() =>
+  services.value ? services?.value.length : 0
+);
+
+// institutions
+const institutionStore = useInstitutionStore();
+await institutionStore.fetchInstitutions();
+
+const institutions = computed(() => {
+  return institutionStore.getInstitutions;
+});
+
+const amountInstitutions = computed(() =>
+  institutions.value ? institutions?.value.length : 0
+);
 </script>
 
 <template>
@@ -18,14 +62,17 @@ const authStore = useUserStore();
         <div class="flex flex-col items-start bg-gray-10 rounded-lg shadow p-4">
           <div class="flex justify-between w-full mb-3">
             <div>
-              <span class="block font-medium mb-3">Orders</span>
-              <div class="font-medium text-xl">152</div>
+              <span class="block font-medium mb-3">Всего видов спорта</span>
+              <div class="font-medium text-xl">{{ amountSports }}</div>
             </div>
             <div
-              class="flex items-center justify-center bg-blue-100 rounded-full"
-              style="width: 2.5rem; height: 2.5rem"
+              class="flex items-center justify-center bg-blue-100 rounded-full w-10 h-10"
             >
-              <i class="pi pi-shopping-cart text-blue-500 text-xl" />
+              <BaseIcon
+                :path="mdiBasketball"
+                :size="32"
+                class="flex justify-center items-center"
+              />
             </div>
           </div>
           <span class="text-green-500 font-medium">24 new </span>
@@ -35,31 +82,39 @@ const authStore = useUserStore();
         <div class="flex flex-col items-start bg-gray-10 rounded-lg shadow p-4">
           <div class="flex justify-between w-full mb-3">
             <div>
-              <span class="block font-medium mb-3">Revenue</span>
-              <div class="font-medium text-xl">$2.100</div>
+              <span class="block font-medium mb-3">Всего услуг</span>
+              <div class="font-medium text-xl">{{ amountServices }}</div>
             </div>
             <div
-              class="flex items-center justify-center bg-blue-100 rounded-full"
-              style="width: 2.5rem; height: 2.5rem"
+              class="flex items-center justify-center bg-yellow-100 rounded-full w-10 h-10"
             >
-              <i class="pi pi-map-marker text-orange-500 text-xl" />
+              <BaseIcon
+                :path="mdiRunFast"
+                :size="32"
+                class="flex justify-center items-center"
+              />
             </div>
           </div>
-          <span class="text-green-500 font-medium">%52+ </span>
-          <span class="text-sm">since last week</span>
+          <span class="text-green-500 font-medium"
+            >{{ amountServices / amountInstitutions }} услуг</span
+          >
+          <span class="text-sm">В среднем на одно учреждение</span>
         </div>
 
         <div class="flex flex-col items-start bg-gray-10 rounded-lg shadow p-4">
           <div class="flex justify-between w-full mb-3">
             <div>
-              <span class="block font-medium mb-3">Customers</span>
-              <div class="font-medium text-xl">28441</div>
+              <span class="block font-medium mb-3">Всего учреждений</span>
+              <div class="font-medium text-xl">{{ amountInstitutions }}</div>
             </div>
             <div
-              class="flex items-center justify-center bg-blue-100 rounded-full"
-              style="width: 2.5rem; height: 2.5rem"
+              class="flex items-center justify-center bg-green-100 rounded-full w-10 h-10"
             >
-              <i class="pi pi-inbox text-cyan-500 text-xl" />
+              <BaseIcon
+                :path="mdiHome"
+                :size="32"
+                class="flex justify-center items-center"
+              />
             </div>
           </div>
           <span class="text-green-500 font-medium">520 </span>
@@ -73,10 +128,13 @@ const authStore = useUserStore();
               <div class="font-medium text-xl">152 Unread</div>
             </div>
             <div
-              class="flex items-center justify-center bg-blue-100 rounded-full"
-              style="width: 2.5rem; height: 2.5rem"
+              class="flex items-center justify-center bg-violet-100 rounded-full w-10 h-10"
             >
-              <i class="pi pi-comment text-purple-500 text-xl" />
+              <BaseIcon
+                :path="mdiAccountMultiple"
+                :size="32"
+                class="flex justify-center items-center"
+              />
             </div>
           </div>
           <span class="text-green-500 font-medium">85 </span>

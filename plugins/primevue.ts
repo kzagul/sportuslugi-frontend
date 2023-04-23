@@ -6,6 +6,7 @@ import ToastService from "primevue/toastservice";
 import Dropdown from "primevue/dropdown";
 import Rating from "primevue/rating";
 import Tag from "primevue/tag";
+import Tree from "primevue/tree";
 
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
@@ -29,6 +30,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("Dropdown", Dropdown);
   nuxtApp.vueApp.component("Rating", Rating);
   nuxtApp.vueApp.component("Tag", Tag);
+  nuxtApp.vueApp.component("Tree", Tree);
 
   nuxtApp.vueApp.component("DataTable", DataTable);
   nuxtApp.vueApp.component("Column", Column);

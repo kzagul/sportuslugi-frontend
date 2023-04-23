@@ -20,13 +20,13 @@
         </p>
       </div>
     </nuxt-link>
-    <div
+    <!-- <div
       v-if="authStore.user && isAdmin"
       class="absolute right-0 bottom-0 flex flex-row gap-4 text-black"
     >
       <button class="max-w-max h-10 z-20">Изменить</button>
       <button class="max-w-max h-10">Удалить</button>
-    </div>
+    </div> -->
   </div>
 </template>
 

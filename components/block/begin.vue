@@ -1,6 +1,42 @@
-<script setup>
+<script setup lang="ts">
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxOptions,
+  ComboboxOption,
+  TransitionRoot,
+} from "@headlessui/vue";
+import { mdiMagnify } from "@mdi/js";
 import { useUserStore } from "~~/stores/user";
+import { useSportStore } from "~~/stores/sport";
 const authStore = useUserStore();
+
+const sportStore = useSportStore();
+
+await sportStore.fetchSports();
+
+// const sports = ref();
+const sports = computed(() => {
+  return sportStore.getSports;
+});
+
+const selected = ref(sports.value[0]);
+const query = ref("");
+
+const pathComputed = (item: any) => {
+  return `/sport/` + item.id;
+};
+
+const filteredSports = computed(() =>
+  query.value === ""
+    ? sports.value
+    : sports.value.filter((sport) =>
+        sport.name
+          .toLowerCase()
+          .replace(/\s+/g, "")
+          .includes(query.value.toLowerCase().replace(/\s+/g, ""))
+      )
+);
 </script>
 
 <template>
@@ -70,44 +106,83 @@ const authStore = useUserStore();
           <p
             class="max-w-xl mx-auto mb-6 font-light text-gray-500 lg:mx-0 xl:mb-8 md:text-lg xl:text-xl dark:text-gray-400"
           >
-            Вы сможете выбрать занятие спортом, спротивное учреждение, а также
-            подобрать спортивную услугу основываясь на ваших предпочтениях
-            Jнлайн сервис для подбора спортивных занятий
+            Онлайн сервис для поиска спортивных занятий
           </p>
-          <form class="max-w-lg mx-auto lg:ml-0" action="#">
-            <label
-              for="default-search"
-              class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300"
-              >Search</label
-            >
-            <div class="relative">
-              <input
-                id="default-search"
-                type="search"
-                class="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="Тренажерный зал ..."
-                required="true"
-              />
-              <button
-                type="submit"
-                class="text-white inline-flex items-center absolute right-2.5 bottom-2.5 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              >
-                <svg
-                  class="w-4 h-4 mr-2 -ml-1"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
+
+          <div
+            class="flex justify-between bg-surface-default items-center max-w-lg mx-auto gap-4 h-[48px] sm:h-[64px] mt-4 sm:mt-8"
+          >
+            <Combobox v-model="selected">
+              <div class="relative text-black w-full">
+                <div class="w-full cursor-default overflow-hidden">
+                  <ComboboxInput
+                    placeholder="Вид спорта ..."
+                    class="block w-full p-4 text-sm text-gray-900 border-1 border-gray-300 rounded-lg bg-white focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    :display-value="(sport: any) => ''"
+                    @change="query = $event.target.value"
+                  />
+                  <BaseIcon
+                    :path="mdiMagnify"
+                    :size="32"
+                    class="flex justify-center items-center absolute right-4 bottom-4"
+                  />
+                </div>
+
+                <TransitionRoot
+                  leave="transition ease-in duration-100"
+                  leave-from="opacity-100"
+                  leave-to="opacity-0"
+                  @after-leave="query = ''"
                 >
-                  <path
-                    fill-rule="evenodd"
-                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-                Поиск
-              </button>
-            </div>
-          </form>
+                  <ComboboxOptions
+                    class="absolute w-full mt-4 max-h-60 overflow-auto rounded-lg bg-white border py-4 shadow-lg z-10 sm:z-40"
+                  >
+                    <div
+                      v-if="filteredSports.length === 0 && query !== ''"
+                      class="relative cursor-default select-none py-2 px-4"
+                    >
+                      Ничего не найдено
+                    </div>
+
+                    <ComboboxOption
+                      v-for="(sport, index) in filteredSports"
+                      :key="index"
+                      v-slot="{ active }"
+                      as="template"
+                      :value="sport"
+                    >
+                      <nuxt-link
+                        :to="pathComputed(sport)"
+                        class="cursor-default"
+                      >
+                        <li
+                          class="relative flex items-center cursor-default select-none pl-[32px] pr-4 h-[43px]"
+                          :class="{
+                            'bg-surface-component bg-opacity-5': active,
+                            '': !active,
+                          }"
+                        >
+                          <span class="block truncate">
+                            {{ sport.name }}
+                          </span>
+                        </li>
+                      </nuxt-link>
+                    </ComboboxOption>
+                  </ComboboxOptions>
+                </TransitionRoot>
+              </div>
+            </Combobox>
+
+            <!-- <button
+                class="absolute right-0 flex justify-center items-center bg-brand-primary border-4 sm:border-8 border-surface-default rounded-[40px] px-6 py-3 h-[48px] sm:w-[100px] sm:h-[64px]"
+              >
+                <img
+                  class="w-6 h-6"
+                  src="~/assets/icons/arrow-right.svg"
+                  alt=""
+                />
+              </button> -->
+          </div>
         </div>
       </div>
       <div class="grid gap-8 sm:gap-12 md:grid-cols-3">

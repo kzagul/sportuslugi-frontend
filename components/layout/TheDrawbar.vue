@@ -103,7 +103,7 @@ const menuNavsManaging = ref([
             v-for="(menuNav, index) in menuNavsAdmin"
             :key="index"
             :to="menuNav.path"
-            class="w-full group flex items-center py-2 px-4 text-sm transition-colors duration-100 hover:text-primary-600 hover:bg-gray-100"
+            class="w-full group flex items-center py-2 px-4 text-base transition-colors duration-100 hover:text-primary-600 hover:bg-gray-100"
           >
             {{ menuNav.name }}
           </nuxt-link>
@@ -112,12 +112,12 @@ const menuNavsManaging = ref([
         <div
           class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700"
         >
-          <p class="text-sm pb-2">Управление</p>
+          <p class="text-lg pb-2">Управление</p>
           <nuxt-link
             v-for="(menuNav, index) in menuNavsManaging"
             :key="index"
             :to="menuNav.path"
-            class="w-full group flex items-center py-2 px-4 text-sm transition-colors duration-100 hover:text-primary-600 hover:bg-gray-100"
+            class="w-full group flex items-center py-2 px-4 text-base transition-colors duration-100 hover:text-primary-600 hover:bg-gray-100"
           >
             {{ menuNav.name }}
           </nuxt-link>

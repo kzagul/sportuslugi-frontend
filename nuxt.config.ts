@@ -64,7 +64,7 @@ export default defineNuxtConfig({
     "primeicons/primeicons.css",
   ],
   build: {
-    transpile: ["primevue"],
+    transpile: ["primevue", "@headlessui/vue"],
   },
   app: {
     pageTransition: { name: "page", mode: "out-in" },
