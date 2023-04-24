@@ -50,6 +50,17 @@ const institutions = computed(() => {
 const amountInstitutions = computed(() =>
   institutions.value ? institutions?.value.length : 0
 );
+
+// users
+const userStore = useUserStore();
+await userStore.getAllUsers();
+
+const users = computed(() => {
+  return userStore.users;
+  // return userStore.users.users;
+});
+
+const amountAllUsers = computed(() => (users.value ? users?.value.length : 0));
 </script>
 
 <template>
@@ -124,8 +135,8 @@ const amountInstitutions = computed(() =>
         <div class="flex flex-col items-start bg-gray-10 rounded-lg shadow p-4">
           <div class="flex justify-between w-full mb-3">
             <div>
-              <span class="block font-medium mb-3">Comments</span>
-              <div class="font-medium text-xl">152 Unread</div>
+              <span class="block font-medium mb-3">Всего пользователей</span>
+              <div class="font-medium text-xl">{{ amountAllUsers }}</div>
             </div>
             <div
               class="flex items-center justify-center bg-violet-100 rounded-full w-10 h-10"

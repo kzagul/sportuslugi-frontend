@@ -5,6 +5,7 @@ export const useUserStore = defineStore("user", {
   state: () => ({
     currentUser: ({} as User) || null,
     authUser: null,
+    allUsers: null,
     authUserRoles: null,
     authErrors: [],
     authStatus: null,
@@ -13,6 +14,9 @@ export const useUserStore = defineStore("user", {
   getters: {
     user(): User | null {
       return this.authUser !== null ? (this.authUser as User) : null;
+    },
+    users(): User[] | null {
+      return this.allUsers !== null ? (this.allUsers as User[]) : null;
     },
     // user: (state) => state.authUser,
     // userRoles: (state) => state.authUserRoles,
@@ -46,12 +50,18 @@ export const useUserStore = defineStore("user", {
       const config = useRuntimeConfig();
       const baseUrl = config.public.baseUrl;
       await $fetch("/sanctum/csrf-cookie", {
-        // await $larafetch("/sanctum/csrf-cookie", {
         method: "GET",
         baseURL: baseUrl,
         credentials: "include",
         referer: config.public.frontendUrl,
       });
+    },
+    async getAllUsers() {
+      const { data: res } = await fetchApi("/api/users", {
+        method: "GET",
+      });
+      const result: any = res.value;
+      this.allUsers = result.users;
     },
     async getUser() {
       const { data: res } = await fetchApi("/api/user", {
