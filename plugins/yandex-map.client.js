@@ -1,5 +1,8 @@
-import plugin from "vue-yandex-maps";
-import { YandexMap, YandexMarker } from "vue-yandex-maps";
+import plugin, {
+  YandexMap,
+  YandexMarker,
+  YandexClusterer,
+} from "vue-yandex-maps";
 import { defineNuxtPlugin } from "nuxt/app";
 
 const settings = {
@@ -14,4 +17,5 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(plugin, settings);
   nuxtApp.vueApp.component("YandexMap", YandexMap);
   nuxtApp.vueApp.component("YandexMarker", YandexMarker);
+  nuxtApp.vueApp.component("YandexClusterer", YandexClusterer);
 });

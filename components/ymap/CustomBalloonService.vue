@@ -2,7 +2,7 @@
   <div class="flex flex-col">
     <!-- {{ modelValue }} component with props and emits -->
     <!-- <button @click="$emit('update:modelValue', 'Awesome')">Click!</button> -->
-    <nuxt-link to="/institution"> Учреждение {{ institutionName }} </nuxt-link>
+    <nuxt-link to="/institution"> Услуга {{ serviceName }} </nuxt-link>
   </div>
 </template>
 
@@ -12,7 +12,7 @@ defineProps({
     type: String,
     default: "",
   },
-  institutionName: {
+  serviceName: {
     type: String,
     default: "",
   },
