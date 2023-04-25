@@ -34,11 +34,6 @@ function changeDataLayout(layoutType) {
   currentDataLayout.value = layoutType;
 }
 
-const getCoordinates = (coords) => [
-  coords.latitude + Math.random(),
-  coords.longitude + Math.random(),
-];
-
 const name = ref("Custom");
 </script>
 
