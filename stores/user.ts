@@ -57,25 +57,37 @@ export const useUserStore = defineStore("user", {
       });
     },
     async getAllUsers() {
-      const { data: res } = await fetchApi("/api/users", {
-        method: "GET",
-      });
-      const result: any = res.value;
-      this.allUsers = result.users;
+      try {
+        const { data: res } = await fetchApi("/api/users", {
+          method: "GET",
+        });
+        const result: any = res.value;
+        this.allUsers = result.users;
+      } catch (error) {
+        console.log(error);
+      }
     },
     async getUser() {
-      const { data: res } = await fetchApi("/api/user", {
-        method: "GET",
-      });
-      const result: any = res.value;
-      this.authUser = result;
+      try {
+        const { data: res } = await fetchApi("/api/user", {
+          method: "GET",
+        });
+        const result: any = res.value;
+        this.authUser = result;
+      } catch (error) {
+        console.log(error);
+      }
     },
     async getUserRoles() {
-      const { data: res } = await fetchApi("/api/user/roles", {
-        method: "GET",
-      });
-      const result: any = res.value;
-      this.authUserRoles = result;
+      try {
+        const { data: res } = await fetchApi("/api/user/roles", {
+          method: "GET",
+        });
+        const result: any = res.value;
+        this.authUserRoles = result;
+      } catch (error) {
+        console.log(error);
+      }
     },
     async handleLogin(data: any) {
       this.authErrors = [];
@@ -132,14 +144,19 @@ export const useUserStore = defineStore("user", {
       this.authErrors = [];
       this.getToken();
       try {
-        const response: any = await $fetch("/forgot-password", {
+        const { data: res } = await fetchApi("/forgot-password", {
+          // const response: any = await $fetch("/forgot-password", {
           method: "POST",
           body: {
             email,
           },
         });
-        this.authStatus = response.data.status;
+        // this.authStatus = response.data.status;
+        // const result: any = res.value;
+        // this.authStatus = result.status;
+        console.log(res);
       } catch (error: any) {
+        console.log("error");
         if (error.response.status === 422) {
           this.authErrors = error.response.data.errors;
         }
