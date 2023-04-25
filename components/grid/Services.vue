@@ -13,7 +13,8 @@
 </template>
 
 <script setup lang="ts">
-// import { IService } from "~~/types/service.d";
+// import { ISport } from "@/types/sport";
+// import { IService } from "~/types/service";
 // import { useServiceStore } from "~/stores/service";
 
 // const serviceStore = useServiceStore();
@@ -24,23 +25,40 @@
 //   return serviceStore.getServices;
 // });
 
+// defineProps<{
+//   services: ISport;
+//   // {
+//   //   type: ISport,
+//   //   default: {} as ISport
+//   // }
+// }>();
+
 defineProps({
   services: {
     type: Object,
     default: null,
+    // type: ISport,
+    // default: {} as ISport,
   },
-  rounded: {
-    type: String,
-    default: "rounded-2xl",
-  },
-  flex: {
-    type: String,
-    default: "flex-col",
-  },
-  hasComponentLayout: Boolean,
-  hasTable: Boolean,
-  isForm: Boolean,
-  isHoverable: Boolean,
-  isModal: Boolean,
 });
+
+// defineProps({
+//   services: {
+//     type: Object,
+//     default: null,
+//   },
+//   rounded: {
+//     type: String,
+//     default: "rounded-2xl",
+//   },
+//   flex: {
+//     type: String,
+//     default: "flex-col",
+//   },
+//   hasComponentLayout: Boolean,
+//   hasTable: Boolean,
+//   isForm: Boolean,
+//   isHoverable: Boolean,
+//   isModal: Boolean,
+// });
 </script>

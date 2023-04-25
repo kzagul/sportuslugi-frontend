@@ -1,48 +1,58 @@
 import { defineStore } from "pinia";
+import { ISport } from "~/types/sport";
 
 export const useSportStore = defineStore("sport", {
   state: () => ({
     sports: null,
-    currentSport: null,
+    currentSport: {} as ISport,
   }),
   getters: {
     getSports(): any {
       return this.sports;
     },
     getCurrentSport(): any {
-      return this.currentSport;
+      // return this.currentSport[0];
+      return this.currentSport !== null ? (this.currentSport as ISport) : null;
     },
   },
   actions: {
     async fetchSports() {
-      const config = useRuntimeConfig();
-      const baseUrl = config.public.baseUrl;
-      const data: any = await $fetch("/api/sports", {
-        method: "GET",
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json",
-          "X-Requested-With": "XMLHttpRequest",
-        },
-        baseURL: baseUrl,
-        credentials: "include",
-      });
-      this.sports = data.sports;
+      try {
+        const config = useRuntimeConfig();
+        const baseUrl = config.public.baseUrl;
+        const data: any = await $fetch("/api/sports", {
+          method: "GET",
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+          },
+          baseURL: baseUrl,
+          credentials: "include",
+        });
+        this.sports = data.sports;
+      } catch (error) {
+        console.error(error);
+      }
     },
     async fetchSportByID(idRoute: string) {
-      const config = useRuntimeConfig();
-      const baseUrl = config.public.baseUrl;
-      const data: any = await $fetch(`/api/sport/id=${idRoute}`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json",
-          "X-Requested-With": "XMLHttpRequest",
-        },
-        baseURL: baseUrl,
-        credentials: "include",
-      });
-      this.currentSport = data.sport[0];
+      try {
+        const config = useRuntimeConfig();
+        const baseUrl = config.public.baseUrl;
+        const data: any = await $fetch(`/api/sport/id=${idRoute}`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+          },
+          baseURL: baseUrl,
+          credentials: "include",
+        });
+        this.currentSport = data?.sport;
+      } catch (error) {
+        console.error(error);
+      }
     },
 
     async postSport(sportName: string) {

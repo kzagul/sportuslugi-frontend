@@ -9,11 +9,6 @@
     <FormServiceAdd />
 
     <GridServices :services="services" />
-    <!-- <div>
-      <p v-for="(service, index) in services" :key="index">
-        {{ service.name }}
-      </p>
-    </div> -->
   </div>
 </template>
 

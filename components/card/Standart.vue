@@ -1,3 +1,12 @@
+<script setup lang="ts">
+defineProps({
+  service: {
+    type: Object,
+    default: null,
+  },
+});
+</script>
+
 <template>
   <article
     class="p-4 bg-white hover:bg-gray-100 rounded-lg border border-gray-200 shadow-md"
@@ -10,7 +19,7 @@
       />
     </a>
     <span
-      v-for="(sport, index) in service.sports"
+      v-for="(sport, index) in service?.sports"
       :key="index"
       class="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
       >{{ sport.name }}</span
@@ -29,18 +38,9 @@
         alt="Jese Leos avatar"
       /> -->
       <div class="font-medium">
-        <div class="text-xl">{{ service.institutions[0]?.name }}</div>
+        <!-- <div class="text-xl">{{ service?.institutions[0]?.name }}</div> -->
         <div class="text-sm font-normal text-gray-500">Aug 15, 2021</div>
       </div>
     </div>
   </article>
 </template>
-
-<script setup lang="ts">
-defineProps({
-  service: {
-    type: Object,
-    default: null,
-  },
-});
-</script>
