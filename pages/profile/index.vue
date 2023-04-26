@@ -87,28 +87,32 @@ await authStore.getUser();
             </div>
           </div>
         </div>
-        <div
-          class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
-        >
-          <h3 class="mb-4 text-xl font-semibold dark:text-white">Контент</h3>
-          <div class="mb-4">Какой-то контент</div>
-        </div>
+
         <div
           class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
         >
           <div class="flow-root">
             <h3 class="text-xl font-semibold dark:text-white">
-              Блок с контентом
+              Карта рекомендаций
             </h3>
 
             <div>
-              <button
-                class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              >
-                Контент
-              </button>
+              <nuxt-link to="/profile/recommendation">
+                <button
+                  class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                >
+                  Перейти
+                </button>
+              </nuxt-link>
             </div>
           </div>
+        </div>
+
+        <div
+          class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
+        >
+          <h3 class="mb-4 text-xl font-semibold dark:text-white">Контент</h3>
+          <div class="mb-4">Какой-то контент</div>
         </div>
       </div>
       <div class="col-span-2">

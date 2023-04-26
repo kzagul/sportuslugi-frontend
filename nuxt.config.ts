@@ -17,6 +17,7 @@ export default defineNuxtConfig({
         process.env.NODE_ENV === "development"
           ? process.env.OPENAI_SERVICE_URL
           : "",
+      // yandexMapsApi: process.env.YANDEX_MAPS_API,
     },
     cookieName: process.env.COOKIE_NAME || "__session",
     cookieSecret: process.env.COOKIE_SECRET || "secret",

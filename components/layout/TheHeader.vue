@@ -68,10 +68,6 @@ onMounted(() => {
                 <!-- v-if="isAdmin" -->
               </template>
 
-              <template v-else>
-                <PageLink to="/guest"> Public </PageLink>
-              </template>
-
               <!-- Dropdown menu -->
               <Menu as="div" class="relative inline-block text-left">
                 <div>
@@ -107,73 +103,80 @@ onMounted(() => {
                         </span>
                       </div>
                       <MenuItem v-slot="{ active }">
-                        <button
-                          :class="[
-                            active
-                              ? 'transition-colors duration-100 hover:text-primary-600'
-                              : '',
-                          ]"
-                          class="w-full group flex items-center py-2 px-4 text-sm hover:bg-gray-100"
-                        >
-                          <nuxt-link to="/profile"> Мой профиль </nuxt-link>
-                        </button>
+                        <nuxt-link to="/profile">
+                          <button
+                            :class="[
+                              active
+                                ? 'transition-colors duration-100 hover:text-primary-600'
+                                : '',
+                            ]"
+                            class="w-full group flex items-center py-2 px-4 text-sm hover:bg-gray-100"
+                          >
+                            Мой профиль
+                          </button>
+                        </nuxt-link>
                       </MenuItem>
                       <MenuItem v-slot="{ active }">
-                        <button
-                          :class="[
-                            active
-                              ? 'transition-colors duration-100 hover:text-primary-600'
-                              : '',
-                          ]"
-                          class="w-full group flex items-center py-2 px-4 text-sm hover:bg-gray-100"
-                        >
-                          <nuxt-link to="/profile">
+                        <nuxt-link to="/profile/recommendation">
+                          <button
+                            :class="[
+                              active
+                                ? 'transition-colors duration-100 hover:text-primary-600'
+                                : '',
+                            ]"
+                            class="w-full group flex items-center py-2 px-4 text-sm hover:bg-gray-100"
+                          >
                             Карта рекомендаций
-                          </nuxt-link>
-                        </button>
+                          </button>
+                        </nuxt-link>
                       </MenuItem>
                     </div>
                     <div class="px-1 py-1">
                       <MenuItem v-slot="{ active }">
-                        <button
-                          :class="[
-                            active
-                              ? 'transition-colors duration-100 hover:text-primary-600'
-                              : '',
-                          ]"
-                          class="w-full group flex items-center py-2 px-4 text-sm hover:bg-gray-100"
-                        >
-                          <nuxt-link to="/profile"> Избранное </nuxt-link>
-                        </button>
+                        <nuxt-link to="/profile">
+                          <button
+                            :class="[
+                              active
+                                ? 'transition-colors duration-100 hover:text-primary-600'
+                                : '',
+                            ]"
+                            class="w-full group flex items-center py-2 px-4 text-sm hover:bg-gray-100"
+                          >
+                            Избранное
+                          </button>
+                        </nuxt-link>
                       </MenuItem>
                       <MenuItem v-slot="{ active }">
-                        <button
-                          :class="[
-                            active
-                              ? 'transition-colors duration-100 hover:text-primary-600'
-                              : '',
-                          ]"
-                          class="w-full group flex items-center py-2 px-4 text-sm hover:bg-gray-100"
-                        >
-                          <nuxt-link to="/profile"> Мои услуги </nuxt-link>
-                        </button>
+                        <nuxt-link to="/profile">
+                          <button
+                            :class="[
+                              active
+                                ? 'transition-colors duration-100 hover:text-primary-600'
+                                : '',
+                            ]"
+                            class="w-full group flex items-center py-2 px-4 text-sm hover:bg-gray-100"
+                          >
+                            Мои услуги
+                          </button>
+                        </nuxt-link>
                       </MenuItem>
                     </div>
 
                     <div class="px-1 py-1">
                       <MenuItem v-slot="{ active }">
-                        <button
-                          :class="[
-                            active
-                              ? 'transition-colors duration-100 hover:text-error'
-                              : '',
-                          ]"
-                          class="w-full group flex items-center py-2 px-4 text-sm hover:bg-gray-100"
-                        >
-                          <nuxt-link to="/" @click="authStore.handleLogout">
+                        <nuxt-link to="/">
+                          <button
+                            :class="[
+                              active
+                                ? 'transition-colors duration-100 hover:text-error'
+                                : '',
+                            ]"
+                            class="w-full group flex items-center py-2 px-4 text-sm hover:bg-gray-100"
+                            @click="authStore.handleLogout"
+                          >
                             Выход
-                          </nuxt-link>
-                        </button>
+                          </button>
+                        </nuxt-link>
                       </MenuItem>
                     </div>
                   </MenuItems>
@@ -189,7 +192,6 @@ onMounted(() => {
             </template>
 
             <template v-else>
-              <PageLink to="/guest" class="text-gray-800"> Public </PageLink>
               <div class="flex flex-row gap-2">
                 <NuxtLink
                   to="/login"
@@ -435,16 +437,6 @@ onMounted(() => {
               @click="modalOpened = !modalOpened"
             >
               Панель учреждения
-            </PageLink>
-          </template>
-
-          <template v-else>
-            <PageLink
-              to="/guest"
-              class="text-3xl text-black"
-              @click="modalOpened = !modalOpened"
-            >
-              Public
             </PageLink>
           </template>
 

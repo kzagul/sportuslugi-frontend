@@ -58,6 +58,7 @@ const name = ref("Custom");
         <YandexMarker
           :coordinates="[coords.latitude, coords.longitude]"
           :marker-id="123"
+          radius="100"
         >
           <template #component>
             <UserBalloon ref="userMarker" v-model="name" />
