@@ -6,7 +6,7 @@
       Спортивные услуги
     </h2>
 
-    <FormServiceAdd />
+    <!-- <FormServiceAdd /> -->
 
     <GridServices :services="services" />
   </div>

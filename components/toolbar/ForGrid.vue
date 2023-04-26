@@ -1,8 +1,8 @@
 <script setup>
-import { mdiMagnify, mdiFilterOutline, mdiCogOutline, mdiPlus } from "@mdi/js";
+import { mdiMagnify, mdiFilterOutline, mdiCogOutline } from "@mdi/js";
 import { initDropdowns } from "flowbite";
-import { useUserStore } from "~~/stores/user";
-const authStore = useUserStore();
+// import { useUserStore } from "~~/stores/user";
+// const authStore = useUserStore();
 onMounted(() => {
   initDropdowns();
 });
@@ -185,7 +185,7 @@ onMounted(() => {
               </div>
             </div>
           </div>
-          <div
+          <!-- <div
             v-if="authStore.isAdmin"
             class="flex flex-col items-stretch justify-end flex-shrink-0 w-full pb-4 md:pb-0 md:w-auto md:flex-row md:items-center md:space-x-3"
           >
@@ -196,7 +196,7 @@ onMounted(() => {
               <BaseIcon :path="mdiPlus" :size="20" />
               Добавить
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
