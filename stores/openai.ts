@@ -13,7 +13,8 @@ export const useOpenAIStore = defineStore("openai", {
     async fetchOpenAIAnswer(
       questionValue: string,
       favoriteSportsValue: string,
-      diseaseValue: string
+      diseaseValue: string,
+      accessibleSportsValue: string
     ) {
       try {
         const config = useRuntimeConfig();
@@ -25,6 +26,7 @@ export const useOpenAIStore = defineStore("openai", {
             question: questionValue,
             favoriteSports: favoriteSportsValue,
             disease: diseaseValue,
+            accessibleSports: accessibleSportsValue,
           },
         });
 
