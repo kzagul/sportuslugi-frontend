@@ -32,7 +32,7 @@ const menuNavsManaging = ref([
 
 <template>
   <div>
-    <button
+    <!-- <button
       data-drawer-target="sidebar-user"
       data-drawer-toggle="sidebar-user"
       aria-controls="sidebar-user"
@@ -54,11 +54,11 @@ const menuNavsManaging = ref([
           d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
         ></path>
       </svg>
-    </button>
+    </button> -->
 
     <aside
       id="sidebar-user"
-      class="fixed top-0 left-0 z-40 sm:w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+      class="fixed top-0 left-0 z-20 sm:w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 mt-24"
       aria-label="Sidebar"
     >
       <!-- hidden sm:flex -->
@@ -66,13 +66,13 @@ const menuNavsManaging = ref([
         class="overflow-y-auto py-4 px-3 w-full h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700"
       >
         <div class="text-center text-gray-500 dark:text-gray-400">
-          <NuxtLink to="/" class="flex justify-center items-center mb-12">
+          <!-- <NuxtLink to="/" class="flex justify-center items-center mb-12">
             <img
               src="/images/sport_logo2.svg"
               class="h-10 sm:h-14"
               alt="Спорт услуги лого"
             />
-          </NuxtLink>
+          </NuxtLink> -->
           <img
             class="mx-auto mb-4 w-20 h-20 rounded-full"
             src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gouch.png"
