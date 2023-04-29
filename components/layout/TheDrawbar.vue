@@ -23,7 +23,7 @@ const menuNavsAdmin = ref([
 ]);
 
 const menuNavsManaging = ref([
-  { name: "Пользователи", path: "/admin" },
+  { name: "Пользователи", path: "/admin/edit/users" },
   { name: "Учреждения", path: "/admin/edit/institutions" },
   { name: "Услуги", path: "/admin/edit/services" },
   { name: "Виды спорта", path: "/admin/edit/sports" },

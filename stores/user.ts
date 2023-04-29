@@ -131,6 +131,63 @@ export const useUserStore = defineStore("user", {
         // }
       }
     },
+
+    async addNewUser(data: any) {
+      this.authErrors = [];
+      try {
+        await fetchApi("/register", {
+          method: "POST",
+          body: {
+            name: data.name,
+            email: data.email,
+            password: data.password,
+            password_confirmation: data.password_confirmation,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+        // if (error.response.status === 422) {
+        //   this.authErrors = error.response.data.errors;
+        // }
+      }
+    },
+
+    async editUserData(data: any) {
+      this.authErrors = [];
+      try {
+        await fetchApi("/register", {
+          method: "POST",
+          body: {
+            name: data.name,
+            email: data.email,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+        // if (error.response.status === 422) {
+        //   this.authErrors = error.response.data.errors;
+        // }
+      }
+    },
+
+    async deleteUser(data: any) {
+      this.authErrors = [];
+      try {
+        await fetchApi("/register", {
+          method: "POST",
+          body: {
+            name: data.name,
+            email: data.email,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+        // if (error.response.status === 422) {
+        //   this.authErrors = error.response.data.errors;
+        // }
+      }
+    },
+
     async handleLogout() {
       await fetchApi("/logout", {
         method: "POST",
@@ -140,6 +197,7 @@ export const useUserStore = defineStore("user", {
       const router = useRouter();
       router.push("/");
     },
+
     async handleForgotPassword(email: any) {
       this.authErrors = [];
       this.getToken();
