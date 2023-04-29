@@ -35,6 +35,7 @@ export const useSportStore = defineStore("sport", {
         console.error(error);
       }
     },
+
     async fetchSportByID(idRoute: string) {
       try {
         const config = useRuntimeConfig();

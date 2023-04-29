@@ -216,5 +216,10 @@ function findSportsFromAnswer() {
       </form>
       <div class="result">{{ openAIAnswer }}</div>
     </main>
+    <div class="flex justify-center">
+      <Message class="fixed bottom-0" severity="warn">
+        Необходима консультация со специалистом!
+      </Message>
+    </div>
   </div>
 </template>

@@ -420,15 +420,15 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-1 px-4 xl:grid-cols-2 xl:gap-4">
+      <div class="grid grid-cols-1 px-4 xl:grid-cols-1 xl:gap-4">
         <div
           class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 xl:mb-0"
         >
           <div class="flow-root">
-            <h3 class="text-xl font-semibold dark:text-white">Контент</h3>
-            <p class="text-sm font-normal text-gray-500 dark:text-gray-400">
-              Какой-то контент
-            </p>
+            <h3 class="text-xl font-semibold dark:text-white">
+              Все спортивные услуги учреждения
+            </h3>
+            <TableService />
           </div>
         </div>
         <div

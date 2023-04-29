@@ -14,13 +14,14 @@ import ColumnGroup from "primevue/columngroup";
 import Row from "primevue/row";
 
 import Chart from "primevue/chart";
-import Image from 'primevue/image';
+import Image from "primevue/image";
 
 import DataView from "primevue/dataview";
 import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
 
 import ScrollTop from "primevue/scrolltop";
 import Dialog from "primevue/dialog";
+import Message from "primevue/message";
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(PrimeVue, { ripple: true });
@@ -46,4 +47,5 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   nuxtApp.vueApp.component("ScrollTop", ScrollTop);
   nuxtApp.vueApp.component("Dialog", Dialog);
+  nuxtApp.vueApp.component("Message", Message);
 });

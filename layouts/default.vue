@@ -24,5 +24,13 @@ await authStore.getUserRoles();
     </div>
     <ScrollTop />
     <LayoutTheFooter />
+    <!-- <div class="flex justify-center">
+      <Message
+        class="fixed bottom-0 mx-16 bg-brand-primary bg-opacity-80"
+        severity="secondary"
+      >
+        Мы используем политику cookies
+      </Message>
+    </div> -->
   </div>
 </template>

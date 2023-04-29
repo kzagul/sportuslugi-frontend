@@ -5,5 +5,5 @@ definePageMeta({
 </script>
 
 <template>
-  <div>Страница модератора</div>
+  <div>Личный кабинет спортивного учреждения</div>
 </template>
