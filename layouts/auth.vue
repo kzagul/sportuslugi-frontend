@@ -1,5 +1,5 @@
 <template>
-  <div min-h-screen flex flex-col bg-slate-900>
+  <div class="h-full flex flex-col">
     <!-- <LayoutTheHeader /> -->
     <!-- <main class="wrapper"> -->
     <main class="">

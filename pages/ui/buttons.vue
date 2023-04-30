@@ -7,6 +7,7 @@
       <div class="flex flex-col gap-4">
         <div>
           <UIButtonDefault label="Default button" />
+          <UIButton label="button" />
         </div>
 
         <div class="flex flex-row gap-8 items-center">

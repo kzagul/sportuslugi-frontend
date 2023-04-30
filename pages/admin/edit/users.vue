@@ -234,14 +234,50 @@
       <Dialog
         v-model:visible="addProductDialog"
         :style="{ width: '450px' }"
-        header="Добавить вид спорта"
+        header="Добавить нового пользователя"
         :modal="true"
       >
         <div class="field flex flex-col">
-          <label for="name">Название</label>
+          <label for="name">Имя</label>
           <InputText
             id="name"
-            v-model="request.name"
+            v-model="form.name"
+            required="true"
+            autofocus
+            :class="{ 'p-invalid': submitted && !selectedProduct.name }"
+          />
+          <small v-if="submitted && !selectedProduct.name" class="p-invalid"
+            >Поле обязательно</small
+          >
+          <label for="name">Почта</label>
+          <InputText
+            id="name"
+            v-model="form.email"
+            type="email"
+            required="true"
+            autofocus
+            :class="{ 'p-invalid': submitted && !selectedProduct.name }"
+          />
+          <small v-if="submitted && !selectedProduct.name" class="p-invalid"
+            >Поле обязательно</small
+          >
+          <label for="name">Пароль</label>
+          <InputText
+            id="name"
+            v-model="form.password"
+            type="password"
+            required="true"
+            autofocus
+            :class="{ 'p-invalid': submitted && !selectedProduct.name }"
+          />
+          <small v-if="submitted && !selectedProduct.name" class="p-invalid"
+            >Поле обязательно</small
+          >
+          <label for="name">Подтверждение пароля</label>
+          <InputText
+            id="name"
+            v-model="form.password_confirmation"
+            type="password"
             required="true"
             autofocus
             :class="{ 'p-invalid': submitted && !selectedProduct.name }"
@@ -266,7 +302,7 @@
           <Button
             severity="success"
             class="flex flex-row gap-3"
-            @click="addProduct()"
+            @click="addProduct(form)"
           >
             <BaseIcon :path="mdiCheck" :size="24" />
             Добавить
@@ -331,6 +367,13 @@ definePageMeta({
 
 // const authStore = useUserStore();
 
+const form = ref({
+  name: "",
+  email: "",
+  password: "",
+  password_confirmation: "",
+});
+
 const toast = useToast();
 
 const userStore = useUserStore();
@@ -376,8 +419,9 @@ const request = ref({
   name: "",
 });
 
-function addProduct() {
-  sportStore.postSport(request?.value.name);
+function addProduct(form) {
+  userStore.addNewUser(form);
+  // sportStore.postSport(request?.value.name);
   addProductDialog.value = false;
   toast.add({
     severity: "success",

@@ -1,0 +1,173 @@
+<template>
+  <div class="w-full">
+    <FormWizard
+      :validation-schema="validationSchema"
+      :steps="steps"
+      @submit="onSubmit"
+    >
+      <FormStep>
+        <h1
+          class="mb-4 text-2xl font-extrabold tracking-tight text-gray-900 sm:mb-6 leding-tight dark:text-white"
+        >
+          Учреждение
+        </h1>
+        <div class="grid gap-5 my-6">
+          <BaseAutocompliteInput
+            name="inn"
+            label="Название учреждения или ИНН"
+            placeholder="Введите название или ИНН"
+            :items="company"
+          >
+            <template #searchItem="result">
+              <div class="text-primary-700 py-[6px] px-4">
+                {{ result.company.toUpperCase() }}
+              </div>
+              <div class="py-[6px] px-4">
+                {{ result.adress }}
+              </div>
+            </template>
+          </BaseAutocompliteInput>
+        </div>
+      </FormStep>
+
+      <FormStep>
+        <h1
+          class="mb-4 text-2xl font-extrabold tracking-tight text-gray-900 sm:mb-6 leding-tight dark:text-white"
+        >
+          Контактное лицо
+        </h1>
+        <div class="grid gap-5 my-6 sm:grid-cols-2">
+          <BaseTextInput
+            type="text"
+            name="fio"
+            label="ФИО"
+            placeholder="Введите ФИО"
+          />
+          <BaseTextInput
+            type="email"
+            name="email"
+            label="E-mail"
+            placeholder="Введите e-mail адрес"
+          />
+          <BaseTextInput
+            type="password"
+            name="password"
+            label="Пароль"
+            placeholder="*******"
+          />
+          <BaseTextInput
+            type="password"
+            name="repeat"
+            label="Повторите пароль"
+            placeholder="*******"
+          />
+          <BaseTextInput
+            type="phone"
+            name="phone"
+            label="Телефон"
+            placeholder="+"
+          />
+        </div>
+      </FormStep>
+
+      <FormStep>
+        <h1
+          class="mb-4 text-2xl font-extrabold tracking-tight text-gray-900 sm:mb-6 leding-tight dark:text-white"
+        >
+          Подтверждение
+        </h1>
+        <div class="grid gap-5 my-6">
+          <p class="font-light text-gray-500 dark:text-gray-400">
+            We emailed you a six-digit code to
+            <span class="font-medium text-gray-900 dark:text-white"
+              >name@company.com</span
+            >. Enter the code below to confirm your email address.
+          </p>
+          <div class="flex my-4 space-x-2 sm:space-x-4 md:my-6">
+            <BaseCodeInput :confirm-lenght="confirmLenght" name="confirm" />
+          </div>
+          <p
+            class="p-4 mb-4 text-sm text-gray-500 rounded-lg bg-gray-10 dark:text-gray-400 md:mb-6 dark:bg-gray-800"
+          >
+            Make sure to keep this window open while check your inbox.
+          </p>
+        </div>
+      </FormStep>
+    </FormWizard>
+    <div class="text-sm mt-6 font-medium text-gray-500 dark:text-gray-400">
+      Уже есть аккаунт?
+      <NuxtLink
+        to="/auth"
+        class="text-primary-700 hover:underline dark:text-primary-500"
+      >
+        Войти
+      </NuxtLink>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import * as yup from "yup";
+import { boolean, ref as yupRef, string } from "yup";
+// import AutocompliteInput from "~/components/base/AutocompliteInput";
+// import TextInput from "~/components/base/TextInput";
+
+const props = defineProps({
+  company: {
+    type: Object,
+  },
+});
+
+const steps = [
+  { step: 1, name: "Организация" },
+  { step: 2, name: "Контактное лицо" },
+  { step: 3, name: "Подтверждение" },
+];
+
+const confirmLenght = 6;
+const divs = ref([]);
+
+const rePhoneNumber =
+  /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
+
+const validationSchema = [
+  yup.object({
+    inn: yup.string().required("Обязательно"),
+  }),
+  yup.object({
+    fio: string().required("Обязательно"),
+    phone: string().test("phone", "Не верный формат телефона", (value) =>
+      rePhoneNumber.test(value)
+    ),
+    email: string()
+      .required("Обязательно")
+      .email("Укажите валидный email")
+      .label("Email"),
+    password: string().required("Введите пароль").label("Ваш пароль"),
+    repeat: string()
+      .required("Повторите пароль")
+      .oneOf([yupRef("password")], "Пароли не совпадают"),
+  }),
+  yup.object({
+    confirm: string().required("код не введен"),
+  }),
+];
+
+/**
+ * Only Called when the last step is submitted
+ */
+function onSubmit(formData) {
+  console.log(JSON.stringify(formData, null, 2));
+}
+
+function focusNextInput(el, prevId, nextId) {
+  console.log(el.length);
+  if (nextId >= confirmLenght) {
+    document.getElementById("code-" + prevId).focus();
+  } else {
+    document.getElementById("code-" + nextId).focus();
+  }
+}
+</script>
+
+<style scoped></style>

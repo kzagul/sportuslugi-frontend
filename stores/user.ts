@@ -134,8 +134,9 @@ export const useUserStore = defineStore("user", {
 
     async addNewUser(data: any) {
       this.authErrors = [];
+      await this.getToken();
       try {
-        await fetchApi("/register", {
+        await fetchApi("/register-new-user", {
           method: "POST",
           body: {
             name: data.name,
@@ -143,6 +144,8 @@ export const useUserStore = defineStore("user", {
             password: data.password,
             password_confirmation: data.password_confirmation,
           },
+        }).then(async () => {
+          await this.getAllUsers();
         });
       } catch (error) {
         console.log(error);
