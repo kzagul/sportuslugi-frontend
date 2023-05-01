@@ -17,23 +17,18 @@ const form = ref({
 
 <template>
   <NuxtLayout name="auth">
-    <section
-      class="bg-[url('/images/bg-1.jpeg')] bg-no-repeat bg-cover bg-center bg-gray-700 bg-blend-multiply bg-opacity-60"
-    >
+    <section>
       <div
         class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen pt:mt-0"
       >
-        <nuxt-link
-          to="/"
-          class="flex items-center mb-6 text-2xl font-semibold text-white"
-        >
+        <NuxtLink to="/" class="flex items-center">
           <img
-            class="w-auto h-[64px] mr-2"
-            src="/images/logo-white.svg"
-            alt="logo"
+            src="/images/sport_logo2.svg"
+            class="mr-3 h-10 sm:h-14"
+            alt="Спорт услуги лого"
           />
-          <!-- src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" -->
-        </nuxt-link>
+        </NuxtLink>
+
         <div
           class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800"
         >
