@@ -163,9 +163,9 @@ const amountAllUsers = computed(() => (users.value ? users?.value.length : 0));
                 icon="pi pi-ellipsis-v"
                 class="p-button-text p-button-plain p-button-rounded"
               />
-              <ClientOnly>
+              <!-- <ClientOnly>
                 <Menu ref="menu2" :popup="true" :model="items" />
-              </ClientOnly>
+              </ClientOnly> -->
             </div>
           </div>
           <ul class="list-none p-0 m-0">

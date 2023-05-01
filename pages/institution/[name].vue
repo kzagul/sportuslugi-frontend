@@ -402,7 +402,7 @@ onMounted(() => {
             <h3 class="mb-4 text-xl font-semibold dark:text-white">
               Местоположение
             </h3>
-            <ClientOnly>
+            <ClientOnly fallback-tag="span" fallback="Загрузка карты ...">
               <YandexMap
                 :coordinates="[coords.latitude, coords.longitude]"
                 :zoom="16"

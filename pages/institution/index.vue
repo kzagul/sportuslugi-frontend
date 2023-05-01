@@ -90,7 +90,7 @@ const visible = ref(false);
       header="Header"
       :style="{ width: '50vw' }"
     >
-      <ClientOnly>
+      <ClientOnly fallback-tag="span" fallback="Загрузка карты ...">
         <YandexMap
           :coordinates="[coords.latitude, coords.longitude]"
           :zoom="14"

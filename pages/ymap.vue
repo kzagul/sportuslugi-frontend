@@ -1,7 +1,6 @@
 <script setup lang="ts">
-// import { YandexMap, YandexMarker } from "vue-yandex-maps";
 import { useGeolocation } from "@vueuse/core";
-import { IInstitution } from "~/types/institution";
+// import { IInstitution } from "~/types/institution";
 import { useTestStore } from "~~/stores/testdata";
 // import CustomBalloon from "~~/components/ymap/CustomBalloon.vue";
 import CustomBalloonInstitution from "~~/components/ymap/CustomBalloonInstitution.vue";
@@ -53,7 +52,11 @@ const name = ref("Custom");
         Учреждения
       </button>
     </div>
-    <ClientOnly v-if="currentDataLayout === `institutions`">
+    <ClientOnly
+      v-if="currentDataLayout === `institutions`"
+      fallback-tag="span"
+      fallback="Загрузка карты ..."
+    >
       <YandexMap :coordinates="[coords.latitude, coords.longitude]" :zoom="14">
         <YandexMarker
           :coordinates="[coords.latitude, coords.longitude]"
@@ -86,7 +89,11 @@ const name = ref("Custom");
       </YandexMap>
     </ClientOnly>
 
-    <ClientOnly v-if="currentDataLayout === `services`">
+    <ClientOnly
+      v-if="currentDataLayout === `services`"
+      fallback-tag="span"
+      fallback="Загрузка карты ..."
+    >
       <YandexMap :coordinates="[coords.latitude, coords.longitude]" :zoom="14">
         <YandexMarker
           :coordinates="[coords.latitude, coords.longitude]"

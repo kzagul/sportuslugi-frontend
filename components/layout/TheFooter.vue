@@ -3,7 +3,7 @@
     <div class="mx-auto max-w-screen-xl">
       <div class="md:flex md:justify-between">
         <div class="mb-6 md:mb-0">
-          <a href="https://flowbite.com" class="flex items-center">
+          <div class="flex items-center">
             <NuxtLink to="/" class="flex items-center">
               <img
                 src="/images/sport_logo2.svg"
@@ -11,7 +11,7 @@
                 alt="Спорт услуги лого"
               />
             </NuxtLink>
-          </a>
+          </div>
         </div>
         <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
           <div>
