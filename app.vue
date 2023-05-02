@@ -6,6 +6,7 @@
     </Head>
     <Body>
       <NuxtLayout>
+        <!-- <VitePwaManifest /> -->
         <NuxtPage />
       </NuxtLayout>
     </Body>
