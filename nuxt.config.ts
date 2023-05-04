@@ -8,11 +8,17 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       baseUrl:
-        process.env.NODE_ENV === "development" ? process.env.BASE_URL : "/",
+        process.env.NODE_ENV === "development"
+          ? process.env.BASE_URL
+          : process.env.BASE_URL,
       dataUrl:
-        process.env.NODE_ENV === "development" ? process.env.DATA_URL : "",
+        process.env.NODE_ENV === "development"
+          ? process.env.DATA_URL
+          : process.env.DATA_URL,
       frontendUrl:
-        process.env.NODE_ENV === "development" ? process.env.FRONTEND_URL : "/",
+        process.env.NODE_ENV === "development"
+          ? process.env.FRONTEND_URL
+          : process.env.FRONTEND_URL,
       openaiUrl:
         process.env.NODE_ENV === "development"
           ? process.env.OPENAI_SERVICE_URL

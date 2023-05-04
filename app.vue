@@ -1,12 +1,16 @@
 <template>
   <Html>
     <Head>
-      <Title>{{ title }}</Title>
-      <Meta name="description" content="Агрегатор спортивных услуг" />
+      <Title>{{ getSeoForPage(useRoute().path).title }}</Title>
+      <Meta
+        name="description"
+        :content="getSeoForPage(useRoute().path).description"
+      />
     </Head>
     <Body>
       <NuxtLayout>
         <!-- <VitePwaManifest /> -->
+        <NuxtLoadingIndicator />
         <NuxtPage />
       </NuxtLayout>
     </Body>
@@ -14,5 +18,5 @@
 </template>
 
 <script setup>
-const title = ref("Спорт-услуги");
+const { getSeoForPage } = useSEO();
 </script>

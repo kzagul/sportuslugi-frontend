@@ -49,6 +49,15 @@
           >Назад: {{ steps[currentStepIdx - 1].name }}</a
         >
         <button
+          v-if="!isLastStep"
+          type="submit"
+          class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 sm:py-3.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+        >
+          {{ isLastStep ? "Подтвердить" : "Следующее:" }}
+          {{ !isLastStep ? steps[currentStepIdx + 1].name : "" }}
+        </button>
+        <button
+          v-if="isLastStep"
           type="submit"
           class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 sm:py-3.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
         >
@@ -92,6 +101,9 @@
 
 <script setup>
 import { useForm } from "vee-validate";
+import { useUserStore } from "~~/stores/user";
+
+const authStore = useUserStore();
 
 const successSubmit = ref(false);
 
@@ -142,6 +154,7 @@ const { values, handleSubmit } = useForm({
 // We are using the "submit" handler to progress to next steps
 // and to submit the form if its the last step
 const onSubmit = handleSubmit((values) => {
+  // console.log("org form submit");
   if (currentStepIdx.value === 1) {
     console.log("запрос на сервер за кодом");
     currentStepIdx.value++;
@@ -151,6 +164,7 @@ const onSubmit = handleSubmit((values) => {
     // Let the parent know the form was filled across all steps
     successSubmit.value = true;
     emit("submit", values);
+    // console.log("org form submit last step");
   }
 });
 

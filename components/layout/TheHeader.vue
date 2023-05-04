@@ -56,7 +56,7 @@ const modalOpened = ref(false);
                   Админ панель
                 </PageLink>
 
-                <PageLink v-if="authStore.isModerator" to="/mod">
+                <PageLink v-if="authStore.isModerator" to="/organization">
                   Панель учреждения
                 </PageLink>
 
@@ -425,7 +425,7 @@ const modalOpened = ref(false);
 
             <PageLink
               v-if="authStore.isModerator"
-              to="/mod"
+              to="/organization"
               class="text-3xl text-black"
               @click="modalOpened = !modalOpened"
             >

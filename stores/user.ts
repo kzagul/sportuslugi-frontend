@@ -132,6 +132,30 @@ export const useUserStore = defineStore("user", {
       }
     },
 
+    async handleRegisterModerator(data: any) {
+      this.authErrors = [];
+      await this.getToken();
+      try {
+        await fetchApi("/register-new-organization", {
+          method: "POST",
+          body: {
+            name: data.name,
+            email: data.email,
+            password: data.password,
+            password_confirmation: data.password_confirmation,
+          },
+        });
+        // const router = useRouter();
+        // router.push("/");
+        // this.authUser = data;
+      } catch (error) {
+        console.log(error);
+        // if (error.response.status === 422) {
+        //   this.authErrors = error.response.data.errors;
+        // }
+      }
+    },
+
     async addNewUser(data: any) {
       this.authErrors = [];
       await this.getToken();

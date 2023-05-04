@@ -13,7 +13,7 @@
         </h1>
         <div class="grid gap-5 my-6">
           <BaseAutocompliteInput
-            name="inn"
+            name="name"
             label="Название учреждения или ИНН"
             placeholder="Введите название или ИНН"
             :items="company"
@@ -37,12 +37,12 @@
           Контактное лицо
         </h1>
         <div class="grid gap-5 my-6 sm:grid-cols-2">
-          <BaseTextInput
+          <!-- <BaseTextInput
             type="text"
-            name="fio"
+            name="name"
             label="ФИО"
             placeholder="Введите ФИО"
-          />
+          /> -->
           <BaseTextInput
             type="email"
             name="email"
@@ -57,16 +57,16 @@
           />
           <BaseTextInput
             type="password"
-            name="repeat"
+            name="password_confirmation"
             label="Повторите пароль"
             placeholder="*******"
           />
-          <BaseTextInput
+          <!-- <BaseTextInput
             type="phone"
             name="phone"
             label="Телефон"
             placeholder="+"
-          />
+          /> -->
         </div>
       </FormStep>
 
@@ -111,6 +111,9 @@ import * as yup from "yup";
 import { boolean, ref as yupRef, string } from "yup";
 // import AutocompliteInput from "~/components/base/AutocompliteInput";
 // import TextInput from "~/components/base/TextInput";
+import { useUserStore } from "~~/stores/user";
+
+const userStore = useUserStore();
 
 const props = defineProps({
   company: {
@@ -132,19 +135,19 @@ const rePhoneNumber =
 
 const validationSchema = [
   yup.object({
-    inn: yup.string().required("Обязательно"),
+    name: yup.string().required("Обязательно"),
   }),
   yup.object({
-    fio: string().required("Обязательно"),
-    phone: string().test("phone", "Не верный формат телефона", (value) =>
-      rePhoneNumber.test(value)
-    ),
+    // name: string().required("Обязательно"),
+    // phone: string().test("phone", "Не верный формат телефона", (value) =>
+    //   rePhoneNumber.test(value)
+    // ),
     email: string()
       .required("Обязательно")
       .email("Укажите валидный email")
       .label("Email"),
     password: string().required("Введите пароль").label("Ваш пароль"),
-    repeat: string()
+    password_confirmation: string()
       .required("Повторите пароль")
       .oneOf([yupRef("password")], "Пароли не совпадают"),
   }),
@@ -158,6 +161,8 @@ const validationSchema = [
  */
 function onSubmit(formData) {
   console.log(JSON.stringify(formData, null, 2));
+  console.log("org form submit eeeee");
+  userStore.handleRegisterModerator(formData);
 }
 
 function focusNextInput(el, prevId, nextId) {

@@ -21,6 +21,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
   const moderator = await userStore.isModerator;
   console.log("moderator");
   console.log(moderator);
-  if (moderator === false && to.path === "/mod")
+  if (moderator === false && to.path === "/organization")
     return navigateTo({ name: "index" });
 });
