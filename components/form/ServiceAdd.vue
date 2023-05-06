@@ -6,6 +6,7 @@
       data-modal-toggle="createProductModal"
       class="block text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
       type="button"
+      @click="isModalOpened = !isModalOpened"
     >
       Добавить услугу
     </button>
@@ -13,6 +14,7 @@
 
   <!-- Main modal -->
   <div
+    v-if="isModalOpened"
     id="createProductModal"
     tabindex="-1"
     aria-hidden="true"
@@ -333,22 +335,14 @@
 </template>
 
 <script setup>
-// import { useOpenAIStore } from "~/stores/openai";
 import { useServiceStore } from "~~/stores/service";
 
 const serviceStore = useServiceStore();
-
-// const { fetchOpenAIAnswer } = openAIStore;
 const { postService } = serviceStore;
+
+const isModalOpened = ref(false);
 
 const request = ref({
   name: "",
 });
-// const questionInput = ref("");
-// const favoriteSportsInput = ref("");
-// const diseaseInput = ref("");
-
-// const openAIAnswer = computed(() => {
-//   return openAIStore.getOpenAIAnswer;
-// });
 </script>

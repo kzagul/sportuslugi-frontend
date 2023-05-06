@@ -60,12 +60,18 @@ export const useServiceStore = defineStore("service", {
       // }
     },
 
-    async postService(serviceName: string) {
+    async postService(
+      serviceName: string,
+      sportsNames: any,
+      institutionsNames: any
+    ) {
       try {
         await fetchApi("/api/service", {
           method: "POST",
           body: {
             name: serviceName,
+            sports: sportsNames,
+            institutions: institutionsNames,
           },
         }).then(async () => {
           await this.fetchServices();

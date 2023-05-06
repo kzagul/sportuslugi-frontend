@@ -7,6 +7,8 @@ import Dropdown from "primevue/dropdown";
 import Rating from "primevue/rating";
 import Tag from "primevue/tag";
 import Tree from "primevue/tree";
+import MultiSelect from "primevue/multiselect";
+import AutoComplete from "primevue/autocomplete";
 
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
@@ -33,6 +35,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("Rating", Rating);
   nuxtApp.vueApp.component("Tag", Tag);
   nuxtApp.vueApp.component("Tree", Tree);
+  nuxtApp.vueApp.component("MultiSelect", MultiSelect);
+  nuxtApp.vueApp.component("AutoComplete", AutoComplete);
 
   nuxtApp.vueApp.component("DataTable", DataTable);
   nuxtApp.vueApp.component("Column", Column);

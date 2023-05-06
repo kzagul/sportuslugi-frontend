@@ -114,6 +114,6 @@ export default defineNuxtConfig({
     layoutTransition: { name: "layout", mode: "out-in" },
   },
   imports: {
-    dirs: ["types/**"],
+    dirs: ["types/**", "stores/**"],
   },
 });
