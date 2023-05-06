@@ -1,9 +1,12 @@
 <script lang="ts" setup>
 definePageMeta({
   middleware: ["moderator-only"],
+  layout: false,
 });
 </script>
 
 <template>
-  <div>Личный кабинет спортивного учреждения</div>
+  <NuxtLayout name="moderator">
+    <div>Личный кабинет спортивного учреждения</div>
+  </NuxtLayout>
 </template>
