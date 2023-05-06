@@ -5,7 +5,15 @@ import { ISport } from "./sport";
 export interface IInstitution {
   id: number;
   name: string;
-  coordinates: IGeo;
+  literal?: string;
+  inn?: string;
+  email?: string;
+  phone?: string;
+  website: string;
+  address?: string;
+  workingTime?: string;
+  description?: string;
+  coordinates?: IGeo;
   services?: IService[];
   sports?: ISport[];
 }

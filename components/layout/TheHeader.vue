@@ -107,11 +107,14 @@ const modalOpened = ref(false);
                             ]"
                             class="w-full group flex items-center py-2 px-4 text-sm hover:bg-gray-100"
                           >
-                            Мой профиль
+                            Профиль
                           </button>
                         </nuxt-link>
                       </MenuItem>
-                      <MenuItem v-slot="{ active }">
+                      <MenuItem
+                        v-if="!authStore.isAdmin && !authStore.isModerator"
+                        v-slot="{ active }"
+                      >
                         <nuxt-link to="/profile/recommendation">
                           <button
                             :class="[
@@ -126,7 +129,10 @@ const modalOpened = ref(false);
                         </nuxt-link>
                       </MenuItem>
                     </div>
-                    <div class="px-1 py-1">
+                    <div
+                      v-if="!authStore.isAdmin && !authStore.isModerator"
+                      class="px-1 py-1"
+                    >
                       <MenuItem v-slot="{ active }">
                         <nuxt-link to="/profile">
                           <button

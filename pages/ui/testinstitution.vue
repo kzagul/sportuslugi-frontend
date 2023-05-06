@@ -6,8 +6,16 @@
       @click="addProductDialogShow"
     >
       <BaseIcon :path="mdiPlus" :size="24" />
-      Добавить
+      Добавить учреждение
     </button>
+    <!-- <button
+      type="button"
+      class="flex items-center justify-center px-3 py-2 gap-2 text-sm font-medium text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+      @click="addProductDialogShow"
+    >
+      <BaseIcon :path="mdiPlus" :size="24" />
+      Добавить Учреждение
+    </button> -->
 
     <Dialog
       v-model:visible="addProductDialog"
@@ -65,12 +73,12 @@
       </div>
 
       <!-- <div class="flex align-items-center justify-content-center">
-              <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
-              <span
-                >Вы уверены что хотите удалить <b>{{ selectedProduct.name }}</b
-                >?</span
-              >
-            </div> -->
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+                <span
+                  >Вы уверены что хотите удалить <b>{{ selectedProduct.name }}</b
+                  >?</span
+                >
+              </div> -->
       <template #footer>
         <Button class="flex flex-row gap-3" @click="addProductDialog = false">
           <BaseIcon :path="mdiClose" :size="24" />

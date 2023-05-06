@@ -9,6 +9,10 @@ export const useTestStore = defineStore("test", {
       {
         id: 1,
         name: "Геолог",
+        literal: "geolog",
+        inn: "7743013902",
+        email: "geolog@gmail.com",
+        phone: "89994445501",
         coordinates: {
           id: 1,
           name: "first",
