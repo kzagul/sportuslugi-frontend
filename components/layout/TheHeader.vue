@@ -50,7 +50,6 @@ const modalOpened = ref(false);
                 :key="index"
                 :to="nav.link"
                 class="font-medium transition-colors duration-100 hover:text-primary-600"
-                exact
               >
                 {{ nav.title }}
               </NuxtLink>
@@ -143,7 +142,7 @@ const modalOpened = ref(false);
                       class="px-1 py-1"
                     >
                       <MenuItem v-slot="{ active }">
-                        <nuxt-link to="/profile">
+                        <nuxt-link to="/profile/favorites">
                           <button
                             :class="[
                               active
@@ -157,7 +156,7 @@ const modalOpened = ref(false);
                         </nuxt-link>
                       </MenuItem>
                       <MenuItem v-slot="{ active }">
-                        <nuxt-link to="/profile">
+                        <nuxt-link to="/profile/myservices">
                           <button
                             :class="[
                               active

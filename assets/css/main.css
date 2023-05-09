@@ -24,13 +24,6 @@ html {
   scrollbar-width: none;  /* Firefox */
 }
 
-/* .nuxt-link-active {
-  @apply font-medium text-primary-600;
-} */
-
-.nuxt-active-link {
-  @apply font-medium text-primary-600;
-}
-.nuxt-exact-active-link {
+.router-exact-link-active {
   @apply font-medium text-primary-600;
 }

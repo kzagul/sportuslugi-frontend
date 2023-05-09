@@ -115,8 +115,7 @@ export default defineNuxtConfig({
   },
   router: {
     options: {
-      linkActiveClass: "nuxt-active-link",
-      linkExactActiveClass: "nuxt-exact-active-link",
+      linkExactActiveClass: "router-exact-link-active",
     },
   },
   imports: {
