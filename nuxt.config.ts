@@ -113,6 +113,12 @@ export default defineNuxtConfig({
     pageTransition: { name: "page", mode: "out-in" },
     layoutTransition: { name: "layout", mode: "out-in" },
   },
+  router: {
+    options: {
+      linkActiveClass: "nuxt-active-link",
+      linkExactActiveClass: "nuxt-exact-active-link",
+    },
+  },
   imports: {
     dirs: ["types/**", "stores/**"],
   },

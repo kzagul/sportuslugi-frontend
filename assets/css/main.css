@@ -23,3 +23,14 @@ html {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+/* .nuxt-link-active {
+  @apply font-medium text-primary-600;
+} */
+
+.nuxt-active-link {
+  @apply font-medium text-primary-600;
+}
+.nuxt-exact-active-link {
+  @apply font-medium text-primary-600;
+}

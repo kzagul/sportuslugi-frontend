@@ -37,14 +37,23 @@ const modalOpened = ref(false);
 
             <!-- navigation -->
             <div class="hidden md:flex gap-4">
-              <PageLink
+              <!-- <PageLink
                 v-for="(nav, index) in navs"
                 :key="index"
                 :to="nav.link"
                 class="font-medium transition-colors duration-100 hover:text-primary-600"
               >
                 {{ nav.title }}
-              </PageLink>
+              </PageLink> -->
+              <NuxtLink
+                v-for="(nav, index) in navs"
+                :key="index"
+                :to="nav.link"
+                class="font-medium transition-colors duration-100 hover:text-primary-600"
+                exact
+              >
+                {{ nav.title }}
+              </NuxtLink>
             </div>
           </div>
 
