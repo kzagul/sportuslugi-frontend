@@ -1,6 +1,7 @@
 import { IGeo } from "./geo";
 import { IService } from "./service";
 import { ISport } from "./sport";
+import { User } from "./user";
 
 export interface IInstitution {
   id: number;
@@ -8,6 +9,7 @@ export interface IInstitution {
   literal?: string;
   inn?: string;
   email?: string;
+  contactuser?: User;
   phone?: string;
   website: string;
   address?: string;

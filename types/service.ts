@@ -7,12 +7,13 @@ export interface IService {
   name: string;
   literal?: string;
   type?: IItem[];
+  description?: string;
   duration?: string;
   schedule?: string;
-  trainer?: IItem[];
   isFree?: boolean;
   price?: IItem[];
   difficulty?: string;
+  trainer?: IItem[];
   requirements?: IItem[]; // требования
   institutions?: IInstitution[];
   sports?: ISport[];

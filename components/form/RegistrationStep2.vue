@@ -97,7 +97,7 @@
     <div class="text-sm mt-6 font-medium text-gray-500 dark:text-gray-400">
       Уже есть аккаунт?
       <NuxtLink
-        to="/auth"
+        to="/login"
         class="text-primary-700 hover:underline dark:text-primary-500"
       >
         Войти
