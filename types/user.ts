@@ -9,6 +9,9 @@ export interface User {
   id: string;
   email: string;
   name: string;
+  is_moderator?: boolean;
+  verified_moderator?: boolean;
+  moderator_of?: string;
   roles: Role[];
 }
 
@@ -18,6 +21,7 @@ export interface UserTest {
   id: string;
   email: string;
   name: string;
+  image?: string;
   roles: Role[];
   isOrganization?: boolean;
   organization?: IInstitution;

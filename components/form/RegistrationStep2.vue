@@ -13,18 +13,18 @@
         </h1>
         <div class="grid gap-5 my-6">
           <BaseAutocompliteInput
-            name="name"
+            name="institution_name"
             label="Название учреждения или ИНН"
             placeholder="Введите название или ИНН"
             :items="company"
           >
             <template #searchItem="result">
               <div class="text-primary-700 py-[6px] px-4">
-                {{ result.company.toUpperCase() }}
+                {{ result.name }}
               </div>
-              <div class="py-[6px] px-4">
-                {{ result.adress }}
-              </div>
+              <!-- <div class="py-[6px] px-4">
+                {{ result.company }}
+              </div> -->
             </template>
           </BaseAutocompliteInput>
         </div>
@@ -37,12 +37,12 @@
           Контактное лицо
         </h1>
         <div class="grid gap-5 my-6 sm:grid-cols-2">
-          <!-- <BaseTextInput
+          <BaseTextInput
             type="text"
             name="name"
             label="ФИО"
             placeholder="Введите ФИО"
-          /> -->
+          />
           <BaseTextInput
             type="email"
             name="email"
@@ -112,8 +112,10 @@ import { boolean, ref as yupRef, string } from "yup";
 // import AutocompliteInput from "~/components/base/AutocompliteInput";
 // import TextInput from "~/components/base/TextInput";
 import { useUserStore } from "~~/stores/user";
+import { useInstitutionStore } from "~~/stores/institution";
 
 const userStore = useUserStore();
+const institutionStore = useInstitutionStore();
 
 const props = defineProps({
   company: {
@@ -135,10 +137,10 @@ const rePhoneNumber =
 
 const validationSchema = [
   yup.object({
-    name: yup.string().required("Обязательно"),
+    institution_name: yup.string().required("Обязательно"),
   }),
   yup.object({
-    // name: string().required("Обязательно"),
+    name: string().required("Обязательно"),
     // phone: string().test("phone", "Не верный формат телефона", (value) =>
     //   rePhoneNumber.test(value)
     // ),
@@ -163,6 +165,16 @@ function onSubmit(formData) {
   console.log(JSON.stringify(formData, null, 2));
   console.log("org form submit eeeee");
   userStore.handleRegisterModerator(formData);
+  // institutionStore.updateInstitution(
+  //   props.company[0].id,
+  //   "hello",
+  //   formData.email
+  // );
+
+  console.log("props.company");
+  console.log(props.company);
+  console.log("formData");
+  console.log(formData);
 }
 
 function focusNextInput(el, prevId, nextId) {

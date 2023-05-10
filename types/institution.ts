@@ -10,11 +10,13 @@ export interface IInstitution {
   inn?: string;
   email?: string;
   contactuser?: User;
+  contactUsers?: User[];
   phone?: string;
   website: string;
   address?: string;
   workingTime?: string;
   description?: string;
+  images?: string[];
   coordinates?: IGeo;
   services?: IService[];
   sports?: ISport[];

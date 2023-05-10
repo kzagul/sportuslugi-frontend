@@ -67,6 +67,13 @@ function changeDrawbarOpenStatus() {
                 alt="Спорт услуги лого"
               />
             </NuxtLink>
+
+            <div v-if="authStore.isAdmin" class="text-2xl">
+              Панель администратора
+            </div>
+            <div v-if="authStore.isModerator" class="text-2xl">
+              Панель управления учреждением
+            </div>
           </div>
 
           <div class="hidden md:flex items-center gap-4 lg:order-2">

@@ -94,14 +94,12 @@ const filterResults = computed(() =>
   fieldValue.value === undefined || ""
     ? props.items
     : props.items.filter((item) => {
-        return item.company
-          .toLowerCase()
-          .includes(fieldValue.value.toLowerCase());
+        return item.name.toLowerCase().includes(fieldValue.value.toLowerCase());
       })
 );
 
 function setResult(result) {
-  fieldValue.value = result.company;
+  fieldValue.value = result.name;
   isOpen.value = false;
 }
 </script>

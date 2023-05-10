@@ -8,6 +8,7 @@ export interface IService {
   literal?: string;
   type?: IItem[];
   description?: string;
+  images?: string[];
   duration?: string;
   schedule?: string;
   isFree?: boolean;

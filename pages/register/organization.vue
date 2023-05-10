@@ -1,6 +1,10 @@
 <script setup>
 import { ref } from "vue";
 import { useUserStore } from "~~/stores/user";
+import { useInstitutionStore } from "~~/stores/institution";
+
+const institutionStore = useInstitutionStore();
+const { getInstitutions, fetchInstitutions } = institutionStore;
 
 // import RegistrationStep from "~/components/form/RegistrationStep";
 // import RegistrationStep2 from "../../components/form/RegistrationStep2";
@@ -8,6 +12,8 @@ import { useUserStore } from "~~/stores/user";
 definePageMeta({
   layout: false,
 });
+
+await fetchInstitutions();
 
 const authStore = useUserStore();
 
@@ -31,41 +37,13 @@ function navigateHome() {
   });
 }
 
-const companys = [
-  {
-    company: 'ООО "Легаси"',
-    adress: "625000, г Тюмень, ул Грибоедова, д 13 к 3, офис 1",
-  },
-  {
-    company: 'ООО "Богатырь"',
-    adress: "625000, г Тюмень, ул Грибоедова, д 13 к 3, офис 1",
-  },
-  {
-    company: 'ООО "Лес"',
-    adress: "625000, г Тюмень, ул Грибоедова, д 13 к 3, офис 1",
-  },
-  {
-    company: 'ООО "Торгпром"',
-    adress: "625000, г Тюмень, ул Грибоедова, д 13 к 3, офис 1",
-  },
-  {
-    company: 'АО "Завод"',
-    adress: "625000, г Тюмень, ул Грибоедова, д 13 к 3, офис 1",
-  },
-  {
-    company: 'ООО "Промторг"',
-    adress: "625000, г Тюмень, ул Грибоедова, д 13 к 3, офис 1",
-  },
-  {
-    company: 'ООО "Рыбхозвод"',
-    adress: "625000, г Тюмень, ул Грибоедова, д 13 к 3, офис 1",
-  },
-  {
-    company: 'ООО "Рога и Копыта"',
-    adress: "625000, г Тюмень, ул Грибоедова, д 13 к 3, офис 1",
-  },
-];
+const companys = computed(() => {
+  return getInstitutions;
+});
+
+console.log(companys.value);
 </script>
+
 <template>
   <NuxtLayout name="auth">
     <section class="py-8 bg-white dark:bg-gray-900 lg:py-0 h-screen">

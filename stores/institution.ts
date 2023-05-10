@@ -84,13 +84,18 @@ export const useInstitutionStore = defineStore("institution", {
       }
     },
 
-    async updateInstitution(id: string, institutionName: string) {
+    async updateInstitution(
+      id: string,
+      institutionName: string
+      // contactUsersValue: any
+    ) {
       try {
         // const response: any = await
         await fetchApi(`/api/institution/${id}`, {
           method: "PUT",
           body: {
             name: institutionName,
+            // contact_users: contactUsersValue,
           },
         }).then(async () => {
           await this.fetchInstitutions();

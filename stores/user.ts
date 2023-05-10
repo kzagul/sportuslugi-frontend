@@ -40,6 +40,14 @@ export const useUserStore = defineStore("user", {
       if (!this.userRoles) return false;
       return this.userRoles?.some((role: Role) => role.name === "moderator");
     },
+    isVerifiedModerator(): boolean {
+      if (!this.userRoles) return false;
+      return this.userRoles?.some(
+        (role: Role) =>
+          role.name === "moderator" &&
+          (this.authUser! as User).verified_moderator
+      );
+    },
   },
 
   actions: {
@@ -143,6 +151,8 @@ export const useUserStore = defineStore("user", {
             email: data.email,
             password: data.password,
             password_confirmation: data.password_confirmation,
+            is_moderator: true,
+            moderator_of: data.institution_name,
           },
         });
         // const router = useRouter();
