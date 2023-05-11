@@ -166,6 +166,30 @@ export const useUserStore = defineStore("user", {
       }
     },
 
+    async verifyModerator(userId: any, nameValue: string) {
+      this.authErrors = [];
+      await this.getToken();
+      try {
+        await fetchApi(`/api/user/${userId}`, {
+          method: "PUT",
+          body: {
+            name: nameValue,
+            verified_moderator: true,
+          },
+        }).then(async () => {
+          await this.getAllUsers();
+        });
+        // const router = useRouter();
+        // router.push("/");
+        // this.authUser = data;
+      } catch (error) {
+        console.log(error);
+        // if (error.response.status === 422) {
+        //   this.authErrors = error.response.data.errors;
+        // }
+      }
+    },
+
     async addNewUser(data: any) {
       this.authErrors = [];
       await this.getToken();

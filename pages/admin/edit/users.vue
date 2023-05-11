@@ -426,7 +426,7 @@ function addProduct(form) {
   toast.add({
     severity: "success",
     summary: "Успешно",
-    detail: "Вид спорта добавлен",
+    detail: "Пользователь добавлен",
     life: 3000,
   });
 }
@@ -442,7 +442,7 @@ function updateProduct() {
   toast.add({
     severity: "success",
     summary: "Успешно",
-    detail: "Вид спорта обновлен",
+    detail: "Пользователь обновлен",
     life: 3000,
   });
 }
@@ -479,7 +479,7 @@ function deleteProduct() {
   toast.add({
     severity: "success",
     summary: "Успешно",
-    detail: "Вид спорта удален",
+    detail: "Пользователь удален",
     life: 3000,
   });
 }
