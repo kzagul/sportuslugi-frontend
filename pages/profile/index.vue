@@ -1,13 +1,24 @@
 <script setup lang="ts">
-// import { mdiCheckDecagram } from "@mdi/js";
+import { mdiEyeOutline } from "@mdi/js";
 import { useUserStore } from "~~/stores/user";
 definePageMeta({
   middleware: ["user-only"],
 });
 
+const isRedactingModOpened = ref(false);
+
 const authStore = useUserStore();
 
 await authStore.getUser();
+
+const userData = ref({
+  name: authStore.user?.name as string,
+});
+
+function updateUser(user: any) {
+  authStore.putUser(user?.id, userData?.value.name, user?.verified_moderator);
+  isRedactingModOpened.value = false;
+}
 </script>
 
 <template>
@@ -30,12 +41,22 @@ await authStore.getUser();
           <div
             class="items-center sm:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4"
           >
-            <div class="relative">
-              <img
+            <div class="relative rounded-full">
+              <!-- <img
                 class="mb-4 rounded-full w-40 h-40 sm:mb-0 xl:mb-4 2xl:mb-0"
                 src="https://flowbite-admin-dashboard.vercel.app/images/users/bonnie-green-2x.png"
                 alt="Jese picture"
-              />
+              /> -->
+              <Image
+                src="https://w7.pngwing.com/pngs/627/693/png-transparent-computer-icons-user-user-icon-thumbnail.png"
+                alt="Image"
+                preview
+                class="mb-4 w-1/2 rounded-full h-auto sm:mb-0 xl:mb-4 2xl:mb-0"
+              >
+                <template #indicator>
+                  <BaseIcon :path="mdiEyeOutline" :size="20" />
+                </template>
+              </Image>
             </div>
             <div>
               <h3 class="mb-1 text-2xl font-bold text-gray-900 dark:text-white">
@@ -91,7 +112,7 @@ await authStore.getUser();
         <div
           class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
         >
-          <div class="flow-root">
+          <div class="flex flex-col gap-4">
             <h3 class="text-xl font-semibold dark:text-white">
               Карта рекомендаций
             </h3>
@@ -119,12 +140,11 @@ await authStore.getUser();
         <div
           class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
         >
-          <h3 class="mb-4 text-xl font-semibold dark:text-white">
-            Основная информация
-          </h3>
-          <form action="#">
+          <h3 class="mb-4 text-xl font-semibold dark:text-white">Мои данные</h3>
+          <!-- form -->
+          <div>
             <div class="grid grid-cols-6 gap-6">
-              <div class="col-span-6 sm:col-span-3">
+              <!-- <div class="col-span-6 sm:col-span-3">
                 <label
                   for="first-name"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -136,68 +156,62 @@ await authStore.getUser();
                 >
                   {{ authStore.user?.name }}
                 </p>
-              </div>
+              </div> -->
               <div class="col-span-6 sm:col-span-3">
                 <label
-                  for="last-name"
+                  for="first-name"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >Last Name</label
+                  >Имя</label
                 >
                 <input
-                  id="last-name"
+                  v-if="!isRedactingModOpened"
+                  v-model="userData.name"
                   type="text"
-                  name="last-name"
-                  class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Green"
-                  required=""
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="authStore.user?.name"
+                  disabled
+                />
+                <input
+                  v-if="isRedactingModOpened"
+                  v-model="userData.name"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="authStore.user?.name"
                 />
               </div>
-              <div class="col-span-6 sm:col-span-3">
+
+              <!-- <div class="col-span-6 sm:col-span-3">
                 <label
                   for="country"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >Country</label
+                  >Страна</label
                 >
                 <input
                   id="country"
                   type="text"
                   name="country"
                   class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="United States"
+                  placeholder="Российская федерация"
                   required=""
                 />
-              </div>
-              <div class="col-span-6 sm:col-span-3">
+              </div> -->
+
+              <!-- <div class="col-span-6 sm:col-span-3">
                 <label
                   for="city"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >City</label
+                  >Город</label
                 >
                 <input
                   id="city"
                   type="text"
                   name="city"
                   class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="e.g. San Francisco"
-                  required=""
+                  placeholder="Тюмень"
                 />
-              </div>
-              <div class="col-span-6 sm:col-span-3">
-                <label
-                  for="address"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >Address</label
-                >
-                <input
-                  id="address"
-                  type="text"
-                  name="address"
-                  class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="e.g. California"
-                  required=""
-                />
-              </div>
-              <div class="col-span-6 sm:col-span-3">
+              </div> -->
+
+              <!-- <div class="col-span-6 sm:col-span-3">
                 <label
                   for="email"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -211,8 +225,9 @@ await authStore.getUser();
                   placeholder="example@company.com"
                   required=""
                 />
-              </div>
-              <div class="col-span-6 sm:col-span-3">
+              </div> -->
+
+              <!-- <div class="col-span-6 sm:col-span-3">
                 <label
                   for="phone-number"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -220,14 +235,15 @@ await authStore.getUser();
                 >
                 <input
                   id="phone-number"
-                  type="number"
+                  type="phone"
                   name="phone-number"
                   class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="e.g. +(12)3456 789"
                   required=""
                 />
-              </div>
-              <div class="col-span-6 sm:col-span-3">
+              </div> -->
+
+              <!-- <div class="col-span-6 sm:col-span-3">
                 <label
                   for="birthday"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -241,77 +257,26 @@ await authStore.getUser();
                   placeholder="15/08/1990"
                   required=""
                 />
-              </div>
-              <div class="col-span-6 sm:col-span-3">
-                <label
-                  for="organization"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >Organization</label
-                >
-                <input
-                  id="organization"
-                  type="text"
-                  name="organization"
-                  class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Company Name"
-                  required=""
-                />
-              </div>
-              <div class="col-span-6 sm:col-span-3">
-                <label
-                  for="role"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >Role</label
-                >
-                <input
-                  id="role"
-                  type="text"
-                  name="role"
-                  class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="React Developer"
-                  required=""
-                />
-              </div>
-              <div class="col-span-6 sm:col-span-3">
-                <label
-                  for="department"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >Department</label
-                >
-                <input
-                  id="department"
-                  type="text"
-                  name="department"
-                  class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Development"
-                  required=""
-                />
-              </div>
-              <div class="col-span-6 sm:col-span-3">
-                <label
-                  for="zip-code"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >Zip/postal code</label
-                >
-                <input
-                  id="zip-code"
-                  type="number"
-                  name="zip-code"
-                  class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="123456"
-                  required=""
-                />
-              </div>
-              <div class="col-span-6 sm:col-full">
+              </div> -->
+
+              <div class="flex flex-row gap-4 col-span-6 sm:col-full">
                 <button
                   class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                  type="submit"
+                  @click="isRedactingModOpened = !isRedactingModOpened"
                 >
-                  Save all
+                  Редактировать
+                </button>
+
+                <button
+                  v-if="isRedactingModOpened"
+                  class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  @click="updateUser(authStore.user)"
+                >
+                  Сохранить изменения
                 </button>
               </div>
             </div>
-          </form>
+          </div>
         </div>
         <div
           class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"

@@ -77,7 +77,7 @@ export const useUserStore = defineStore("user", {
     },
     async getUser() {
       try {
-        const { data: res } = await fetchApi("/api/user", {
+        const { data: res } = await fetchApi(`/api/user`, {
           method: "GET",
         });
         const result: any = res.value;
@@ -86,6 +86,20 @@ export const useUserStore = defineStore("user", {
         console.log(error);
       }
     },
+
+    // Для обновления данных пользователя после изменения личного профиля
+    async getUserById(idUser: any) {
+      try {
+        const { data: res } = await fetchApi(`/api/user/${idUser}`, {
+          method: "GET",
+        });
+        const result: any = res.value;
+        this.authUser = result.user[0];
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     async getUserRoles() {
       try {
         const { data: res } = await fetchApi("/api/user/roles", {
@@ -190,6 +204,35 @@ export const useUserStore = defineStore("user", {
       }
     },
 
+    async putUser(
+      userId: any,
+      nameValue: string,
+      verifiedModeratorValue: boolean
+    ) {
+      this.authErrors = [];
+      await this.getToken();
+      try {
+        await fetchApi(`/api/user/${userId}`, {
+          method: "PUT",
+          body: {
+            name: nameValue,
+            verified_moderator: verifiedModeratorValue,
+          },
+        }).then(async () => {
+          await this.getUserById(userId);
+        });
+        // const router = useRouter();
+        // router.push("/");
+        // this.authUser = data;
+      } catch (error) {
+        console.log(error);
+        // if (error.response.status === 422) {
+        //   this.authErrors = error.response.data.errors;
+        // }
+      }
+    },
+
+    // Для админа
     async addNewUser(data: any) {
       this.authErrors = [];
       await this.getToken();
@@ -213,6 +256,7 @@ export const useUserStore = defineStore("user", {
       }
     },
 
+    // Для админа
     async editUserData(data: any) {
       this.authErrors = [];
       try {

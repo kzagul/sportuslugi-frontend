@@ -15,8 +15,6 @@ definePageMeta({
   layout: false,
 });
 
-const authStore = useUserStore();
-
 // sports
 const sportStore = useSportStore();
 await sportStore.fetchSports();
@@ -73,6 +71,9 @@ console.log("unverifiedModerators.value");
 console.log(unverifiedModerators.value);
 
 const amountAllUsers = computed(() => (users.value ? users?.value.length : 0));
+
+console.log("unverified");
+console.log(unverifiedModerators.value);
 </script>
 
 <template>
@@ -170,8 +171,14 @@ const amountAllUsers = computed(() => (users.value ? users?.value.length : 0));
         class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
       >
         <div class="flow-root">
-          <h3 class="text-xl font-semibold dark:text-white">
+          <h3
+            v-if="unverifiedModerators!.length > 0"
+            class="text-xl font-semibold dark:text-white"
+          >
             Модераторы ожидающие подтверждение
+          </h3>
+          <h3 v-else class="text-xl font-semibold dark:text-white">
+            На данный момент нет модераторов ожидающих подтверждение
           </h3>
           <ul class="divide-y divide-gray-200 dark:divide-gray-700">
             <li
