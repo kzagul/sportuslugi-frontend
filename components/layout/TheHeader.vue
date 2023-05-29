@@ -78,7 +78,16 @@ const modalOpened = ref(false);
                     class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"
                   >
                     <span class="sr-only">Open user menu</span>
-                    <img class="w-8 h-8 rounded-full" alt="user photo" />
+                    <!-- <img class="w-8 h-8 rounded-full" alt="user photo" /> -->
+                    <img
+                      class="w-10 h-10 rounded-full bg-white bg-center p-1"
+                      alt="Фото пользователя"
+                      :src="
+                        authStore.user?.image
+                          ? authStore.user?.image
+                          : `/images/user.png`
+                      "
+                    />
                     <!-- :src="currentUser.image" -->
                   </MenuButton>
                 </div>

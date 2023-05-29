@@ -52,21 +52,21 @@ const visible = ref(false);
     </div>
     <div class="flex flex-row gap-4 py-4">
       <button
-        class="flex items-center justify-center px-3 py-2 gap-2 text-sm font-medium text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+        class="flex items-center justify-center px-3 py-2 gap-2 text-sm font-medium text-black hover:text-white rounded-lg hover:bg-primary-600 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
         @click="changeDataLayout('table')"
       >
         <BaseIcon :path="mdiTableColumn" :size="20" />
         Таблица
       </button>
       <button
-        class="flex items-center justify-center px-3 py-2 gap-2 text-sm font-medium text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+        class="flex items-center justify-center px-3 py-2 gap-2 text-sm font-medium text-black hover:text-white rounded-lg hover:bg-primary-600 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
         @click="changeDataLayout('grid')"
       >
         <BaseIcon :path="mdiViewGridOutline" :size="20" />
         Сетка
       </button>
       <button
-        class="flex items-center justify-center px-3 py-2 gap-2 text-sm font-medium text-black hover:text-primary-700 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+        class="flex items-center justify-center px-3 py-2 gap-2 text-sm font-medium text-black hover:text-primary-600 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
         @click="visible = true"
       >
         <BaseIcon :path="mdiViewGridOutline" :size="20" />
@@ -87,8 +87,8 @@ const visible = ref(false);
     <Dialog
       v-model:visible="visible"
       modal
-      header="Header"
-      :style="{ width: '50vw' }"
+      header="Спортивные учреждения на карте"
+      :style="{ width: '80vw' }"
     >
       <ClientOnly fallback-tag="span" fallback="Загрузка карты ...">
         <YandexMap
@@ -137,7 +137,7 @@ const visible = ref(false);
 
 <style>
 .yandex-container {
-  height: 600px;
+  height: 800px;
 }
 .yandex-balloon {
   height: 60px;

@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { mdiEyeOutline } from "@mdi/js";
+import { useToast } from "primevue/usetoast";
 import { useUserStore } from "~~/stores/user";
+
 definePageMeta({
   middleware: ["user-only"],
 });
 
 const isRedactingModOpened = ref(false);
+
+const isRedactingPhotoModOpened = ref(false);
 
 const authStore = useUserStore();
 
@@ -13,12 +17,83 @@ await authStore.getUser();
 
 const userData = ref({
   name: authStore.user?.name as string,
+  image: authStore.user?.image as any,
+  // image: "новоефото",
 });
 
 function updateUser(user: any) {
   authStore.putUser(user?.id, userData?.value.name, user?.verified_moderator);
   isRedactingModOpened.value = false;
 }
+
+function updateUserImage(user: any) {
+  authStore.putUserPhoto(
+    user?.id,
+    userData?.value.name,
+    // user?.verified_moderator,
+    userData?.value.image
+  );
+  isRedactingModOpened.value = false;
+}
+
+const toast = useToast();
+
+const totalSize = ref(0);
+const totalSizePercent = ref(0);
+const files = ref([]);
+
+const onRemoveTemplatingFile = (
+  file: any,
+  removeFileCallback: any,
+  index: any
+) => {
+  removeFileCallback(index);
+  totalSize.value -= parseInt(formatSize(file.size));
+  totalSizePercent.value = totalSize.value / 10;
+};
+
+const onClearTemplatingUpload = (clear: any) => {
+  clear();
+  totalSize.value = 0;
+  totalSizePercent.value = 0;
+};
+
+const onSelectedFiles = (event: any) => {
+  files.value = event.files;
+  // userData.value.image = event.files[0];
+  userData.value.image = files.value[0];
+
+  files.value.forEach((file) => {
+    totalSize.value += parseInt(formatSize(file.size));
+  });
+};
+
+const uploadEvent = (callback: any) => {
+  totalSizePercent.value = totalSize.value / 10;
+  updateUserImage(authStore.user);
+  // callback();
+};
+
+const onTemplatedUpload = () => {
+  toast.add({
+    severity: "info",
+    summary: "Success",
+    detail: "File Uploaded",
+    life: 3000,
+  });
+};
+
+const formatSize = (bytes: any) => {
+  if (bytes === 0) return "0 B";
+  const k = 1024;
+  const sizes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+};
+
+const testClick = () => {
+  console.log(files.value);
+};
 </script>
 
 <template>
@@ -32,6 +107,7 @@ function updateUser(user: any) {
         >
           Личный профиль
         </h1>
+        <button @click="testClick">click</button>
       </div>
       <!-- Right Content -->
       <div class="col-span-full xl:col-auto">
@@ -47,8 +123,13 @@ function updateUser(user: any) {
                 src="https://flowbite-admin-dashboard.vercel.app/images/users/bonnie-green-2x.png"
                 alt="Jese picture"
               /> -->
+              <!-- src="https://w7.pngwing.com/pngs/627/693/png-transparent-computer-icons-user-user-icon-thumbnail.png" -->
               <Image
-                src="https://w7.pngwing.com/pngs/627/693/png-transparent-computer-icons-user-user-icon-thumbnail.png"
+                :src="
+                  authStore.user?.image
+                    ? authStore.user?.image
+                    : `/images/user.png`
+                "
                 alt="Image"
                 preview
                 class="mb-4 w-1/2 rounded-full h-auto sm:mb-0 xl:mb-4 2xl:mb-0"
@@ -65,45 +146,171 @@ function updateUser(user: any) {
               <h2 class="mb-1 text-xl font-bold text-gray-900 dark:text-white">
                 {{ authStore.user?.email }}
               </h2>
-              <div class="flex flex-col items-center md:items-start gap-4">
-                <button
-                  type="button"
-                  class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+
+              <button
+                class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 my-4"
+                @click="isRedactingPhotoModOpened = !isRedactingPhotoModOpened"
+              >
+                <div class="flex flex-row">
+                  <svg
+                    class="w-4 h-4 mr-2 -ml-1"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z"
+                    ></path>
+                    <path d="M9 13h2v5a1 1 0 11-2 0v-5z"></path>
+                  </svg>
+                  Изменить фото
+                </div>
+              </button>
+
+              <div
+                v-if="isRedactingPhotoModOpened"
+                class="flex flex-col items-center md:items-start gap-4"
+              >
+                <Toast />
+                <!-- url="./upload.php" -->
+                <FileUpload
+                  name="demo[]"
+                  accept="image/*"
+                  file-limit="1"
+                  :max-file-size="1000000"
+                  class="w-full"
+                  @upload="onTemplatedUpload($event)"
+                  @select="onSelectedFiles"
                 >
-                  <nuxt-link to="/profile/edit" class="flex flex-row">
-                    <svg
-                      class="w-4 h-4 mr-2 -ml-1"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
+                  <template
+                    #header="{
+                      chooseCallback,
+                      uploadCallback,
+                      clearCallback,
+                      files,
+                    }"
+                  >
+                    <div
+                      class="flex flex-wrap justify-content-between align-items-center flex-1 gap-2"
                     >
-                      <path
-                        d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z"
-                      ></path>
-                      <path d="M9 13h2v5a1 1 0 11-2 0v-5z"></path>
-                    </svg>
-                    Изменить фото
-                  </nuxt-link>
-                </button>
-                <button
-                  type="button"
-                  class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                >
-                  <nuxt-link to="/profile/edit" class="flex flex-row">
-                    <svg
-                      class="w-4 h-4 mr-2 -ml-1"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
+                      <div class="flex gap-2">
+                        <Button
+                          icon="pi pi-images"
+                          rounded
+                          outlined
+                          @click="chooseCallback()"
+                        ></Button>
+                        <Button
+                          icon="pi pi-cloud-upload"
+                          rounded
+                          outlined
+                          severity="success"
+                          :disabled="!files || files.length === 0"
+                          @click="uploadEvent(uploadCallback)"
+                        ></Button>
+                        <Button
+                          icon="pi pi-times"
+                          rounded
+                          outlined
+                          severity="danger"
+                          :disabled="!files || files.length === 0"
+                          @click="clearCallback()"
+                        ></Button>
+                      </div>
+                    </div>
+                  </template>
+                  <template
+                    #content="{
+                      files,
+                      uploadedFiles,
+                      removeUploadedFileCallback,
+                      removeFileCallback,
+                    }"
+                  >
+                    <div v-if="files.length > 0">
+                      <div class="flex flex-row flex-wrap p-0 sm:p-5 gap-5">
+                        <div
+                          v-for="(file, index) of files"
+                          :key="file.name + file.type + file.size"
+                          class="card m-0 px-6 flex flex-col border-1 surface-border items-center gap-3"
+                        >
+                          <div>
+                            <img
+                              role="presentation"
+                              :alt="file.name"
+                              :src="file.objectURL"
+                              width="100"
+                              height="50"
+                              class="shadow-2"
+                            />
+                          </div>
+                          <span class="font-semibold">{{ file.name }}</span>
+                          <div>{{ formatSize(file.size) }}</div>
+                          <Badge value="Pending" severity="warning" />
+                          <!-- <Button
+                            icon="pi pi-times"
+                            outlined
+                            rounded
+                            severity="danger"
+                            @click="
+                              onRemoveTemplatingFile(
+                                file,
+                                removeFileCallback,
+                                index
+                              )
+                            "
+                          /> -->
+                        </div>
+                      </div>
+                    </div>
+
+                    <div v-if="uploadedFiles.length > 0">
+                      <h5>Файл загружен</h5>
+                      <div class="flex flex-wrap p-0 sm:p-5 gap-5">
+                        <div
+                          v-for="(file, index) of uploadedFiles"
+                          :key="file.name + file.type + file.size"
+                          class="flex flex-col card m-0 px-6 border-1 surface-border align-items-center gap-3"
+                        >
+                          <div>
+                            <img
+                              role="presentation"
+                              :alt="file.name"
+                              :src="file.objectURL"
+                              width="100"
+                              height="50"
+                              class="shadow-2"
+                            />
+                          </div>
+                          <span class="font-semibold">{{ file.name }}</span>
+                          <div>{{ formatSize(file.size) }}</div>
+                          <Badge
+                            value="Completed"
+                            class="mt-3"
+                            severity="success"
+                          />
+                          <Button
+                            icon="pi pi-times"
+                            outlined
+                            rounded
+                            severity="danger"
+                            @click="removeUploadedFileCallback(index)"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                  <template #empty>
+                    <div
+                      class="flex flex-col justify-center items-center gap-4"
                     >
-                      <path
-                        d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z"
-                      ></path>
-                      <path d="M9 13h2v5a1 1 0 11-2 0v-5z"></path>
-                    </svg>
-                    Изменить данные профиля
-                  </nuxt-link>
-                </button>
+                      <i
+                        class="pi pi-cloud-upload border-2 border-circle p-5 text-8xl text-400 border-400"
+                      />
+                      <p class="mt-4 mb-0">Перетащите файл сюда для загрузки</p>
+                    </div>
+                  </template>
+                </FileUpload>
               </div>
             </div>
           </div>
@@ -178,6 +385,239 @@ function updateUser(user: any) {
                   class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   :placeholder="authStore.user?.name"
                 />
+
+                <!-- <label
+                  for="first-name"
+                  class="block mb-2 pt-4 text-sm font-medium text-gray-900 dark:text-white"
+                  >Пол</label
+                >
+                <input
+                  v-if="!isRedactingModOpened"
+                  v-model="userData.name"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="authStore.user?.name"
+                  disabled
+                />
+                <input
+                  v-if="isRedactingModOpened"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="Мужской"
+                /> -->
+              </div>
+              <div class="col-span-6 sm:col-span-3">
+                <label
+                  for="first-name"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Фамилия</label
+                >
+                <input
+                  v-if="!isRedactingModOpened"
+                  v-model="userData.name"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="authStore.user?.name"
+                  disabled
+                />
+                <input
+                  v-if="isRedactingModOpened"
+                  v-model="userData.name"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="authStore.user?.name"
+                />
+
+                <!-- <label
+                  for="first-name"
+                  class="block mb-2 pt-4 text-sm font-medium text-gray-900 dark:text-white"
+                  >Пол</label
+                >
+                <input
+                  v-if="!isRedactingModOpened"
+                  v-model="userData.name"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="authStore.user?.name"
+                  disabled
+                />
+                <input
+                  v-if="isRedactingModOpened"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="Мужской"
+                /> -->
+              </div>
+              <div class="col-span-6 sm:col-span-3">
+                <label
+                  for="first-name"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Отчество</label
+                >
+                <input
+                  v-if="!isRedactingModOpened"
+                  v-model="userData.name"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="authStore.user?.name"
+                  disabled
+                />
+                <input
+                  v-if="isRedactingModOpened"
+                  v-model="userData.name"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="authStore.user?.name"
+                />
+
+                <!-- <label
+                  for="first-name"
+                  class="block mb-2 pt-4 text-sm font-medium text-gray-900 dark:text-white"
+                  >Пол</label
+                >
+                <input
+                  v-if="!isRedactingModOpened"
+                  v-model="userData.name"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="authStore.user?.name"
+                  disabled
+                />
+                <input
+                  v-if="isRedactingModOpened"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="Мужской"
+                /> -->
+              </div>
+
+              <div class="col-span-6 sm:col-span-3">
+                <label
+                  for="first-name"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Пол</label
+                >
+                <input
+                  v-if="!isRedactingModOpened"
+                  v-model="userData.name"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="authStore.user?.name"
+                  disabled
+                />
+                <input
+                  v-if="isRedactingModOpened"
+                  v-model="userData.name"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="authStore.user?.name"
+                />
+
+                <!-- <label
+                  for="first-name"
+                  class="block mb-2 pt-4 text-sm font-medium text-gray-900 dark:text-white"
+                  >Пол</label
+                >
+                <input
+                  v-if="!isRedactingModOpened"
+                  v-model="userData.name"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="authStore.user?.name"
+                  disabled
+                />
+                <input
+                  v-if="isRedactingModOpened"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="Мужской"
+                /> -->
+              </div>
+
+              <div class="col-span-6 sm:col-span-3">
+                <label
+                  for="first-name"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Возраст</label
+                >
+                <input
+                  v-if="!isRedactingModOpened"
+                  v-model="userData.name"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="authStore.user?.name"
+                  disabled
+                />
+                <input
+                  v-if="isRedactingModOpened"
+                  v-model="userData.name"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="authStore.user?.name"
+                />
+
+                <!-- <label
+                  for="first-name"
+                  class="block mb-2 pt-4 text-sm font-medium text-gray-900 dark:text-white"
+                  >Пол</label
+                >
+                <input
+                  v-if="!isRedactingModOpened"
+                  v-model="userData.name"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="authStore.user?.name"
+                  disabled
+                />
+                <input
+                  v-if="isRedactingModOpened"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="Мужской"
+                /> -->
+              </div>
+
+              <div class="col-span-6 sm:col-span-3">
+                <label
+                  for="first-name"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Email</label
+                >
+                <input
+                  v-if="!isRedactingModOpened"
+                  v-model="userData.name"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="authStore.user?.name"
+                  disabled
+                />
+                <input
+                  v-if="isRedactingModOpened"
+                  v-model="userData.name"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="authStore.user?.name"
+                />
+
+                <!-- <label
+                  for="first-name"
+                  class="block mb-2 pt-4 text-sm font-medium text-gray-900 dark:text-white"
+                  >Пол</label
+                >
+                <input
+                  v-if="!isRedactingModOpened"
+                  v-model="userData.name"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="authStore.user?.name"
+                  disabled
+                />
+                <input
+                  v-if="isRedactingModOpened"
+                  type="text"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :placeholder="Мужской"
+                /> -->
               </div>
 
               <!-- <div class="col-span-6 sm:col-span-3">

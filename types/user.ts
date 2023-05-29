@@ -9,6 +9,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
+  image?: string;
   is_moderator?: boolean;
   verified_moderator?: boolean;
   moderator_of?: string;

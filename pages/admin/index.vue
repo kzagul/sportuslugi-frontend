@@ -78,7 +78,7 @@ console.log(unverifiedModerators.value);
 
 <template>
   <NuxtLayout name="admin">
-    <div class="grid gap-4 py-12">
+    <div class="grid gap-4 py-16 md:py-12">
       <!-- <div v-if="authStore.isAdmin" class="text-2xl py-12">Админ панель</div>
       <div v-else>Нет доступа</div> -->
 
@@ -87,7 +87,7 @@ console.log(unverifiedModerators.value);
           <div class="flex justify-between w-full mb-3">
             <div>
               <span class="block font-medium mb-3">Всего видов спорта</span>
-              <div class="font-medium text-xl">{{ amountSports }}</div>
+              <div class="font-medium text-3xl">{{ amountSports }}</div>
             </div>
             <div
               class="flex items-center justify-center bg-blue-100 rounded-full w-10 h-10"
@@ -99,15 +99,15 @@ console.log(unverifiedModerators.value);
               />
             </div>
           </div>
-          <span class="text-green-500 font-medium">24 new </span>
-          <span class="text-sm">since last visit</span>
+          <!-- <span class="text-green-500 font-medium">24 new </span>
+          <span class="text-sm">since last visit</span> -->
         </div>
 
         <div class="flex flex-col items-start bg-gray-10 rounded-lg shadow p-4">
           <div class="flex justify-between w-full mb-3">
             <div>
               <span class="block font-medium mb-3">Всего услуг</span>
-              <div class="font-medium text-xl">{{ amountServices }}</div>
+              <div class="font-medium text-3xl">{{ amountServices }}</div>
             </div>
             <div
               class="flex items-center justify-center bg-yellow-100 rounded-full w-10 h-10"
@@ -129,7 +129,7 @@ console.log(unverifiedModerators.value);
           <div class="flex justify-between w-full mb-3">
             <div>
               <span class="block font-medium mb-3">Всего учреждений</span>
-              <div class="font-medium text-xl">{{ amountInstitutions }}</div>
+              <div class="font-medium text-3xl">{{ amountInstitutions }}</div>
             </div>
             <div
               class="flex items-center justify-center bg-green-100 rounded-full w-10 h-10"
@@ -141,15 +141,15 @@ console.log(unverifiedModerators.value);
               />
             </div>
           </div>
-          <span class="text-green-500 font-medium">520 </span>
-          <span class="text-sm">newly registered</span>
+          <!-- <span class="text-green-500 font-medium">520 </span>
+          <span class="text-sm">newly registered</span> -->
         </div>
 
         <div class="flex flex-col items-start bg-gray-10 rounded-lg shadow p-4">
           <div class="flex justify-between w-full mb-3">
             <div>
               <span class="block font-medium mb-3">Всего пользователей</span>
-              <div class="font-medium text-xl">{{ amountAllUsers }}</div>
+              <div class="font-medium text-3xl">{{ amountAllUsers }}</div>
             </div>
             <div
               class="flex items-center justify-center bg-violet-100 rounded-full w-10 h-10"
@@ -161,8 +161,8 @@ console.log(unverifiedModerators.value);
               />
             </div>
           </div>
-          <span class="text-green-500 font-medium">85 </span>
-          <span class="text-sm">responded</span>
+          <!-- <span class="text-green-500 font-medium">85 </span>
+          <span class="text-sm">responded</span> -->
         </div>
       </div>
 

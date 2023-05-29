@@ -66,8 +66,21 @@ export const useUserStore = defineStore("user", {
     },
     async getAllUsers() {
       try {
-        const { data: res } = await fetchApi("/api/users", {
+        // await this.getToken();
+        const token: any = useCookie("XSRF-TOKEN").value;
+        // const config = useRuntimeConfig();
+        // const baseUrl = config.public.baseUrl;
+        // const { data: res } = await fetchApi("/api/users", {
+        const { data: res } = await useFetch("/api/bff/main/users", {
           method: "GET",
+          headers: {
+            "X-XSRF-TOKEN": token,
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+          },
+          // baseURL: baseUrl,
+          credentials: "include",
         });
         const result: any = res.value;
         this.allUsers = result.users;
@@ -221,6 +234,40 @@ export const useUserStore = defineStore("user", {
         }).then(async () => {
           await this.getUserById(userId);
         });
+        // const router = useRouter();
+        // router.push("/");
+        // this.authUser = data;
+      } catch (error) {
+        console.log(error);
+        // if (error.response.status === 422) {
+        //   this.authErrors = error.response.data.errors;
+        // }
+      }
+    },
+
+    async putUserPhoto(
+      userId: any,
+      nameValue: string,
+      // verifiedModeratorValue: boolean,
+      userImage: any
+    ) {
+      this.authErrors = [];
+      await this.getToken();
+      try {
+        await fetchApi(`/api/userImage/${userId}`, {
+          method: "PUT",
+          body: {
+            name: nameValue,
+            // verified_moderator: verifiedModeratorValue,
+            image: userImage,
+          },
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        // .then(async () => {
+        //   await this.getUserById(userId);
+        // });
         // const router = useRouter();
         // router.push("/");
         // this.authUser = data;

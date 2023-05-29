@@ -17,6 +17,7 @@ import Row from "primevue/row";
 
 import Chart from "primevue/chart";
 import Image from "primevue/image";
+import FileUpload from "primevue/fileupload";
 
 import DataView from "primevue/dataview";
 import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
@@ -45,6 +46,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   nuxtApp.vueApp.component("Chart", Chart);
   nuxtApp.vueApp.component("Image", Image);
+  nuxtApp.vueApp.component("FileUpload", FileUpload);
 
   nuxtApp.vueApp.component("DataView", DataView);
   nuxtApp.vueApp.component("DataViewLayoutOptions", DataViewLayoutOptions);

@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout name="admin">
-    <div class="py-8">
+    <div class="py-16 md:py-8">
       <h2
         class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"
       >

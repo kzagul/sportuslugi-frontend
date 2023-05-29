@@ -10,7 +10,7 @@ onMounted(() => {
 
 <template>
   <section class="flex items-center">
-    <div class="w-full px-4 mx-auto lg:px-12">
+    <div class="w-full px-4 mx-auto">
       <div class="relative px-4 bg-white shadow dark:bg-gray-800 sm:rounded-lg">
         <div class="flex items-center justify-between pt-4 md:pb-4">
           <div class="flex items-center flex-1 space-x-2">
@@ -30,7 +30,7 @@ onMounted(() => {
               <label
                 for="default-search"
                 class="text-sm font-medium text-gray-900 sr-only dark:text-white"
-                >Search</label
+                >Поиск</label
               >
               <div class="relative">
                 <div
@@ -42,7 +42,7 @@ onMounted(() => {
                   id="default-search"
                   type="search"
                   class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-10 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Search..."
+                  placeholder="Введите название..."
                   required=""
                 />
                 <button
@@ -63,7 +63,7 @@ onMounted(() => {
                   class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                 >
                   <BaseIcon :path="mdiFilterOutline" :size="20" />
-                  Filter
+                  Фильтр
                 </button>
                 <div
                   id="filterDropdown"
@@ -138,7 +138,7 @@ onMounted(() => {
                   </ul>
                 </div>
               </div>
-              <div>
+              <!-- <div>
                 <button
                   id="configurationDropdownButton"
                   data-dropdown-toggle="configurationDropdown"
@@ -182,7 +182,7 @@ onMounted(() => {
                     </a>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
           <!-- <div

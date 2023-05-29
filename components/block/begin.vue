@@ -205,9 +205,9 @@ const filteredSports = computed(() =>
             >
               Выбор спортивных услуг и учреждений
             </h3>
-            <p class="font-light text-gray-500 dark:text-gray-400">
+            <!-- <p class="font-light text-gray-500 dark:text-gray-400">
               Host code that you don't want to share with the world in private.
-            </p>
+            </p> -->
           </div>
         </div>
         <div class="flex justify-center">
@@ -229,9 +229,9 @@ const filteredSports = computed(() =>
             >
               Подбор услуг с помощью умных рекомендаций
             </h3>
-            <p class="font-light text-gray-500 dark:text-gray-400">
+            <!-- <p class="font-light text-gray-500 dark:text-gray-400">
               Host code that you don't want to share with the world in private.
-            </p>
+            </p> -->
           </div>
         </div>
         <div class="flex justify-center">
@@ -253,9 +253,9 @@ const filteredSports = computed(() =>
             >
               Интерактивный подход в выборе
             </h3>
-            <p class="font-light text-gray-500 dark:text-gray-400">
+            <!-- <p class="font-light text-gray-500 dark:text-gray-400">
               Host code that you don't want to share with the world in private.
-            </p>
+            </p> -->
           </div>
         </div>
       </div>
