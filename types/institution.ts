@@ -14,10 +14,11 @@ export interface IInstitution {
   phone?: string;
   website: string;
   address?: string;
+  coordinates?: IGeo;
+  cityArea?: string;
   workingTime?: string;
   description?: string;
   images?: string[];
-  coordinates?: IGeo;
   services?: IService[];
   sports?: ISport[];
 }

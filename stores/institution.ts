@@ -69,6 +69,18 @@ export const useInstitutionStore = defineStore("institution", {
       // this.currentInstitution = data.institution[0];
     },
 
+    async fetchInstitutionByID(idRoute: string) {
+      try {
+        const { data: res } = await fetchApi(`/api/institution/id=${idRoute}`, {
+          method: "GET",
+        });
+        const result: any = res.value;
+        this.currentInstitution = result.institution[0];
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     async postInstitution(institutionName: string) {
       try {
         await fetchApi("/api/institution", {
