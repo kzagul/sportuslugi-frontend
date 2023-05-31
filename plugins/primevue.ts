@@ -54,4 +54,5 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("ScrollTop", ScrollTop);
   nuxtApp.vueApp.component("Dialog", Dialog);
   nuxtApp.vueApp.component("Message", Message);
+  nuxtApp.vueApp.component("Rating", Rating);
 });
