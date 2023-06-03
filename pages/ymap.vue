@@ -34,6 +34,11 @@ function changeDataLayout(layoutType) {
 }
 
 const name = ref("Custom");
+
+// function getDistance() {
+//   // const
+//   // coords.latitude, coords.longitude
+// }
 </script>
 
 <template>

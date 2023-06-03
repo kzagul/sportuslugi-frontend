@@ -180,6 +180,7 @@ export const useUserStore = defineStore("user", {
             password_confirmation: data.password_confirmation,
             is_moderator: true,
             moderator_of: data.institution_name,
+            contact_user_of: data.institution_name,
           },
         });
         // const router = useRouter();
@@ -193,7 +194,11 @@ export const useUserStore = defineStore("user", {
       }
     },
 
-    async verifyModerator(userId: any, nameValue: string) {
+    async verifyModerator(
+      userId: any,
+      nameValue: string,
+      institutionValue: any
+    ) {
       this.authErrors = [];
       await this.getToken();
       try {
@@ -202,6 +207,7 @@ export const useUserStore = defineStore("user", {
           body: {
             name: nameValue,
             verified_moderator: true,
+            institution: institutionValue,
           },
         }).then(async () => {
           await this.getAllUsers();

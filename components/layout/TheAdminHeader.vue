@@ -6,6 +6,27 @@ import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
 import { useUserStore } from "~~/stores/user";
 const authStore = useUserStore();
 
+await authStore.getAllUsers();
+
+const user = computed(() => {
+  return authStore.user;
+});
+
+const users = computed(() => {
+  return authStore.users;
+});
+
+const getInstitutionOfCurrentUser = computed(() => {
+  const currentUser = users.value?.find(
+    (item: any) => item.id === user.value?.id
+  );
+  return currentUser?.contact_user_of[0];
+});
+
+console.log(users.value);
+console.log("хууйуйу");
+console.log(getInstitutionOfCurrentUser.value);
+
 const navs = ref([
   { id: 1, title: "Главная", link: "/" },
   { id: 2, title: "О нас", link: "/about" },
@@ -71,8 +92,11 @@ function changeDrawbarOpenStatus() {
             <div v-if="authStore.isAdmin" class="text-2xl">
               Панель администратора
             </div>
-            <div v-if="authStore.isModerator" class="text-2xl">
-              Панель управления учреждением
+            <div v-if="authStore.isModerator" class="text-xl">
+              Спортивное учреждение:
+              <span class="text-3xl">
+                {{ getInstitutionOfCurrentUser.name }}
+              </span>
             </div>
           </div>
 

@@ -161,10 +161,15 @@ const validationSchema = [
 /**
  * Only Called when the last step is submitted
  */
-function onSubmit(formData) {
+async function onSubmit(formData) {
+  // Создать новое учреждение
+  await institutionStore.postInstitution(formData.institution_name);
+
   console.log(JSON.stringify(formData, null, 2));
   console.log("org form submit eeeee");
-  userStore.handleRegisterModerator(formData);
+
+  // Зарегестрировать модератора
+  await userStore.handleRegisterModerator(formData);
   // institutionStore.updateInstitution(
   //   props.company[0].id,
   //   "hello",

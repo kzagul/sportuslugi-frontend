@@ -96,6 +96,30 @@ export const useInstitutionStore = defineStore("institution", {
       }
     },
 
+    async addContactUser(
+      id: string,
+      userValue: any
+      // contactUsersValue: any
+    ) {
+      try {
+        // const response: any = await
+        await fetchApi(`/api/institution/${id}`, {
+          method: "PUT",
+          body: {
+            contact_users: userValue,
+            // contact_users: contactUsersValue,
+          },
+        }).then(async () => {
+          await this.fetchInstitutions();
+        });
+        // if (response.status !== 200) {
+        //   Error(`Request failed with status ${response.status}`);
+        // }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     async updateInstitution(
       id: string,
       institutionName: string

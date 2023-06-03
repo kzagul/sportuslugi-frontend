@@ -74,6 +74,25 @@ const amountAllUsers = computed(() => (users.value ? users?.value.length : 0));
 
 console.log("unverified");
 console.log(unverifiedModerators.value);
+
+function verifyAndAddContactUser(
+  userId: any,
+  userName: any,
+  institutionName: any
+) {
+  userStore.verifyModerator(userId as Number, userName, institutionName);
+
+  const currentInstitution = computed(() =>
+    institutions.value.find((item: any) => item?.name === `${institutionName}`)
+  );
+  console.log(institutionName);
+  console.log(currentInstitution.value.id);
+  // institutions.value
+
+  institutionStore.addContactUser(currentInstitution.value.id, userId);
+}
+
+console.log(institutions.value.filter((item: any) => item.name === "cool"));
 </script>
 
 <template>
@@ -212,8 +231,15 @@ console.log(unverifiedModerators.value);
                 <div class="inline-flex items-center">
                   <button
                     class="px-3 py-2 mb-3 mr-3 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                    @click="userStore.verifyModerator(user.id, user.name)"
+                    @click="
+                      verifyAndAddContactUser(
+                        user.id,
+                        user.name,
+                        user.moderator_of
+                      )
+                    "
                   >
+                    <!-- @click="userStore.verifyModerator(user.id, user.name)" -->
                     Подтвердить
                   </button>
                 </div>

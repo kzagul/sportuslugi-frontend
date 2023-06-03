@@ -3,7 +3,7 @@
 import { mdiClose, mdiCheck } from "@mdi/js";
 import { useUserStore } from "~~/stores/user";
 const authStore = useUserStore();
-// initialize components based on data attribute selectors
+
 const isDrawbarOpened = ref(false);
 
 const exitDialog = ref(false);
@@ -19,7 +19,8 @@ function cancelExitAccount() {
 const menuNavsAdmin = ref([
   { name: "Дашборд", path: "/admin" },
   { name: "Профиль учреждения", path: "/profile" },
-  { name: "Статистика", path: "/admin/statistics" },
+  { name: "Мой профиль", path: "/profile" },
+  // { name: "Статистика", path: "/admin/statistics" },
 ]);
 
 const menuNavsManaging = ref([
@@ -95,7 +96,7 @@ const menuNavsManaging = ref([
         </div>
 
         <div
-          class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700"
+          class="pt-5 mt-5 space-y-1 border-t border-gray-200 dark:border-gray-700"
         >
           <nuxt-link
             v-for="(menuNav, index) in menuNavsAdmin"
@@ -108,7 +109,7 @@ const menuNavsManaging = ref([
         </div>
 
         <div
-          class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700"
+          class="pt-5 mt-5 space-y-1 border-t border-gray-200 dark:border-gray-700"
         >
           <p class="text-lg pb-2">Управление</p>
           <nuxt-link
