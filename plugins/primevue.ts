@@ -14,6 +14,7 @@ import InputSwitch from "primevue/inputswitch";
 import SelectButton from "primevue/selectbutton";
 import InputNumber from "primevue/inputnumber";
 import Textarea from "primevue/textarea";
+import Steps from "primevue/steps";
 
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
@@ -48,6 +49,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("SelectButton", SelectButton);
   nuxtApp.vueApp.component("InputNumber", InputNumber);
   nuxtApp.vueApp.component("Textarea", Textarea);
+  nuxtApp.vueApp.component("Steps", Steps);
 
   nuxtApp.vueApp.component("DataTable", DataTable);
   nuxtApp.vueApp.component("Column", Column);

@@ -13,9 +13,15 @@ const sports = computed(() => {
 
 const filteredSports = computed(() => {
   return sports.value
-    .map((sport) => (sport = sport.name))
+    .map((sport: any) => (sport = sport.name))
     .join(", ")
     .toLowerCase();
+});
+
+const selectedSports = ref();
+
+const fileredSelectedSports = computed(() => {
+  return selectedSports.value.map((item: any) => item.name);
 });
 
 console.log(sports.value);
@@ -26,9 +32,15 @@ const openAIStore = useOpenAIStore();
 const { fetchOpenAIAnswer } = openAIStore;
 
 const question = ref({
-  questionInput: "",
+  freeTimeInput: "",
   favoriteSportsInput: "Воллейбол",
+  wishesInput: "",
+  physicalActivityInput: "",
+
   diseaseInput: "Плоскостопие",
+
+  ageInput: "",
+  genderInput: "",
   accessibleSports: filteredSports.value,
 });
 
@@ -48,15 +60,23 @@ const openAIAnswer = computed(() => {
 // });
 
 function submitOpenAI(
-  questionInput,
-  favoriteSportsInput,
-  diseaseInput,
-  accessibleSports
+  freeTimeInput: any,
+  favoriteSportsInput: any,
+  wishesInput: any,
+  physicalActivityInput: any,
+  diseaseInput: any,
+  ageInput: any,
+  genderInput: any,
+  accessibleSports: any
 ) {
   fetchOpenAIAnswer(
-    questionInput,
+    freeTimeInput,
     favoriteSportsInput,
+    wishesInput,
+    physicalActivityInput,
     diseaseInput,
+    ageInput,
+    genderInput,
     accessibleSports
   );
   checkAnswer();
@@ -82,8 +102,8 @@ function findSportsFromAnswer() {
   resAnswer = resAnswer
     .replace(/,/g, " ")
     .split(" ")
-    .filter((item1) => filteredSports.value.includes(item1))
-    .filter((item) => item !== "");
+    .filter((item1: any) => filteredSports.value.includes(item1))
+    .filter((item: any) => item !== "");
 
   // resAnswer = resAnswer.map((str) =>
   //   str.endsWith(".") ? str.slice(0, -1) : str
@@ -94,32 +114,49 @@ function findSportsFromAnswer() {
 // return filteredSports.foreach(
 //       (elementSport) => elementAnswer === elementSport
 //     );
+
+const physicalActivity = ref();
+const physicalActivities = ref([
+  { name: "Низкая" },
+  { name: "Средняя" },
+  { name: "Высокая" },
+]);
 </script>
 
 <template>
   <div>
-    <div>{{ filteredSports }}</div>
+    <div class="flex flex-col">
+      <h3 class="text-3xl font-semibold py-4">Карта рекомендаций</h3>
+      <p class="mb-4 text-gray-500 sm:text-xl w-1/2">
+        Воспользуйтесь умным подбором услуг
+      </p>
+    </div>
     <main class="main">
       <form
         @submit.prevent="
           submitOpenAI(
-            question.questionInput,
-            question.favoriteSportsInput,
+            freeTimeInput,
+            fileredSelectedSports,
+            physicalActivity,
+            question.wishesInput,
             question.diseaseInput,
+            '25',
+            'женский',
             question.accessibleSports
           )
         "
       >
         <div class="flex flex-col gap-4 py-8">
           <div class="flex flex-col gap-4 justify-center w-96">
+            <!-- 1 -->
             <div class="flex flex-col">
               <label
                 for="first-name"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Введите вопрос</label
+                >Что Вам нравится делать в свободное время?</label
               >
               <input
-                v-model="question.questionInput"
+                v-model="question.freeTimeInput"
                 type="text"
                 name="animal"
                 class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -127,77 +164,84 @@ function findSportsFromAnswer() {
               />
             </div>
 
+            <!-- 2 -->
             <div class="flex flex-col">
               <label
                 for="first-name"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Перечисли свои любимые виды спорта</label
+                >Перечислите свои любимые виды спорта</label
               >
-              <input
+
+              <MultiSelect
+                v-model="selectedSports"
+                :options="sports"
+                filter
+                option-label="name"
+                placeholder="Выбор видов спорта"
+                class="w-full md:w-20rem"
+              />
+              <!-- <input
                 v-model="question.favoriteSportsInput"
                 type="text"
                 name="animal"
                 class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="..."
+              /> -->
+            </div>
+
+            <!-- 3 -->
+            <div class="flex flex-col">
+              <label
+                for="first-name"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Какой уровень физической активности Вам комфортен?</label
+              >
+
+              <Dropdown
+                v-model="physicalActivity"
+                :options="physicalActivities"
+                option-label="name"
+                placeholder="Выберите вариант"
+                class="w-full md:w-14rem"
+              />
+
+              <!-- <input
+                id="first-name"
+                type="text"
+                name="first-name"
+                class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="..."
+              /> -->
+            </div>
+
+            <!-- 4 -->
+            <div class="flex flex-col">
+              <label
+                for="first-name"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Что бы Вы хотели достичь благодаря спорту?</label
+              >
+              <input
+                v-model="question.wishesInput"
+                type="text"
+                name="animal"
+                class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder=""
               />
             </div>
 
+            <!-- 5 -->
             <div class="flex flex-col">
               <label
                 for="first-name"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Имеются ли у вас заболевания или ограничения к занятию спортом?
+                Имеются ли у Вас заболевания или ограничения к занятию спортом?
               </label>
               <input
                 v-model="question.diseaseInput"
                 type="text"
                 name="animal"
-                class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="..."
-              />
-            </div>
-
-            <div class="flex flex-col">
-              <label
-                for="first-name"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Что тебе нравится делать в свободное время?</label
-              >
-              <input
-                id="first-name"
-                type="text"
-                name="first-name"
-                class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="..."
-              />
-            </div>
-
-            <div class="flex flex-col">
-              <label
-                for="first-name"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Какой уровень физической активности тебе комфортен?</label
-              >
-              <input
-                id="first-name"
-                type="text"
-                name="first-name"
-                class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="..."
-              />
-            </div>
-
-            <div class="flex flex-col">
-              <label
-                for="first-name"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Что ты бы хотел достичь благодаря спорту?</label
-              >
-              <input
-                id="first-name"
-                type="text"
-                name="first-name"
                 class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="..."
               />

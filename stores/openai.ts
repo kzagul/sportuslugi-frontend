@@ -11,9 +11,14 @@ export const useOpenAIStore = defineStore("openai", {
   },
   actions: {
     async fetchOpenAIAnswer(
-      questionValue: string,
+      // questionValue: string,
+      freeTimeValue: string,
       favoriteSportsValue: string,
+      physicalActivityValue: string,
+      wishesValue: string,
       diseaseValue: string,
+      ageValue: string,
+      genderValue: string,
       accessibleSportsValue: string
     ) {
       try {
@@ -23,15 +28,22 @@ export const useOpenAIStore = defineStore("openai", {
           method: "post",
           baseURL: openaiUrl,
           body: {
-            question: questionValue,
+            // question: questionValue,
+            freeTime: freeTimeValue,
             favoriteSports: favoriteSportsValue,
+            wishes: wishesValue,
+            physicalActivity: physicalActivityValue,
             disease: diseaseValue,
+            age: ageValue,
+            gender: genderValue,
             accessibleSports: accessibleSportsValue,
           },
         });
 
         const data = await response;
-        this.openAIAnswer = data?.choices[0].text;
+        this.openAIAnswer = data?.choices[0]?.text;
+        // this.openAIAnswer = data;
+
         console.log(data);
 
         if (response.status !== 200) {
