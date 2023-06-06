@@ -53,7 +53,7 @@
         <template #body="{ data }">
           <button
             class="flex flex-row gap-2 justify-center items-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-            @click="redirectToPage(data.name)"
+            @click="redirectToPage(data.id)"
           >
             <BaseIcon :path="mdiArrowUpLeft" :size="20" />
             Перейти
@@ -94,7 +94,7 @@ const selectedProduct = ref();
 const router = useRouter();
 function redirectToPage(name) {
   // router.push({ path, query });
-  router.push(`/institution/${name}`);
+  router.push(`/service/${name}`);
 }
 
 onMounted(() => {
