@@ -43,8 +43,10 @@ export const useOpenAIStore = defineStore("openai", {
         const data = await response;
         this.openAIAnswer = data?.choices[0]?.text;
         // this.openAIAnswer = data;
-
+        console.log("11111");
         console.log(data);
+        console.log("22222");
+        console.log(data?.choices[0]?.text);
 
         if (response.status !== 200) {
           Error(`Request failed with status ${response.status}`);

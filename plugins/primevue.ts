@@ -48,6 +48,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("InputSwitch", InputSwitch);
   nuxtApp.vueApp.component("SelectButton", SelectButton);
   nuxtApp.vueApp.component("InputNumber", InputNumber);
+  nuxtApp.vueApp.component("InputText", InputText);
   nuxtApp.vueApp.component("Textarea", Textarea);
   nuxtApp.vueApp.component("Steps", Steps);
 

@@ -21,7 +21,8 @@ const filteredSports = computed(() => {
 const selectedSports = ref();
 
 const fileredSelectedSports = computed(() => {
-  return selectedSports.value.map((item: any) => item.name);
+  const array = selectedSports.value.map((item: any) => item.name);
+  return array.toString();
 });
 
 console.log(sports.value);
@@ -33,11 +34,11 @@ const { fetchOpenAIAnswer } = openAIStore;
 
 const question = ref({
   freeTimeInput: "",
-  favoriteSportsInput: "Воллейбол",
+  favoriteSportsInput: "",
   wishesInput: "",
   physicalActivityInput: "",
 
-  diseaseInput: "Плоскостопие",
+  diseaseInput: "",
 
   ageInput: "",
   genderInput: "",
@@ -58,6 +59,8 @@ const openAIAnswer = computed(() => {
 // const arrayOpenAIAnswer = computed(() => {
 //   return openAIAnswer.value;
 // });
+
+const isRecommendationSubmited = ref(false);
 
 function submitOpenAI(
   freeTimeInput: any,
@@ -80,6 +83,8 @@ function submitOpenAI(
     accessibleSports
   );
   checkAnswer();
+
+  isRecommendationSubmited.value = true;
 }
 
 function checkAnswer() {
@@ -121,6 +126,8 @@ const physicalActivities = ref([
   { name: "Средняя" },
   { name: "Высокая" },
 ]);
+
+// Подбор услуг
 </script>
 
 <template>
@@ -130,6 +137,10 @@ const physicalActivities = ref([
       <p class="mb-4 text-gray-500 sm:text-xl w-1/2">
         Воспользуйтесь умным подбором услуг
       </p>
+      <p class="mb-4 text-gray-500 sm:text-xl w-1/2">
+        Тут описание бла бла бла бла аалаллалалалала бла бла бла бла
+        аалаллалалалала бла бла бла бла аалаллалалалала
+      </p>
     </div>
     <main class="main">
       <form
@@ -137,7 +148,7 @@ const physicalActivities = ref([
           submitOpenAI(
             freeTimeInput,
             fileredSelectedSports,
-            physicalActivity,
+            physicalActivity?.name,
             question.wishesInput,
             question.diseaseInput,
             '25',
@@ -146,22 +157,15 @@ const physicalActivities = ref([
           )
         "
       >
-        <div class="flex flex-col gap-4 py-8">
-          <div class="flex flex-col gap-4 justify-center w-96">
+        <div class="flex flex-row gap-4 py-8">
+          <div class="flex flex-col gap-4 justify-center w-8/12">
             <!-- 1 -->
             <div class="flex flex-col">
               <label
-                for="first-name"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >Что Вам нравится делать в свободное время?</label
               >
-              <input
-                v-model="question.freeTimeInput"
-                type="text"
-                name="animal"
-                class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="Enter an question"
-              />
+              <InputText v-model="question.freeTimeInput" type="text" />
             </div>
 
             <!-- 2 -->
@@ -177,16 +181,9 @@ const physicalActivities = ref([
                 :options="sports"
                 filter
                 option-label="name"
-                placeholder="Выбор видов спорта"
+                placeholder="Выберите виды спорта"
                 class="w-full md:w-20rem"
               />
-              <!-- <input
-                v-model="question.favoriteSportsInput"
-                type="text"
-                name="animal"
-                class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="..."
-              /> -->
             </div>
 
             <!-- 3 -->
@@ -204,14 +201,6 @@ const physicalActivities = ref([
                 placeholder="Выберите вариант"
                 class="w-full md:w-14rem"
               />
-
-              <!-- <input
-                id="first-name"
-                type="text"
-                name="first-name"
-                class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="..."
-              /> -->
             </div>
 
             <!-- 4 -->
@@ -221,13 +210,14 @@ const physicalActivities = ref([
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >Что бы Вы хотели достичь благодаря спорту?</label
               >
-              <input
+              <!-- <input
                 v-model="question.wishesInput"
                 type="text"
                 name="animal"
                 class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder=""
-              />
+              /> -->
+              <InputText v-model="question.wishesInput" type="text" />
             </div>
 
             <!-- 5 -->
@@ -238,27 +228,50 @@ const physicalActivities = ref([
               >
                 Имеются ли у Вас заболевания или ограничения к занятию спортом?
               </label>
-              <input
+
+              <InputText v-model="question.diseaseInput" type="text" />
+              <!-- <input
                 v-model="question.diseaseInput"
                 type="text"
                 name="animal"
                 class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="..."
-              />
+              /> -->
             </div>
           </div>
 
           <!-- <input type="submit" value="Generate answer" /> -->
 
-          <button
-            type="submit"
-            class="px-4 py-2 text-sm font-medium text-white w-64 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-          >
-            Поиск
-          </button>
+          <div class="flex flex-col justify-start gap-8">
+            <div>
+              <button
+                class="h-10 max-w-max px-4 py-2 text-sm font-medium rounded-sm text-white w-64 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300"
+              >
+                Подкрепить данные из профиля
+              </button>
+              <span> * Возраст, пол </span>
+            </div>
+
+            <button
+              type="submit"
+              class="h-10 w-full px-4 py-2 text-sm font-medium rounded-sm text-white w-64 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300"
+            >
+              Поиск
+            </button>
+
+            <button
+              class="h-10 w-full px-4 py-2 text-sm font-medium rounded-sm text-white w-64 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300"
+            >
+              Подобрать услуги
+            </button>
+          </div>
         </div>
       </form>
       <div class="result">{{ openAIAnswer }}</div>
+
+      <div v-if="isRecommendationSubmited">
+        <TableService />
+      </div>
     </main>
     <div class="flex justify-center">
       <Message class="fixed bottom-0" severity="warn">

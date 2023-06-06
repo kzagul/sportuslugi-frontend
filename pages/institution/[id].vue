@@ -1,6 +1,7 @@
 <script setup>
-import { mdiEyeOutline } from "@mdi/js";
+import { mdiEyeOutline, mdiCheck } from "@mdi/js";
 import { useRoute } from "vue-router";
+import { useToast } from "primevue/usetoast";
 import { useGeolocation } from "@vueuse/core";
 import { useInstitutionStore } from "~~/stores/institution";
 
@@ -20,6 +21,20 @@ const institution = computed(() => {
 });
 
 const { coords } = useGeolocation();
+
+const visible = ref(false);
+
+const toast = useToast();
+
+function sendRequest() {
+  visible.value = false;
+  toast.add({
+    severity: "success",
+    summary: "Успешно",
+    detail: "Заявка отправлена",
+    life: 3000,
+  });
+}
 </script>
 
 <template>
@@ -38,6 +53,7 @@ const { coords } = useGeolocation();
       </nuxt-link>
     </section>
     <section v-else>
+      <Toast />
       <div
         class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900"
       >
@@ -110,10 +126,41 @@ const { coords } = useGeolocation();
               <div>
                 <button
                   class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  @click="visible = true"
                 >
                   Связаться
                 </button>
               </div>
+
+              <Dialog
+                v-model:visible="visible"
+                modal
+                :header="`Сообщение в учреждение - ${institution?.name}`"
+                :style="{ width: '50vw' }"
+              >
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                </p>
+
+                <template #footer>
+                  <Button
+                    severity="success"
+                    class="flex flex-row gap-3"
+                    @click="sendRequest"
+                  >
+                    <BaseIcon :path="mdiCheck" :size="24" />
+                    Отправить
+                  </Button>
+                  <!-- @click="deleteProduct" -->
+                </template>
+              </Dialog>
             </div>
           </div>
 
