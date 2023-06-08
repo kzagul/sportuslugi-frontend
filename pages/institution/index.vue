@@ -53,6 +53,11 @@ const visible = ref(false);
     <div class="flex flex-row gap-4 py-4">
       <button
         class="flex items-center justify-center px-3 py-2 gap-2 text-sm font-medium text-black hover:text-white rounded-lg hover:bg-primary-600 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+        :class="
+          currentDataLayout === `table`
+            ? `text-white bg-primary-600 focus:ring-4 focus:ring-primary-300`
+            : ``
+        "
         @click="changeDataLayout('table')"
       >
         <BaseIcon :path="mdiTableColumn" :size="20" />
@@ -60,6 +65,11 @@ const visible = ref(false);
       </button>
       <button
         class="flex items-center justify-center px-3 py-2 gap-2 text-sm font-medium text-black hover:text-white rounded-lg hover:bg-primary-600 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+        :class="
+          currentDataLayout === `grid`
+            ? `text-white bg-primary-600 focus:ring-4 focus:ring-primary-300`
+            : ``
+        "
         @click="changeDataLayout('grid')"
       >
         <BaseIcon :path="mdiViewGridOutline" :size="20" />

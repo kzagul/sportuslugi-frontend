@@ -6,8 +6,8 @@ import { useUserStore } from "~~/stores/user";
 const authStore = useUserStore();
 
 const navs = ref([
-  { id: 1, title: "Главная", link: "/" },
-  { id: 2, title: "О нас", link: "/about" },
+  // { id: 1, title: "Главная", link: "/" },
+  // { id: 2, title: "О нас", link: "/about" },
   { id: 3, title: "Учреждения", link: "/institution" },
   { id: 4, title: "Услуги", link: "/service" },
   { id: 5, title: "Виды спорта", link: "/sport" },
@@ -46,13 +46,27 @@ const modalOpened = ref(false);
                 {{ nav.title }}
               </PageLink> -->
               <NuxtLink
-                v-for="(nav, index) in navs"
-                :key="index"
-                :to="nav.link"
+                to="/"
                 class="font-medium transition-colors duration-100 hover:text-primary-600"
               >
-                {{ nav.title }}
+                Главная
               </NuxtLink>
+              <NuxtLink
+                to="/about"
+                class="font-medium transition-colors duration-100 hover:text-primary-600"
+              >
+                О нас
+              </NuxtLink>
+              <div v-if="authStore.user" class="flex gap-4">
+                <NuxtLink
+                  v-for="(nav, index) in navs"
+                  :key="index"
+                  :to="nav.link"
+                  class="font-medium transition-colors duration-100 hover:text-primary-600"
+                >
+                  {{ nav.title }}
+                </NuxtLink>
+              </div>
             </div>
           </div>
 

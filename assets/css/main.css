@@ -27,3 +27,7 @@ html {
 .router-exact-link-active {
   @apply font-medium text-primary-600;
 }
+
+.h-screen-90 {
+  height: 90vh;
+}

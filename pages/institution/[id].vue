@@ -35,6 +35,10 @@ function sendRequest() {
     life: 3000,
   });
 }
+
+onMounted(() => {
+  console.log("visited");
+});
 </script>
 
 <template>

@@ -6,9 +6,10 @@ import {
   ComboboxOption,
   TransitionRoot,
 } from "@headlessui/vue";
-import { mdiMagnify } from "@mdi/js";
+import { mdiMagnify, mdiGestureTap, mdiMapMarkerRadius } from "@mdi/js";
 import { useUserStore } from "~~/stores/user";
 import { useSportStore } from "~~/stores/sport";
+
 const authStore = useUserStore();
 
 const sportStore = useSportStore();
@@ -30,7 +31,7 @@ const pathComputed = (item: any) => {
 const filteredSports = computed(() =>
   query.value === ""
     ? sports.value
-    : sports.value.filter((sport) =>
+    : sports.value.filter((sport: any) =>
         sport.name
           .toLowerCase()
           .replace(/\s+/g, "")
@@ -56,9 +57,9 @@ const filteredSports = computed(() =>
               class="px-3 py-1 mr-3 text-xs text-white rounded-full bg-primary-600"
               >New</span
             >
-            <span class="text-sm font-regular"
-              >Спорт-услуги на бета тесте, присоединяйтесь!</span
-            >
+            <span class="text-sm font-regular">
+              Присоединяйтесь к нам на Спорт-услуги!
+            </span>
             <svg
               class="w-5 h-5 ml-2"
               fill="currentColor"
@@ -82,9 +83,7 @@ const filteredSports = computed(() =>
               class="px-3 py-1 mr-3 text-xs text-white rounded-full bg-primary-600"
               >New</span
             >
-            <span class="text-sm font-regular"
-              >Спорт-услуги на бета тесте, узнайте о нас больше!</span
-            >
+            <span class="text-sm font-regular">Узнайте о нас больше!</span>
             <svg
               class="w-5 h-5 ml-2"
               fill="currentColor"
@@ -110,6 +109,7 @@ const filteredSports = computed(() =>
           </p>
 
           <div
+            v-if="authStore.user"
             class="flex justify-between bg-surface-default items-center max-w-lg mx-auto gap-4 h-[48px] sm:h-[64px] mt-4 sm:mt-8"
           >
             <Combobox v-model="selected">
@@ -186,19 +186,12 @@ const filteredSports = computed(() =>
         </div>
       </div>
       <div class="grid gap-8 sm:gap-12 md:grid-cols-3">
-        <div class="flex justify-center">
-          <svg
-            class="w-6 h-6 mr-3 text-primary-600 dark:text-primary-500 shrink-0"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 5.757v8.486zM16 18H9.071l6-6H16a2 2 0 012 2v2a2 2 0 01-2 2z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
+        <div class="flex flex-row gap-4 justify-center items-center">
+          <BaseIcon
+            :path="mdiMagnify"
+            :size="32"
+            class="flex justify-center items-center"
+          />
           <div>
             <h3
               class="mb-1 text-lg font-semibold leading-tight text-gray-900 dark:text-white"
@@ -210,19 +203,12 @@ const filteredSports = computed(() =>
             </p> -->
           </div>
         </div>
-        <div class="flex justify-center">
-          <svg
-            class="w-6 h-6 mr-3 text-primary-600 dark:text-primary-500 shrink-0"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
+        <div class="flex flex-row gap-4 justify-center items-center">
+          <BaseIcon
+            :path="mdiGestureTap"
+            :size="32"
+            class="flex justify-center items-center"
+          />
           <div>
             <h3
               class="mb-1 text-lg font-semibold leading-tight text-gray-900 dark:text-white"
@@ -234,24 +220,17 @@ const filteredSports = computed(() =>
             </p> -->
           </div>
         </div>
-        <div class="flex justify-center">
-          <svg
-            class="w-6 h-6 mr-3 text-primary-600 dark:text-primary-500 shrink-0"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7zm-3 1a1 1 0 10-2 0v3a1 1 0 102 0V8zM8 9a1 1 0 00-2 0v2a1 1 0 102 0V9z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
+        <div class="flex flex-row gap-4 justify-center items-center">
+          <BaseIcon
+            :path="mdiMapMarkerRadius"
+            :size="32"
+            class="flex justify-center items-center"
+          />
           <div>
             <h3
               class="mb-1 text-lg font-semibold leading-tight text-gray-900 dark:text-white"
             >
-              Интерактивный подход в выборе
+              Интерактивный подход в выборе, посмотрите на карте!
             </h3>
             <!-- <p class="font-light text-gray-500 dark:text-gray-400">
               Host code that you don't want to share with the world in private.

@@ -48,7 +48,6 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("InputSwitch", InputSwitch);
   nuxtApp.vueApp.component("SelectButton", SelectButton);
   nuxtApp.vueApp.component("InputNumber", InputNumber);
-  nuxtApp.vueApp.component("InputText", InputText);
   nuxtApp.vueApp.component("Textarea", Textarea);
   nuxtApp.vueApp.component("Steps", Steps);
 
@@ -67,5 +66,4 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("ScrollTop", ScrollTop);
   nuxtApp.vueApp.component("Dialog", Dialog);
   nuxtApp.vueApp.component("Message", Message);
-  nuxtApp.vueApp.component("Rating", Rating);
 });
