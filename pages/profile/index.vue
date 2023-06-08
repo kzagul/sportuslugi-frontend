@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { mdiEyeOutline } from "@mdi/js";
+import { mdiEyeOutline, mdiPencilOutline, mdiClose, mdiCheck } from "@mdi/js";
 import { useToast } from "primevue/usetoast";
+import { usePrimeVue } from "primevue/config";
 import { useUserStore } from "~~/stores/user";
 
 definePageMeta({
@@ -18,23 +19,51 @@ await authStore.getUser();
 const userData = ref({
   name: authStore.user?.name as string,
   image: authStore.user?.image as any,
+  email: authStore.user?.email as any,
+  last_name: authStore.user?.last_name as any,
+  father_name: authStore.user?.father_name as any,
+  gender: authStore.user?.gender as any,
+  birth_date: authStore.user?.birth_date as any,
   // image: "новоефото",
 });
 
-function updateUser(user: any) {
-  authStore.putUser(user?.id, userData?.value.name, user?.verified_moderator);
-  isRedactingModOpened.value = false;
-}
+const genders = ref([{ name: "Мужской" }, { name: "Женский" }]);
 
-function updateUserImage(user: any) {
-  authStore.putUserPhoto(
+function updateUser(user: any) {
+  authStore.putUser(
     user?.id,
     userData?.value.name,
-    // user?.verified_moderator,
-    userData?.value.image
+    user?.verified_moderator,
+    // userData?.value.image,
+    userData?.value.last_name,
+    userData?.value.father_name,
+    userData?.value.gender,
+    // userData?.value.birth_date
+    formatDate(userData.value.birth_date)
   );
   isRedactingModOpened.value = false;
+
+  toast.add({
+    severity: "success",
+    summary: "Успешно",
+    detail: "Профиль обновлен",
+    life: 3000,
+  });
 }
+
+// function updateUserImage(user: any) {
+//   authStore.putUserPhoto(
+//     user?.id,
+//     userData?.value.name,
+//     // user?.verified_moderator,
+//     userData?.value.image
+//   );
+//   isRedactingModOpened.value = false;
+// }
+
+const ageComputed = computed(() => {
+  return userData.value.birth_date;
+});
 
 const toast = useToast();
 
@@ -91,13 +120,35 @@ const formatSize = (bytes: any) => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
 };
 
-const testClick = () => {
-  console.log(files.value);
-};
+// function formatDate(date: any) {
+//   const d = new Date(date);
+//   let month = "" + (d.getMonth() + 1);
+//   let day = "" + d.getDate();
+//   const year = d.getFullYear();
+
+//   if (month.length < 2) month = "0" + month;
+//   if (day.length < 2) day = "0" + day;
+
+//   return [year, month, day].join("-");
+// }
+
+const { formatDate, getAge } = useFormatDate();
+
+function testClick() {
+  // console.log(formatDate("Sun May 11,2014"));
+  const formatted = formatDate(userData.value.birth_date);
+  console.log("formatted");
+  console.log(formatted);
+
+  const age = getAge(formatted);
+  console.log("age");
+  console.log(age);
+}
 </script>
 
 <template>
   <section>
+    <Toast />
     <div
       class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900"
     >
@@ -112,19 +163,24 @@ const testClick = () => {
       <!-- Right Content -->
       <div class="col-span-full xl:col-auto">
         <div
-          class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
+          class="flex justify-center items-center p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
         >
-          <div
-            class="items-center sm:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4"
-          >
-            <div class="relative rounded-full">
+          <div class="flex flex-row justify-around items-center gap-8">
+            <div
+              class="flex justify-center items-center mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 w-16 h-16"
+            >
               <!-- <img
                 class="mb-4 rounded-full w-40 h-40 sm:mb-0 xl:mb-4 2xl:mb-0"
                 src="https://flowbite-admin-dashboard.vercel.app/images/users/bonnie-green-2x.png"
                 alt="Jese picture"
               /> -->
               <!-- src="https://w7.pngwing.com/pngs/627/693/png-transparent-computer-icons-user-user-icon-thumbnail.png" -->
-              <Image
+
+              <span class="text-white text-3xl">
+                {{ Array.from(authStore.user!.name)[0] }}
+              </span>
+
+              <!-- <Image
                 :src="
                   authStore.user?.image
                     ? authStore.user?.image
@@ -137,17 +193,25 @@ const testClick = () => {
                 <template #indicator>
                   <BaseIcon :path="mdiEyeOutline" :size="20" />
                 </template>
-              </Image>
+              </Image> -->
             </div>
             <div>
-              <h3 class="mb-1 text-2xl font-bold text-gray-900 dark:text-white">
+              <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-white">
                 {{ authStore.user?.name }}
               </h3>
-              <h2 class="mb-1 text-xl font-bold text-gray-900 dark:text-white">
+              <h2 class="mb-1 text-lg font-bold text-gray-900 dark:text-white">
                 {{ authStore.user?.email }}
               </h2>
 
-              <button
+              <div
+                v-if="authStore.user?.birth_date"
+                class="flex flex-row gap-4"
+              >
+                <span>Возраст:</span>
+                <span>{{ getAge(formatDate(userData.birth_date)) }}</span>
+              </div>
+
+              <!-- <button
                 class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 my-4"
                 @click="isRedactingPhotoModOpened = !isRedactingPhotoModOpened"
               >
@@ -165,7 +229,7 @@ const testClick = () => {
                   </svg>
                   Изменить фото
                 </div>
-              </button>
+              </button> -->
 
               <div
                 v-if="isRedactingPhotoModOpened"
@@ -320,9 +384,21 @@ const testClick = () => {
           class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
         >
           <div class="flex flex-col gap-4">
-            <h3 class="text-xl font-semibold dark:text-white">
-              Карта рекомендаций
-            </h3>
+            <div class="flex flex-row items-center gap-3">
+              <h3 class="text-xl font-semibold dark:text-white">
+                Карта рекомендаций
+              </h3>
+              <span
+                class="bg-primary-100 text-primary-800 text-xs max-w-max font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300"
+              >
+                Chat GPT
+              </span>
+            </div>
+
+            <div>
+              Выберите услугу воспользовавшись нашим функционалом
+              индивидуального подбора
+            </div>
 
             <div>
               <nuxt-link to="/profile/recommendation">
@@ -364,370 +440,190 @@ const testClick = () => {
                   {{ authStore.user?.name }}
                 </p>
               </div> -->
+
+              <!-- ИМЯ -->
               <div class="col-span-6 sm:col-span-3">
                 <label
                   for="first-name"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >Имя</label
                 >
-                <input
+                <InputText
                   v-if="!isRedactingModOpened"
                   v-model="userData.name"
                   type="text"
                   class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="authStore.user?.name"
                   disabled
-                />
-                <input
-                  v-if="isRedactingModOpened"
-                  v-model="userData.name"
-                  type="text"
-                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="authStore.user?.name"
                 />
 
-                <!-- <label
-                  for="first-name"
-                  class="block mb-2 pt-4 text-sm font-medium text-gray-900 dark:text-white"
-                  >Пол</label
-                >
-                <input
-                  v-if="!isRedactingModOpened"
-                  v-model="userData.name"
-                  type="text"
-                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="authStore.user?.name"
-                  disabled
-                />
-                <input
+                <InputText
                   v-if="isRedactingModOpened"
-                  type="text"
+                  v-model="userData.name"
                   class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="Мужской"
-                /> -->
+                  type="text"
+                />
               </div>
+
+              <!-- Фамилия -->
               <div class="col-span-6 sm:col-span-3">
                 <label
                   for="first-name"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >Фамилия</label
                 >
-                <input
+                <InputText
                   v-if="!isRedactingModOpened"
-                  v-model="userData.name"
+                  v-model="userData.last_name"
                   type="text"
                   class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="authStore.user?.name"
                   disabled
-                />
-                <input
-                  v-if="isRedactingModOpened"
-                  v-model="userData.name"
-                  type="text"
-                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="authStore.user?.name"
                 />
 
-                <!-- <label
-                  for="first-name"
-                  class="block mb-2 pt-4 text-sm font-medium text-gray-900 dark:text-white"
-                  >Пол</label
-                >
-                <input
-                  v-if="!isRedactingModOpened"
-                  v-model="userData.name"
-                  type="text"
-                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="authStore.user?.name"
-                  disabled
-                />
-                <input
+                <InputText
                   v-if="isRedactingModOpened"
-                  type="text"
+                  v-model="userData.last_name"
                   class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="Мужской"
-                /> -->
+                  type="text"
+                />
               </div>
+
+              <!-- ОТЧЕСТВО -->
               <div class="col-span-6 sm:col-span-3">
                 <label
                   for="first-name"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >Отчество</label
                 >
-                <input
+                <InputText
                   v-if="!isRedactingModOpened"
-                  v-model="userData.name"
+                  v-model="userData.father_name"
                   type="text"
-                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="authStore.user?.name"
                   disabled
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 />
-                <input
+                <InputText
                   v-if="isRedactingModOpened"
-                  v-model="userData.name"
+                  v-model="userData.father_name"
                   type="text"
                   class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="authStore.user?.name"
                 />
-
-                <!-- <label
-                  for="first-name"
-                  class="block mb-2 pt-4 text-sm font-medium text-gray-900 dark:text-white"
-                  >Пол</label
-                >
-                <input
-                  v-if="!isRedactingModOpened"
-                  v-model="userData.name"
-                  type="text"
-                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="authStore.user?.name"
-                  disabled
-                />
-                <input
-                  v-if="isRedactingModOpened"
-                  type="text"
-                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="Мужской"
-                /> -->
               </div>
 
+              <!-- ПОЛ -->
               <div class="col-span-6 sm:col-span-3">
                 <label
                   for="first-name"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >Пол</label
                 >
-                <input
+                <Dropdown
                   v-if="!isRedactingModOpened"
-                  v-model="userData.name"
-                  type="text"
-                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="authStore.user?.name"
+                  v-model="userData.gender"
+                  :options="genders"
+                  option-label="name"
+                  option-value="name"
                   disabled
-                />
-                <input
-                  v-if="isRedactingModOpened"
-                  v-model="userData.name"
-                  type="text"
-                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="authStore.user?.name"
+                  placeholder="Выберите пол"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 />
 
-                <!-- <label
-                  for="first-name"
-                  class="block mb-2 pt-4 text-sm font-medium text-gray-900 dark:text-white"
-                  >Пол</label
-                >
-                <input
-                  v-if="!isRedactingModOpened"
-                  v-model="userData.name"
-                  type="text"
-                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="authStore.user?.name"
-                  disabled
-                />
-                <input
+                <Dropdown
                   v-if="isRedactingModOpened"
-                  type="text"
-                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="Мужской"
-                /> -->
+                  v-model="userData.gender"
+                  :options="genders"
+                  option-label="name"
+                  option-value="name"
+                  show-clear
+                  placeholder="Выберите пол"
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                />
               </div>
 
+              <!-- ДАТА РОЖДЕНИЯ -->
               <div class="col-span-6 sm:col-span-3">
                 <label
                   for="first-name"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >Возраст</label
+                  >Дата рождения</label
                 >
-                <input
+                <Calendar
                   v-if="!isRedactingModOpened"
-                  v-model="userData.name"
-                  type="text"
-                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="authStore.user?.name"
+                  v-model="userData.birth_date"
+                  date-format="yy-mm-dd"
+                  class="shadow-md bg-gray-10 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   disabled
                 />
-                <input
+                <!-- date-format="dd/mm/yy" -->
+                <Calendar
                   v-if="isRedactingModOpened"
-                  v-model="userData.name"
-                  type="text"
-                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="authStore.user?.name"
+                  v-model="userData.birth_date"
+                  date-format="yy-mm-dd"
+                  class="shadow-md bg-gray-10 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 />
-
-                <!-- <label
-                  for="first-name"
-                  class="block mb-2 pt-4 text-sm font-medium text-gray-900 dark:text-white"
-                  >Пол</label
-                >
-                <input
-                  v-if="!isRedactingModOpened"
-                  v-model="userData.name"
-                  type="text"
-                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="authStore.user?.name"
-                  disabled
-                />
-                <input
-                  v-if="isRedactingModOpened"
-                  type="text"
-                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="Мужской"
-                /> -->
               </div>
 
+              <!-- EMAIL -->
               <div class="col-span-6 sm:col-span-3">
                 <label
                   for="first-name"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >Email</label
                 >
-                <input
+                <InputText
                   v-if="!isRedactingModOpened"
-                  v-model="userData.name"
+                  v-model="userData.email"
                   type="text"
-                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="authStore.user?.name"
                   disabled
+                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 />
-                <input
+                <InputText
                   v-if="isRedactingModOpened"
-                  v-model="userData.name"
+                  v-model="userData.email"
                   type="text"
-                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="authStore.user?.name"
-                />
-
-                <!-- <label
-                  for="first-name"
-                  class="block mb-2 pt-4 text-sm font-medium text-gray-900 dark:text-white"
-                  >Пол</label
-                >
-                <input
-                  v-if="!isRedactingModOpened"
-                  v-model="userData.name"
-                  type="text"
-                  class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="authStore.user?.name"
                   disabled
-                />
-                <input
-                  v-if="isRedactingModOpened"
-                  type="text"
                   class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  :placeholder="Мужской"
-                /> -->
+                />
               </div>
-
-              <!-- <div class="col-span-6 sm:col-span-3">
-                <label
-                  for="country"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >Страна</label
-                >
-                <input
-                  id="country"
-                  type="text"
-                  name="country"
-                  class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Российская федерация"
-                  required=""
-                />
-              </div> -->
-
-              <!-- <div class="col-span-6 sm:col-span-3">
-                <label
-                  for="city"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >Город</label
-                >
-                <input
-                  id="city"
-                  type="text"
-                  name="city"
-                  class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Тюмень"
-                />
-              </div> -->
-
-              <!-- <div class="col-span-6 sm:col-span-3">
-                <label
-                  for="email"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >Email</label
-                >
-                <input
-                  id="email"
-                  type="email"
-                  name="email"
-                  class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="example@company.com"
-                  required=""
-                />
-              </div> -->
-
-              <!-- <div class="col-span-6 sm:col-span-3">
-                <label
-                  for="phone-number"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >Phone Number</label
-                >
-                <input
-                  id="phone-number"
-                  type="phone"
-                  name="phone-number"
-                  class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="e.g. +(12)3456 789"
-                  required=""
-                />
-              </div> -->
-
-              <!-- <div class="col-span-6 sm:col-span-3">
-                <label
-                  for="birthday"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >Birthday</label
-                >
-                <input
-                  id="birthday"
-                  type="number"
-                  name="birthday"
-                  class="shadow-sm bg-gray-10 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="15/08/1990"
-                  required=""
-                />
-              </div> -->
 
               <div class="flex flex-row gap-4 col-span-6 sm:col-full">
                 <button
-                  class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  v-if="!isRedactingModOpened"
+                  class="flex flex-row gap-2 items-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  :class="isRedactingModOpened ? `bg-red-600` : ``"
                   @click="isRedactingModOpened = !isRedactingModOpened"
                 >
-                  Редактировать
+                  <div class="flex items-center">
+                    <BaseIcon :path="mdiPencilOutline" :size="20" />
+                  </div>
+                  <span>Редактировать</span>
                 </button>
 
                 <button
                   v-if="isRedactingModOpened"
-                  class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  class="flex flex-row gap-2 items-center text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  @click="isRedactingModOpened = !isRedactingModOpened"
+                >
+                  <div class="flex items-center">
+                    <BaseIcon :path="mdiClose" :size="20" />
+                  </div>
+                  <span>Отменить</span>
+                </button>
+
+                <button
+                  v-if="isRedactingModOpened"
+                  class="flex flex-row gap-2 items-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                   @click="updateUser(authStore.user)"
                 >
-                  Сохранить изменения
+                  <div class="flex items-center">
+                    <BaseIcon :path="mdiCheck" :size="20" />
+                  </div>
+                  <span>Сохранить изменения</span>
                 </button>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
-        >
-          <h3 class="mb-4 text-xl font-semibold dark:text-white">Контент</h3>
-          Maecenas ut velit vitae mauris congue sodales. Integer vitae rutrum
-          augue, eget bibendum nunc. Vestibulum ante ipsum primis in faucibus
-          orci luctus et ultrices posuere cubilia curae; Curabitur ornare vitae
-          velit et egestas. Vivamus vestibulum in lacus id dictum. Interdum et
-          malesuada fames ac ante ipsum primis in faucibus.
-        </div>
+
         <div
           class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
         >
@@ -823,6 +719,17 @@ const testClick = () => {
               </button>
             </div>
           </div>
+        </div>
+
+        <div
+          class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
+        >
+          <h3 class="mb-4 text-xl font-semibold dark:text-white">Контент</h3>
+          Maecenas ut velit vitae mauris congue sodales. Integer vitae rutrum
+          augue, eget bibendum nunc. Vestibulum ante ipsum primis in faucibus
+          orci luctus et ultrices posuere cubilia curae; Curabitur ornare vitae
+          velit et egestas. Vivamus vestibulum in lacus id dictum. Interdum et
+          malesuada fames ac ante ipsum primis in faucibus.
         </div>
       </div>
     </div>

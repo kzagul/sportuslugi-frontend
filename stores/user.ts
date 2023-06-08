@@ -226,7 +226,12 @@ export const useUserStore = defineStore("user", {
     async putUser(
       userId: any,
       nameValue: string,
-      verifiedModeratorValue: boolean
+      // userImage: any,
+      verifiedModeratorValue: boolean,
+      lastNameValue: any,
+      fatherNameValue: any,
+      genderValue: any,
+      birthDateValue: any
     ) {
       this.authErrors = [];
       await this.getToken();
@@ -236,6 +241,11 @@ export const useUserStore = defineStore("user", {
           body: {
             name: nameValue,
             verified_moderator: verifiedModeratorValue,
+            // image: userImage,
+            last_name: lastNameValue,
+            father_name: fatherNameValue,
+            gender: genderValue,
+            birth_date: birthDateValue,
           },
         }).then(async () => {
           await this.getUserById(userId);

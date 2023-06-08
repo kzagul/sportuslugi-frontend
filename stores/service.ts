@@ -60,6 +60,35 @@ export const useServiceStore = defineStore("service", {
       // }
     },
 
+    async addServiceToFav(
+      serviceName: string,
+      sportsNames: any,
+      institutionsNames: any,
+      isFreeValue: any,
+      priceValue: any,
+      descriptionValue: any,
+      durationValue: any
+    ) {
+      try {
+        await fetchApi("/api/service", {
+          method: "POST",
+          body: {
+            name: serviceName,
+            sports: sportsNames,
+            institutions: institutionsNames,
+            isFree: isFreeValue,
+            price: priceValue,
+            description: descriptionValue,
+            duration: durationValue,
+          },
+        }).then(async () => {
+          await this.fetchServices();
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     async postService(
       serviceName: string,
       sportsNames: any,
