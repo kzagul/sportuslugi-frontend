@@ -89,11 +89,17 @@ const modalOpened = ref(false);
               <Menu as="div" class="relative inline-block text-left">
                 <div>
                   <MenuButton
-                    class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"
+                    class="flex justify-center items-center mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 w-8 h-8"
                   >
                     <span class="sr-only">Open user menu</span>
                     <!-- <img class="w-8 h-8 rounded-full" alt="user photo" /> -->
-                    <img
+
+                    <!-- Вместо фото сокращение букв -->
+                    <span class="text-white text-2xl">
+                      {{ Array.from(authStore.user.name)[0] }}
+                    </span>
+
+                    <!-- <img
                       class="w-10 h-10 rounded-full bg-white bg-center p-1"
                       alt="Фото пользователя"
                       :src="
@@ -101,7 +107,7 @@ const modalOpened = ref(false);
                           ? authStore.user?.image
                           : `/images/user.png`
                       "
-                    />
+                    /> -->
                     <!-- :src="currentUser.image" -->
                   </MenuButton>
                 </div>
