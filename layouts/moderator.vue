@@ -19,7 +19,7 @@ const isDrawbarOpened = ref(true);
 
       <LayoutTheDrawbarOrg v-show="isDrawbarOpened" />
       <div
-        class="w-full sm:px-4 mt-4 md:mt-12"
+        class="w-full sm:px-4 mt-4 md:mt-20"
         :class="isDrawbarOpened ? `ml-60` : ``"
       >
         <slot />

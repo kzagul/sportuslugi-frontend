@@ -8,6 +8,7 @@ export interface IInstitution {
   name: string;
   literal?: string;
   inn?: string;
+  image?: string;
   email?: string;
   contactuser?: User;
   contactUsers?: User[];

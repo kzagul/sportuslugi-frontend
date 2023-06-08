@@ -17,15 +17,15 @@ function cancelExitAccount() {
 }
 
 const menuNavsAdmin = ref([
-  { name: "Дашборд", path: "/admin" },
-  { name: "Профиль учреждения", path: "/profile" },
+  { name: "Дашборд", path: "/organization" },
+  { name: "Профиль учреждения", path: "/organization/profile" },
   { name: "Мой профиль", path: "/profile" },
   // { name: "Статистика", path: "/admin/statistics" },
 ]);
 
 const menuNavsManaging = ref([
-  { name: "Учреждение", path: "/admin/edit/services" },
-  { name: "Услуги учреждения", path: "/admin/edit/services" },
+  { name: "Учреждение", path: "/organization/edit/services" },
+  { name: "Услуги учреждения", path: "/organization/edit/services" },
 ]);
 </script>
 

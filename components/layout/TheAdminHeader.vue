@@ -24,7 +24,6 @@ const getInstitutionOfCurrentUser = computed(() => {
 });
 
 console.log(users.value);
-console.log("хууйуйу");
 console.log(getInstitutionOfCurrentUser.value);
 
 const navs = ref([
@@ -92,10 +91,13 @@ function changeDrawbarOpenStatus() {
             <div v-if="authStore.isAdmin" class="text-2xl">
               Панель администратора
             </div>
-            <div v-if="authStore.isModerator" class="text-xl">
+            <div
+              v-if="authStore.isModerator"
+              class="flex flex-row gap-2 items-center text-xl"
+            >
               Спортивное учреждение:
-              <span class="text-3xl">
-                {{ getInstitutionOfCurrentUser.name }}
+              <span class="text-2xl">
+                {{ getInstitutionOfCurrentUser?.name }}
               </span>
             </div>
           </div>

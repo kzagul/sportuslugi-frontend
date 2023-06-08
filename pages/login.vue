@@ -83,8 +83,8 @@ const form = ref({
                   }}</span>
                 </div>
               </div>
-              <div class="flex items-center justify-between">
-                <div class="flex items-start">
+              <div class="flex items-center justify-end">
+                <!-- <div class="flex items-start">
                   <div class="flex items-center h-5">
                     <input
                       id="remember"
@@ -101,7 +101,7 @@ const form = ref({
                       >Запомнить меня</label
                     >
                   </div>
-                </div>
+                </div> -->
                 <nuxt-link
                   to="/forgot-password"
                   class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"

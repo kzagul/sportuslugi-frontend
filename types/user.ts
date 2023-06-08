@@ -18,6 +18,7 @@ export interface User {
   verified_moderator?: boolean;
   moderator_of?: string;
   roles: Role[];
+  contact_user_of: IInstitution[];
 }
 
 export type UserWithoutPassword = Omit<User, "password">;
