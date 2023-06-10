@@ -1,3 +1,26 @@
+<script setup>
+import { mdiLifebuoy, mdiCheck } from "@mdi/js";
+import { useUserStore } from "~~/stores/user";
+
+const visible = ref(false);
+
+const inputTextValue = ref(null);
+const textAreaValue = ref("");
+
+const userStore = useUserStore();
+
+const user = computed(() => {
+  return userStore.user;
+  // return userStore.users.users;
+});
+
+const { sendTechMail } = useSendMail();
+
+function sendTechMailfunction() {
+  sendTechMail(inputTextValue, textAreaValue, user.value.email);
+}
+</script>
+
 <template>
   <footer class="wrapper p-4 bg-white sm:p-6 sm:px-4 dark:bg-gray-800">
     <div class="mx-auto max-w-screen-xl">
@@ -98,9 +121,76 @@
         </div>
 
         <div class="flex mt-4 space-x-4 sm:justify-center sm:mt-0">
-          <a href="https://legacystudio.ru/">
+          <Button
+            v-tooltip.top="{
+              value: `<h4 class='text-white text-xs'>Отправьте форму</h4>`,
+              escape: true,
+            }"
+            class="flex gap-1 bg-white"
+            type="text"
+            placeholder="Top"
+            severity="secondary"
+            label="Link"
+            link
+            @click="visible = true"
+          >
+            <BaseIcon
+              :path="mdiLifebuoy"
+              :size="20"
+              class="flex justify-center items-center"
+            />
             <span
-              class="text-sm text-gray-800 text-bold sm:text-center dark:text-gray-400 hover:underline"
+              class="flex items-center text-sm text-gray-800 text-bold sm:text-center dark:text-gray-400 hover:underline cursor-pointer"
+            >
+              Техподдержка
+            </span>
+
+            <Dialog
+              v-model:visible="visible"
+              modal
+              header="Сообщение в техподдержку"
+              :style="{ width: '40vw' }"
+            >
+              <div class="flex flex-col gap-8">
+                <div class="flex flex-col">
+                  <label
+                    for="first-name"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Тема сообщения</label
+                  >
+                  <InputText v-model="inputTextValue" type="text" />
+                </div>
+
+                <div class="flex flex-col">
+                  <label
+                    for="first-name"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Основная информация</label
+                  >
+                  <Textarea
+                    v-model="textAreaValue"
+                    auto-resize
+                    rows="5"
+                    cols="30"
+                  />
+                </div>
+              </div>
+              <template #footer>
+                <Button
+                  severity="success"
+                  class="flex flex-row gap-3"
+                  @click="sendTechMailfunction"
+                >
+                  <BaseIcon :path="mdiCheck" :size="24" />
+                  Отправить
+                </Button>
+                <!-- @click="deleteProduct" -->
+              </template>
+            </Dialog>
+          </Button>
+          <a href="https://legacystudio.ru/" class="flex">
+            <span
+              class="flex items-center text-sm text-gray-800 text-bold sm:text-center dark:text-gray-400 hover:underline"
             >
               Разработано в Legacy
             </span>

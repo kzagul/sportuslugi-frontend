@@ -9,6 +9,9 @@ import { useUserStore } from "~~/stores/user";
 import { useSportStore } from "~~/stores/sport";
 import { useServiceStore } from "~/stores/service";
 import { useInstitutionStore } from "~~/stores/institution";
+// import { useMailStore } from "~~/stores/mail";
+
+const { sendModeratorVerificationMail } = useSendMail();
 
 definePageMeta({
   middleware: ["admin-only"],
@@ -78,7 +81,8 @@ console.log(unverifiedModerators.value);
 function verifyAndAddContactUser(
   userId: any,
   userName: any,
-  institutionName: any
+  institutionName: any,
+  userEmail: any
 ) {
   userStore.verifyModerator(userId as Number, userName, institutionName);
 
@@ -90,9 +94,29 @@ function verifyAndAddContactUser(
   // institutions.value
 
   institutionStore.addContactUser(currentInstitution.value.id, userId);
+
+  sendModeratorVerificationMail(
+    // titleValue
+    "Здравствуйте, ваш аккаунт подтвержден!",
+    // bodyValue
+    "По данной ссылке вы можете перейти на страницу вашего спортивного учреждения.",
+    // emailValue
+    userEmail
+  );
 }
 
-console.log(institutions.value.filter((item: any) => item.name === "cool"));
+// const mailStore = useMailStore();
+
+async function simpleClick() {
+  await sendModeratorVerificationMail(
+    // titleValue
+    "Здравствуйте, ваш аккаунт подтвержден!",
+    // bodyValue
+    "По данной ссылке вы можете перейти на страницу вашего спортивного учреждения.",
+    // emailValue
+    "useremail@gmail.com"
+  );
+}
 </script>
 
 <template>
@@ -185,6 +209,16 @@ console.log(institutions.value.filter((item: any) => item.name === "cool"));
         </div>
       </div>
 
+      <!-- <button @click="simpleClick">Click</button> -->
+
+      <!-- @click="
+          mailStore.sendMailDemo(
+            `Здравствуйте, ваш аккаунт подтвержден!`,
+            `По данной ссылке вы можете перейти на страницу вашего спортивного учреждения.`,
+            `useremail@gmail.com`
+          )
+        " -->
+
       <!-- moderators -->
       <div
         class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
@@ -235,7 +269,8 @@ console.log(institutions.value.filter((item: any) => item.name === "cool"));
                       verifyAndAddContactUser(
                         user.id,
                         user.name,
-                        user.moderator_of
+                        user.moderator_of,
+                        user.email
                       )
                     "
                   >
@@ -257,7 +292,7 @@ console.log(institutions.value.filter((item: any) => item.name === "cool"));
       </div>
 
       <!-- top uslugi -->
-      <div class="grid grid-cols-2 md:grid-cols-2 gap-4">
+      <div v-if="false" class="grid grid-cols-2 md:grid-cols-2 gap-4">
         <div class="flex flex-col items-start bg-gray-10 rounded-lg shadow p-4">
           <div class="flex justify-content-between align-items-center mb-5">
             <h5>Best Selling Products</h5>

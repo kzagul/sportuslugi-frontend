@@ -32,6 +32,7 @@ import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
 import ScrollTop from "primevue/scrolltop";
 import Dialog from "primevue/dialog";
 import Message from "primevue/message";
+import Tooltip from "primevue/tooltip";
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(PrimeVue, { ripple: true });
@@ -68,6 +69,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("ScrollTop", ScrollTop);
   nuxtApp.vueApp.component("Dialog", Dialog);
   nuxtApp.vueApp.component("Message", Message);
+  // nuxtApp.vueApp.component("Tooltip", Tooltip);
+  nuxtApp.vueApp.directive("Tooltip", Tooltip);
 
   nuxtApp.vueApp.use(PrimeVue, {
     locale: {

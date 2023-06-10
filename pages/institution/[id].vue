@@ -142,16 +142,30 @@ onMounted(() => {
                 :header="`Сообщение в учреждение - ${institution?.name}`"
                 :style="{ width: '50vw' }"
               >
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
-                </p>
+                <div class="flex flex-col gap-8">
+                  <div class="flex flex-col">
+                    <label
+                      for="first-name"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >Тема сообщения</label
+                    >
+                    <InputText v-model="inputTextValue" type="text" />
+                  </div>
+
+                  <div class="flex flex-col">
+                    <label
+                      for="first-name"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >Основная информация</label
+                    >
+                    <Textarea
+                      v-model="textAreaValue"
+                      auto-resize
+                      rows="5"
+                      cols="30"
+                    />
+                  </div>
+                </div>
 
                 <template #footer>
                   <Button

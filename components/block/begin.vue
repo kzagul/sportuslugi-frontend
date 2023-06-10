@@ -98,15 +98,16 @@ const filteredSports = computed(() =>
             </svg>
           </NuxtLink>
           <h1
-            class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl xl:text-6xl dark:text-white"
+            class="mb-4 text-3xl font-extrabold leading-none tracking-tight text-primary-600 md:text-5xl xl:text-6xl dark:text-white"
           >
-            Добро пожаловать на Спорт-услуги!
+            Онлайн сервис для поиска спортивных занятий
           </h1>
-          <p
+
+          <!-- <p
             class="max-w-xl mx-auto mb-6 font-light text-gray-500 lg:mx-0 xl:mb-8 md:text-lg xl:text-xl dark:text-gray-400"
           >
             Онлайн сервис для поиска спортивных занятий
-          </p>
+          </p> -->
 
           <div
             v-if="authStore.user"
@@ -194,7 +195,7 @@ const filteredSports = computed(() =>
           />
           <div>
             <h3
-              class="mb-1 text-lg font-semibold leading-tight text-gray-900 dark:text-white"
+              class="mb-1 text-lg font-normal leading-tight text-gray-900 dark:text-white"
             >
               Выбор спортивных услуг и учреждений
             </h3>
@@ -211,9 +212,12 @@ const filteredSports = computed(() =>
           />
           <div>
             <h3
-              class="mb-1 text-lg font-semibold leading-tight text-gray-900 dark:text-white"
+              class="mb-1 text-lg font-normal leading-tight text-gray-900 dark:text-white"
             >
               Подбор услуг с помощью умных рекомендаций
+              <span class="font-semibold text-primary-500 underline">
+                Chat GPT
+              </span>
             </h3>
             <!-- <p class="font-light text-gray-500 dark:text-gray-400">
               Host code that you don't want to share with the world in private.
@@ -228,7 +232,7 @@ const filteredSports = computed(() =>
           />
           <div>
             <h3
-              class="mb-1 text-lg font-semibold leading-tight text-gray-900 dark:text-white"
+              class="mb-1 text-lg font-normal leading-tight text-gray-900 dark:text-white"
             >
               Интерактивный подход в выборе, посмотрите на карте!
             </h3>
