@@ -21,17 +21,17 @@ export const useSendMail = () => {
 
   // Ожидание подтверждения модератора
   async function sendModeratorVerificationWaitMail(
-    titleValue: string,
-    bodyValue: string,
-    emailValue: string
+    userEmailValue: string,
+    userNameValue: string,
+    institutionNameValue: string
   ) {
     try {
-      await fetchApi("/send-mail-moderator-verification", {
+      await fetchApi("/send-mail-moderator-verification-wait", {
         method: "GET",
         params: {
-          title: titleValue,
-          body: bodyValue,
-          email: emailValue,
+          userEmail: userEmailValue,
+          userName: userNameValue,
+          institutionName: institutionNameValue,
         },
       });
     } catch (error) {

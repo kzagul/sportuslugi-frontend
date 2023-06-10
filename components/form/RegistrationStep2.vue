@@ -78,19 +78,23 @@
         </h1>
         <div class="grid gap-5 my-6">
           <p class="font-light text-gray-500 dark:text-gray-400">
-            We emailed you a six-digit code to
-            <span class="font-medium text-gray-900 dark:text-white"
-              >name@company.com</span
-            >. Enter the code below to confirm your email address.
+            <span>
+              Мы направим вам электронное письмо на почту, которую вы указали
+              при регистрации.
+            </span>
+            <span>
+              Далее вам необходимо будет подтвердить вашу принадлежность к
+              учреждению, выполнив инструкцию предложенную в письме.
+            </span>
           </p>
-          <div class="flex my-4 space-x-2 sm:space-x-4 md:my-6">
-            <BaseCodeInput :confirm-lenght="confirmLenght" name="confirm" />
+          <!-- <div class="flex my-4 space-x-2 sm:space-x-4 md:my-6">
+            При нажатие на клавишу
           </div>
           <p
             class="p-4 mb-4 text-sm text-gray-500 rounded-lg bg-gray-10 dark:text-gray-400 md:mb-6 dark:bg-gray-800"
           >
             Make sure to keep this window open while check your inbox.
-          </p>
+          </p> -->
         </div>
       </FormStep>
     </FormWizard>
@@ -126,7 +130,7 @@ const props = defineProps({
 const steps = [
   { step: 1, name: "Организация" },
   { step: 2, name: "Контактное лицо" },
-  { step: 3, name: "Подтверждение" },
+  { step: 3, name: "Подтвердить" },
 ];
 
 const confirmLenght = 6;
@@ -153,10 +157,12 @@ const validationSchema = [
       .required("Повторите пароль")
       .oneOf([yupRef("password")], "Пароли не совпадают"),
   }),
-  yup.object({
-    confirm: string().required("код не введен"),
-  }),
+  // yup.object({
+  //   confirm: string().required("код не введен"),
+  // }),
 ];
+
+const { sendModeratorVerificationWaitMail } = useSendMail();
 
 /**
  * Only Called when the last step is submitted
@@ -175,6 +181,14 @@ async function onSubmit(formData) {
   //   "hello",
   //   formData.email
   // );
+
+  // Отправить EMAIL
+  sendModeratorVerificationWaitMail(
+    formData.email,
+    formData.name,
+    formData.institution_name
+  );
+  // sendTechMail(inputTextValue, textAreaValue, user.value.email);
 
   console.log("props.company");
   console.log(props.company);
