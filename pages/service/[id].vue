@@ -39,6 +39,13 @@ const { sendServiceRequestMail } = useSendMail();
 
 const selectedEmailTopic = ref();
 
+const serviceData = ref({
+  name: service.value.name,
+  isFree: service.value.isFree,
+  // email: service.value?.email,
+  // image: "новоефото",
+});
+
 const emailTopics = ref([
   { name: "Насколько подходит мне данная услуга?" },
   { name: "Свяжитесь со мной" },
@@ -164,12 +171,39 @@ function sendRequest() {
             </div>
           </div>
 
+          <!-- ВИДЫ СПОРТА -->
+          <div
+            class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 sm:p-6"
+          >
+            <div class="flow-root">
+              <h3 class="text-xl font-semibold dark:text-white mb-2">
+                Виды спорта
+              </h3>
+
+              <div
+                v-if="service.sports.length > 0"
+                class="flex flex-row flex-wrap gap-3 mt-4"
+              >
+                <button
+                  v-for="(sport, index) in service.sports"
+                  :key="index"
+                  class="text-white bg-primary-400 focus:ring-4 focus:ring-primary-300 font-medium rounded-xl text-sm px-2 py-1 text-center"
+                >
+                  {{ sport.name }}
+                </button>
+              </div>
+
+              <div v-else>Не относится к каким-либо видам спорта</div>
+            </div>
+          </div>
+
+          <!-- ЗАЯВКА -->
           <div
             class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
           >
             <div class="flow-root">
               <h3 class="text-xl font-semibold dark:text-white">
-                Понравилась услуга? Свяжитесь с нами!
+                Заинтересовались в услуге? Свяжитесь с нами!
               </h3>
               <div class="py-4">
                 Отправьте нам заявку на данную услугу, мы вас проконсультируем и
@@ -251,60 +285,73 @@ function sendRequest() {
             </div>
           </div>
 
+          <!-- УЧРЕЖДЕНИЕ -->
           <div
             class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
           >
-            <h3 class="mb-4 text-xl font-semibold dark:text-white">Контакты</h3>
+            <div
+              class="flex flex-row flex-wrap items-center gap-4 text-2xl mb-4"
+            >
+              <h3 class="dark:text-white">Учреждение:</h3>
 
-            <!-- <div class="flex flex-row gap-4">
-              <div class="mb-4">Почта:</div>
               <div
-                v-if="institution.email"
-                class="hover:text-primary-700 hover:underline cursor-pointer"
+                class="hover:text-primary-700 font-semibold hover:underline cursor-pointer"
               >
-                {{ institution.email }}
+                {{ service?.institutions[0]?.name }}
               </div>
-              <div v-else>нет данных</div>
-            </div> -->
+            </div>
 
-            <!-- <div class="flex flex-row gap-4">
-              <div class="mb-4">Телефон:</div>
-              <div
-                v-if="institution.phone"
-                class="hover:text-primary-700 hover:underline cursor-pointer"
+            <div>
+              <nuxt-link
+                class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                :to="`/institution/${service?.institutions[0]?.id}`"
               >
-                {{ institution.phone }}
-              </div>
-              <div v-else>нет данных</div>
-            </div> -->
-
-            <!-- <div class="flex flex-row gap-4">
-              <div class="mb-4">Адрес:</div>
-              <div
-                v-if="institution.address"
-                class="hover:text-primary-700 hover:underline cursor-pointer"
-              >
-                {{ institution.address }}
-              </div>
-              <div v-else>нет данных</div>
-            </div> -->
+                Перейти
+              </nuxt-link>
+            </div>
           </div>
 
+          <!-- КОНТАКТЫ УЧРЕЖДЕНИЯ -->
           <div
-            class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 sm:p-6"
+            class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
           >
-            <div class="flow-root">
-              <h3 class="text-xl font-semibold dark:text-white">Виды спорта</h3>
+            <h3 class="mb-4 text-xl font-semibold dark:text-white">
+              Контакты учреждения
+            </h3>
 
-              <div class="flex flex-row flex-wrap gap-3 mt-4">
-                <button
-                  v-for="(sport, index) in service.sports"
-                  :key="index"
-                  class="text-white bg-primary-400 focus:ring-4 focus:ring-primary-300 font-medium rounded-xl text-sm px-2 py-1 text-center"
-                >
-                  {{ sport.name }}
-                </button>
+            <!-- service?.institutions[0]?.email -->
+
+            <div class="flex flex-row gap-4">
+              <div class="mb-4">Почта:</div>
+              <div
+                v-if="service?.institutions[0]?.email"
+                class="hover:text-primary-700 hover:underline cursor-pointer"
+              >
+                {{ service?.institutions[0]?.email }}
               </div>
+              <div v-else>нет данных</div>
+            </div>
+
+            <div class="flex flex-row gap-4">
+              <div class="mb-4">Телефон:</div>
+              <div
+                v-if="service?.institutions[0]?.phone"
+                class="hover:text-primary-700 hover:underline cursor-pointer"
+              >
+                {{ service?.institutions[0]?.phone }}
+              </div>
+              <div v-else>нет данных</div>
+            </div>
+
+            <div class="flex flex-row gap-4">
+              <div class="mb-4">Адрес:</div>
+              <div
+                v-if="service?.institutions[0]?.address"
+                class="hover:text-primary-700 hover:underline cursor-pointer"
+              >
+                {{ service?.institutions[0]?.address }}
+              </div>
+              <div v-else>нет данных</div>
             </div>
           </div>
         </div>
@@ -321,76 +368,81 @@ function sendRequest() {
                 <!-- Название -->
                 <div class="col-span-6 sm:col-span-3">
                   <label
-                    for="first-name"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >Название услуги</label
                   >
-                  <input
-                    v-if="service.name"
+                    Название услуги
+                  </label>
+                  <InputText
                     v-model="service.name"
                     type="text"
-                    class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    :placeholder="service?.name"
                     disabled
-                  />
-                  <input
-                    v-else
-                    type="text"
                     class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    :placeholder="`нет данных`"
-                    disabled
                   />
                 </div>
 
-                <!-- ИНН -->
+                <div class="col-span-6 sm:col-span-3">
+                  <label
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Длительность
+                  </label>
+                  <InputText
+                    v-model="service.duration"
+                    type="text"
+                    disabled
+                    class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  />
+                </div>
+
                 <!-- <div class="col-span-6 sm:col-span-3">
                   <label
-                    for="first-name"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >ИНН</label
                   >
-                  <input
-                    v-if="institution.inn"
-                    v-model="institution.inn"
+                    Расписание
+                  </label>
+                  <InputText
+                    v-model="service.schedule"
                     type="text"
-                    class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    :placeholder="institution?.inn"
                     disabled
-                  />
-                  <input
-                    v-else
-                    type="text"
                     class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    :placeholder="`нет данных`"
-                    disabled
                   />
                 </div> -->
 
-                <!-- Рабочее время -->
-                <!-- <div class="col-span-6 sm:col-span-3">
+                <div v-if="service.difficulty" class="col-span-6 sm:col-span-3">
                   <label
-                    for="first-name"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >Рабочее время</label
                   >
-                  <input
-                    v-if="institution.workingTime"
-                    v-model="institution.workingTime"
+                    Сложность
+                  </label>
+                  <InputText
+                    v-model="service.difficulty"
                     type="text"
-                    class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    :placeholder="institution?.workingTime"
                     disabled
+                    class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   />
-                  <input
+                </div>
+
+                <div class="col-span-6 sm:col-span-3">
+                  <label
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Цена
+                  </label>
+                  <InputText
+                    v-if="service.price"
+                    v-model="service.price"
+                    type="text"
+                    disabled
+                    class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  />
+                  <InputText
                     v-else
                     type="text"
-                    class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    :placeholder="`нет данных`"
+                    placeholder="Бесплатная"
                     disabled
+                    class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   />
-                </div> -->
-
-                <!--  -->
+                </div>
               </div>
             </form>
           </div>
@@ -398,9 +450,9 @@ function sendRequest() {
           <div
             class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800"
           >
-            <div class="flow-root">
+            <div class="flex flex-col gap-4">
               <h3 class="text-xl font-semibold dark:text-white">
-                Описание Услуги
+                Описание услуги
               </h3>
               <p class="text-sm font-normal text-gray-500 dark:text-gray-400">
                 {{ service?.description }}
@@ -433,7 +485,7 @@ function sendRequest() {
         </div>
       </div>
 
-      <div class="grid grid-cols-1 px-4 xl:grid-cols-1 xl:gap-4">
+      <div v-if="false" class="grid grid-cols-1 px-4 xl:grid-cols-1 xl:gap-4">
         <div
           class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 xl:mb-0"
         >

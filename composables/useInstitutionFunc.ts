@@ -9,6 +9,16 @@ export const useInstitutionFunc = () => {
     return institution;
   }
 
+  // function getInstitutionByServiceId(services: any, serviceId: string) {
+  //   const service = services.filter(
+  //     (elem: any) => elem?.institutions[0].id === serviceId
+  //   );
+  //   // institutions
+
+
+  //   return service;
+  // }
+
   return {
     getInstitutionByName,
   };
