@@ -31,20 +31,20 @@ function changeDataLayout(layoutType) {
       </p>
     </div>
     <div class="flex flex-row gap-4 py-4">
-      <button
+      <!-- <button
         class="flex items-center justify-center px-3 py-2 gap-2 text-sm font-medium text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
         @click="changeDataLayout('table')"
       >
         <BaseIcon :path="mdiTableColumn" :size="20" />
         Таблица
-      </button>
-      <button
+      </button> -->
+      <!-- <button
         class="flex items-center justify-center px-3 py-2 gap-2 text-sm font-medium text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
         @click="changeDataLayout('grid')"
       >
         <BaseIcon :path="mdiViewGridOutline" :size="20" />
         Сетка
-      </button>
+      </button> -->
     </div>
     <div v-show="currentDataLayout === `grid`" class="flex flex-col gap-4">
       <ToolbarForGrid />

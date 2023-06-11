@@ -39,7 +39,27 @@ const sportInstitutions = ref(sport.value.institutions);
     </div>
 
     <div class="flex flex-row gap-4 py-4">
-      <button
+      <TabView class="flex flex-col w-full justify-center items-center">
+        <TabPanel header="Услуги">
+          <h2
+            class="flex justify-center mb-4 text-3xl tracking-tight font-extrabold text-gray-900 py-4"
+          >
+            Спортивные услуги
+          </h2>
+          <div>
+            <GridServices :services="sportServices" />
+          </div>
+        </TabPanel>
+        <TabPanel header="Учреждения">
+          <h2
+            class="flex justify-center mb-4 text-3xl tracking-tight font-extrabold text-gray-900 py-4"
+          >
+            Cпортивные учреждения
+          </h2>
+          <GridInstitutions :institutions="sportInstitutions" />
+        </TabPanel>
+      </TabView>
+      <!-- <button
         class="flex items-center justify-center px-3 py-2 gap-2 text-sm font-medium text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
         @click="changeDataLayout('services')"
       >
@@ -50,9 +70,9 @@ const sportInstitutions = ref(sport.value.institutions);
         @click="changeDataLayout('institutions')"
       >
         Учреждения
-      </button>
+      </button> -->
     </div>
-
+    <!-- 
     <div class="flex flex-col gap-12">
       <div v-show="currentDataLayout === `services`">
         <h2
@@ -73,6 +93,6 @@ const sportInstitutions = ref(sport.value.institutions);
         </h2>
         <GridInstitutions :institutions="sportInstitutions" />
       </div>
-    </div>
+    </div> -->
   </div>
 </template>

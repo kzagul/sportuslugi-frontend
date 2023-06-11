@@ -62,7 +62,7 @@
       </template>
 
       <template #grid="slotProps">
-        <div class="flex flex-row flex-wrap p-2">
+        <div class="col-12 xl:col-4 p-2">
           <div
             class="p-4 border-1 w-3/12 rounded-xl border-1 border-primary-500"
           >
