@@ -3,6 +3,7 @@ import { mdiEyeOutline, mdiPencilOutline, mdiClose, mdiCheck } from "@mdi/js";
 import { useToast } from "primevue/usetoast";
 import { usePrimeVue } from "primevue/config";
 import { useUserStore } from "~~/stores/user";
+import { useFormStore } from "~~/stores/form";
 
 definePageMeta({
   middleware: ["user-only"],
@@ -50,6 +51,19 @@ function updateUser(user: any) {
     life: 3000,
   });
 }
+
+const formStore = useFormStore();
+
+await authStore.getUser();
+const user = computed(() => {
+  return authStore.user;
+});
+
+await formStore.getServiceFormsByUserId(user.value!.id);
+
+const currentUserServiceForms = computed(() => {
+  return formStore.getCurrentUserServiceForms;
+});
 
 // function updateUserImage(user: any) {
 //   authStore.putUserPhoto(
@@ -158,7 +172,7 @@ function testClick() {
         >
           Личный профиль
         </h1>
-        <button @click="testClick">click</button>
+        <!-- <button @click="testClick">click</button> -->
       </div>
       <!-- Right Content -->
       <div class="col-span-full xl:col-auto">
@@ -415,8 +429,8 @@ function testClick() {
         <div
           class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
         >
-          <h3 class="mb-4 text-xl font-semibold dark:text-white">Контент</h3>
-          <div class="mb-4">Какой-то контент</div>
+          <h3 class="mb-4 text-xl font-semibold dark:text-white">О себе</h3>
+          <div class="mb-4">Описание о себе</div>
         </div>
       </div>
       <div class="col-span-2">
@@ -627,7 +641,122 @@ function testClick() {
         <div
           class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
         >
-          <div class="flow-root">
+          <!-- <h3 class="text-xl font-semibold dark:text-white pb-4">
+            Отправленные заявки на услуги
+          </h3> -->
+
+          <TabView>
+            <TabPanel header="Отправленные заявки">
+              <DataView :value="currentUserServiceForms" paginator :rows="5">
+                <template #list="slotProps">
+                  <div class="col-12">
+                    <div
+                      class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4"
+                    >
+                      <div
+                        class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4"
+                      >
+                        <div
+                          class="flex flex-column align-items-center sm:align-items-start gap-3"
+                        >
+                          <!-- <div class="text-2xl font-bold text-900">
+                  {{ slotProps.data.user_id }}
+                </div> -->
+                          <!-- <Rating
+                  :model-value="slotProps.data.rating"
+                  readonly
+                  :cancel="false"
+                ></Rating> -->
+                          <div class="flex align-items-center gap-3">
+                            <span class="flex align-items-center gap-2">
+                              Название услуги:
+                              <span class="font-semibold">{{
+                                slotProps.data.service_id
+                              }}</span>
+                            </span>
+                            <!-- <Tag
+                    :value="slotProps.data.inventoryStatus"
+                    :severity="getSeverity(slotProps.data)"
+                  ></Tag> -->
+                          </div>
+                        </div>
+
+                        <div
+                          class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2"
+                        >
+                          <!-- <span class="text-2xl font-semibold"
+                  >${{ slotProps.data.price }}</span
+                > -->
+
+                          <nuxt-link
+                            class="px-3 py-2 mb-3 mr-3 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                            :to="`/service/${slotProps.data.service_id}`"
+                            >Перейти к услуге</nuxt-link
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+              </DataView>
+            </TabPanel>
+            <TabPanel header="Избранные услуги">
+              <DataView :value="currentUserServiceForms" paginator :rows="5">
+                <template #list="slotProps">
+                  <div class="col-12">
+                    <div
+                      class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4"
+                    >
+                      <div
+                        class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4"
+                      >
+                        <div
+                          class="flex flex-column align-items-center sm:align-items-start gap-3"
+                        >
+                          <!-- <div class="text-2xl font-bold text-900">
+                  {{ slotProps.data.user_id }}
+                </div> -->
+                          <!-- <Rating
+                  :model-value="slotProps.data.rating"
+                  readonly
+                  :cancel="false"
+                ></Rating> -->
+                          <div class="flex align-items-center gap-3">
+                            <span class="flex align-items-center gap-2">
+                              Название услуги:
+                              <span class="font-semibold">{{
+                                slotProps.data.service_id
+                              }}</span>
+                            </span>
+                            <!-- <Tag
+                    :value="slotProps.data.inventoryStatus"
+                    :severity="getSeverity(slotProps.data)"
+                  ></Tag> -->
+                          </div>
+                        </div>
+
+                        <div
+                          class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2"
+                        >
+                          <!-- <span class="text-2xl font-semibold"
+                  >${{ slotProps.data.price }}</span
+                > -->
+
+                          <nuxt-link
+                            class="px-3 py-2 mb-3 mr-3 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                            :to="`/service/${slotProps.data.service_id}`"
+                            >Перейти к услуге</nuxt-link
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+              </DataView>
+            </TabPanel>
+          </TabView>
+
+          <!-- <div class="flow-root">
             <h3 class="text-xl font-semibold dark:text-white">
               Избранные услуги
             </h3>
@@ -718,22 +847,11 @@ function testClick() {
                 Все услуги
               </button>
             </div>
-          </div>
-        </div>
-
-        <div
-          class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
-        >
-          <h3 class="mb-4 text-xl font-semibold dark:text-white">Контент</h3>
-          Maecenas ut velit vitae mauris congue sodales. Integer vitae rutrum
-          augue, eget bibendum nunc. Vestibulum ante ipsum primis in faucibus
-          orci luctus et ultrices posuere cubilia curae; Curabitur ornare vitae
-          velit et egestas. Vivamus vestibulum in lacus id dictum. Interdum et
-          malesuada fames ac ante ipsum primis in faucibus.
+          </div> -->
         </div>
       </div>
     </div>
-    <div class="grid grid-cols-1 px-4 xl:grid-cols-2 xl:gap-4">
+    <div v-if="false" class="grid grid-cols-1 px-4 xl:grid-cols-2 xl:gap-4">
       <div
         class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 xl:mb-0"
       >

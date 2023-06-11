@@ -18,6 +18,9 @@ import Textarea from "primevue/textarea";
 import Steps from "primevue/steps";
 import Calendar from "primevue/calendar";
 
+import TabView from "primevue/tabview";
+import TabPanel from "primevue/tabpanel";
+
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import ColumnGroup from "primevue/columngroup";
@@ -55,6 +58,9 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("Textarea", Textarea);
   nuxtApp.vueApp.component("Steps", Steps);
   nuxtApp.vueApp.component("Calendar", Calendar);
+
+  nuxtApp.vueApp.component("TabView", TabView);
+  nuxtApp.vueApp.component("TabPanel", TabPanel);
 
   nuxtApp.vueApp.component("DataTable", DataTable);
   nuxtApp.vueApp.component("Column", Column);
