@@ -26,7 +26,40 @@ const visible = ref(false);
 
 const toast = useToast();
 
+onMounted(() => {
+  console.log("visited");
+});
+
+const { sendInstitutionMessageMail } = useSendMail();
+
+const selectedEmailTopic = ref();
+
+const emailTopics = ref([
+  { name: "Помощь в подборе услуги" },
+  { name: "Свяжитесь со мной" },
+  { name: "Необходима консультация" },
+  { name: "Выбрал услугу" },
+]);
+
+const user = computed(() => {
+  return authStore.user;
+});
+
+const emailPhoneValue = ref("");
+
+const textAreaValue = ref();
+
+console.log(
+  institution.value?.services.length !== 0 ? "есть услуги" : "нет услуг"
+);
+
 function sendRequest() {
+  sendInstitutionMessageMail(
+    selectedEmailTopic.value.name,
+    emailPhoneValue,
+    textAreaValue,
+    user.value.email
+  );
   visible.value = false;
   toast.add({
     severity: "success",
@@ -35,10 +68,6 @@ function sendRequest() {
     life: 3000,
   });
 }
-
-onMounted(() => {
-  console.log("visited");
-});
 </script>
 
 <template>
@@ -149,15 +178,29 @@ onMounted(() => {
                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >Тема сообщения</label
                     >
-                    <InputText v-model="inputTextValue" type="text" />
+
+                    <Dropdown
+                      v-model="selectedEmailTopic"
+                      editable
+                      :options="emailTopics"
+                      option-label="name"
+                      placeholder="Тема сообщения"
+                      class="w-full md:w-14rem"
+                    />
                   </div>
 
                   <div class="flex flex-col">
-                    <label
-                      for="first-name"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >Основная информация</label
-                    >
+                    <label for="phone">Телефон</label>
+                    <InputMask
+                      v-model="emailPhoneValue"
+                      date="phone"
+                      mask="+7(999) 999-99-99"
+                      placeholder="Ваш контактный телефон"
+                    />
+                  </div>
+
+                  <div class="flex flex-col">
+                    <label>Ваше сообщение</label>
                     <Textarea
                       v-model="textAreaValue"
                       auto-resize

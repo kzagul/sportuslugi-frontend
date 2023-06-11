@@ -13,6 +13,7 @@ import Checkbox from "primevue/checkbox";
 import InputSwitch from "primevue/inputswitch";
 import SelectButton from "primevue/selectbutton";
 import InputNumber from "primevue/inputnumber";
+import InputMask from "primevue/inputmask";
 import Textarea from "primevue/textarea";
 import Steps from "primevue/steps";
 import Calendar from "primevue/calendar";
@@ -50,6 +51,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("InputSwitch", InputSwitch);
   nuxtApp.vueApp.component("SelectButton", SelectButton);
   nuxtApp.vueApp.component("InputNumber", InputNumber);
+  nuxtApp.vueApp.component("InputMask", InputMask);
   nuxtApp.vueApp.component("Textarea", Textarea);
   nuxtApp.vueApp.component("Steps", Steps);
   nuxtApp.vueApp.component("Calendar", Calendar);

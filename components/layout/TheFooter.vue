@@ -17,6 +17,7 @@ const user = computed(() => {
 const { sendTechMail } = useSendMail();
 
 function sendTechMailfunction() {
+  visible.value = !visible.value;
   sendTechMail(inputTextValue, textAreaValue, user.value.email);
 }
 </script>

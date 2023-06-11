@@ -3,7 +3,7 @@ import { mdiEyeOutline, mdiCheck } from "@mdi/js";
 import { useRoute } from "vue-router";
 import { useToast } from "primevue/usetoast";
 import { useGeolocation } from "@vueuse/core";
-// import { useInstitutionStore } from "~~/stores/institution";
+import { useInstitutionStore } from "~~/stores/institution";
 import { useServiceStore } from "~~/stores/service";
 
 import { useUserStore } from "~~/stores/user";
@@ -12,7 +12,7 @@ const authStore = useUserStore();
 await authStore.getUser();
 
 const serviceStore = useServiceStore();
-// const institutionStore = useInstitutionStore();
+const institutionStore = useInstitutionStore();
 
 const route = useRoute();
 const routeID = String(route.params.id);
@@ -23,11 +23,11 @@ const service = computed(() => {
   return serviceStore.getCurrentService;
 });
 
-// await institutionStore.fetchInstitutionByID(routeID);
+await institutionStore.fetchInstitutionByID(service.value?.institutions[0]?.id);
 
-// const institution = computed(() => {
-//   return institutionStore.getCurrentInstitution;
-// });
+const institution = computed(() => {
+  return institutionStore.getCurrentInstitution;
+});
 
 const { coords } = useGeolocation();
 
@@ -35,7 +35,51 @@ const visible = ref(false);
 
 const toast = useToast();
 
+const { sendServiceRequestMail } = useSendMail();
+
+const selectedEmailTopic = ref();
+
+const emailTopics = ref([
+  { name: "Насколько подходит мне данная услуга?" },
+  { name: "Свяжитесь со мной" },
+  { name: "Необходима консультация" },
+  { name: "Выбрал услугу, запишите меня" },
+]);
+
+const user = computed(() => {
+  return authStore.user;
+});
+
+const emailPhoneValue = ref("");
+
+const textAreaValue = ref();
+
+const { getAge } = useFormatDate();
+
+const userAge = ref(getAge(user.value.birth_date));
+
+const contactInstitutionEmail = computed(() => {
+  return institution.value?.contact_users[0]?.email
+    ? institution.value?.contact_users[0]?.email
+    : institution.value?.email;
+});
+
 function sendRequest() {
+  sendServiceRequestMail(
+    user.value.name, // name
+    user.value.gender, // gender
+    userAge.value, // age
+    selectedEmailTopic.value.name, // title
+    emailPhoneValue, // phone
+    user.value.email,
+    contactInstitutionEmail.value, // institution email
+    service.value.name, // institution name
+    `http://localhost:3000/service/${service.value.id}`, // institution id
+    textAreaValue // body
+  );
+
+  // Добавить метод на добавление услуги в мои услуги
+
   visible.value = false;
   toast.add({
     severity: "success",
@@ -125,11 +169,11 @@ function sendRequest() {
           >
             <div class="flow-root">
               <h3 class="text-xl font-semibold dark:text-white">
-                Свяжитесь с нами
+                Понравилась услуга? Свяжитесь с нами!
               </h3>
               <div class="py-4">
-                Отправьте нам заявку, мы вас проконсультируем и поможем вам с
-                выбором услуги
+                Отправьте нам заявку на данную услугу, мы вас проконсультируем и
+                если Вам понравится, то запишем на занятие
               </div>
 
               <div>
@@ -147,16 +191,50 @@ function sendRequest() {
                 :header="`${service?.name}`"
                 :style="{ width: '50vw' }"
               >
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
-                </p>
+                <div class="flex flex-col gap-8">
+                  <h3 class="text-lg font-semibold dark:text-white w-8/12">
+                    Вы отправляете заявку на данную услугу! К данному письму
+                    будут подкреплены данные вашего профиля
+                    <span class="text-lg">(Пол, возраст, ФИО)</span>
+                  </h3>
+
+                  <div class="flex flex-col">
+                    <label
+                      for="first-name"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >С чем вам помочь?</label
+                    >
+
+                    <Dropdown
+                      v-model="selectedEmailTopic"
+                      editable
+                      :options="emailTopics"
+                      option-label="name"
+                      placeholder="Напишите"
+                      class="w-full md:w-14rem"
+                    />
+                  </div>
+
+                  <div class="flex flex-col">
+                    <label for="phone">Телефон</label>
+                    <InputMask
+                      v-model="emailPhoneValue"
+                      date="phone"
+                      mask="+7(999) 999-99-99"
+                      placeholder="Ваш контактный телефон"
+                    />
+                  </div>
+
+                  <div class="flex flex-col">
+                    <label>Что бы вы хотели дополнительно сообщить?</label>
+                    <Textarea
+                      v-model="textAreaValue"
+                      auto-resize
+                      rows="5"
+                      cols="30"
+                    />
+                  </div>
+                </div>
 
                 <template #footer>
                   <Button

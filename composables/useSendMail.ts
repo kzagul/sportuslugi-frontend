@@ -1,5 +1,5 @@
 export const useSendMail = () => {
-  // Тестовый mail
+  // + Тестовый mail
   async function sendMailDemo(
     titleValue: string,
     bodyValue: string,
@@ -19,7 +19,7 @@ export const useSendMail = () => {
     }
   }
 
-  // Ожидание подтверждения модератора
+  // + Ожидание подтверждения модератора
   async function sendModeratorVerificationWaitMail(
     userEmailValue: string,
     userNameValue: string,
@@ -39,7 +39,7 @@ export const useSendMail = () => {
     }
   }
 
-  // Подтверждение модератора mail
+  // + Подтверждение модератора mail
   async function sendModeratorVerificationMail(
     titleValue: string,
     bodyValue: string,
@@ -59,9 +59,10 @@ export const useSendMail = () => {
     }
   }
 
-  // Письмо учреждению
+  // + Письмо учреждению
   async function sendInstitutionMessageMail(
-    titleValue: string,
+    topicValue: string,
+    phoneValue: string,
     bodyValue: string,
     emailValue: string
   ) {
@@ -69,7 +70,8 @@ export const useSendMail = () => {
       await fetchApi("/send-mail-message-institution", {
         method: "GET",
         params: {
-          title: titleValue,
+          topic: topicValue,
+          phone: phoneValue,
           body: bodyValue,
           email: emailValue,
         },
@@ -79,7 +81,7 @@ export const useSendMail = () => {
     }
   }
 
-  // Ответ от учреждения
+  // - Ответ от учреждения
   async function sendInstitutionMessageAnswerMail(
     titleValue: string,
     bodyValue: string,
@@ -99,19 +101,36 @@ export const useSendMail = () => {
     }
   }
 
-  // Заявка на услугу учреждения
+  // - Заявка на услугу учреждения
+
+  // пользователь - имя, Пол, возраст, email
+  //
   async function sendServiceRequestMail(
+    nameValue: string,
+    genderValue: string,
+    ageValue: string,
     titleValue: string,
-    bodyValue: string,
-    emailValue: string
+    phoneValue: string,
+    emailUserValue: string,
+    emailInstitutionValue: string,
+    serviceNameValue: string,
+    serviceLinkValue: string,
+    bodyValue: string
   ) {
     try {
       await fetchApi("/send-mail-request-service", {
         method: "GET",
         params: {
+          name: nameValue,
+          gender: genderValue,
+          age: ageValue,
           title: titleValue,
+          phone: phoneValue,
+          emailUser: emailUserValue,
+          emailInstitution: emailInstitutionValue,
+          serviceName: serviceNameValue,
+          serviceLink: serviceLinkValue,
           body: bodyValue,
-          email: emailValue,
         },
       });
     } catch (error) {
@@ -119,7 +138,7 @@ export const useSendMail = () => {
     }
   }
 
-  // Ответ на заявку на услугу учреждения
+  // - Ответ на заявку на услугу учреждения
   async function sendServiceRequestAnswerMail(
     titleValue: string,
     bodyValue: string,
@@ -139,7 +158,7 @@ export const useSendMail = () => {
     }
   }
 
-  // Отправка технического письма
+  // - Отправка технического письма
   async function sendTechMail(
     titleValue: string,
     bodyValue: string,
