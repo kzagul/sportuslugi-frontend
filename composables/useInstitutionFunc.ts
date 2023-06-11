@@ -15,11 +15,18 @@ export const useInstitutionFunc = () => {
   //   );
   //   // institutions
 
-
   //   return service;
+  // }
+
+  // function getInstitutionOfCurrentUser(users: any) {
+  //   const currentUser = users.find(
+  //     (item: any) => item.id === user.value?.id
+  //   );
+  //   return currentUser?.contact_user_of[0];
   // }
 
   return {
     getInstitutionByName,
+    // getInstitutionOfCurrentUser,
   };
 };

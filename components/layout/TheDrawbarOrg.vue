@@ -24,7 +24,7 @@ const menuNavsAdmin = ref([
 ]);
 
 const menuNavsManaging = ref([
-  { name: "Учреждение", path: "/organization/edit/services" },
+  { name: "Учреждение", path: "/organization/profile" },
   { name: "Услуги учреждения", path: "/organization/edit/services" },
 ]);
 </script>
