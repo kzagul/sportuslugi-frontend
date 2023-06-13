@@ -20,7 +20,7 @@ const menuNavsAdmin = ref([
   { name: "Дашборд", path: "/organization" },
   { name: "Профиль учреждения", path: "/organization/profile" },
   { name: "Мой профиль", path: "/profile" },
-  // { name: "Статистика", path: "/admin/statistics" },
+  { name: "Заявки на услуги", path: "/organization/request" },
 ]);
 
 const menuNavsManaging = ref([
@@ -72,11 +72,21 @@ const menuNavsManaging = ref([
               alt="Спорт услуги лого"
             />
           </NuxtLink> -->
-          <img
+
+          <!-- <div
+            class="flex justify-center items-center mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 w-16 h-16"
+          > -->
+          <span
+            class="flex justify-center items-center text-white text-3xl bg-gray-800 rounded-full w-16 h-16 mx-auto"
+          >
+            {{ Array.from(authStore.user.name)[0] }}
+          </span>
+          <!-- </div> -->
+          <!-- <img
             class="mx-auto mb-4 w-20 h-20 rounded-full"
             src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gouch.png"
             alt="Micheal Avatar"
-          />
+          /> -->
           <h3
             class="text-xl font-bold tracking-tight text-gray-900 dark:text-white"
           >

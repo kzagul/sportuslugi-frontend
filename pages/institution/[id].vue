@@ -26,10 +26,6 @@ const visible = ref(false);
 
 const toast = useToast();
 
-onMounted(() => {
-  console.log("visited");
-});
-
 const { sendInstitutionMessageMail } = useSendMail();
 
 const selectedEmailTopic = ref();
@@ -68,6 +64,14 @@ function sendRequest() {
     life: 3000,
   });
 }
+
+const { getNowFormatDate } = useFormatDate();
+const { visitedInstitution } = useStatistics();
+
+// СТАТИСТИКА ПОСЕЩЕНИЙ
+visitedInstitution(user.value.id, institution.value.id, getNowFormatDate());
+
+console.log(getNowFormatDate());
 </script>
 
 <template>

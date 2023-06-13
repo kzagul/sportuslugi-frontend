@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useToast } from "primevue/usetoast";
 import { useOpenAIStore } from "~/stores/openai";
 
 import { useSportStore } from "~~/stores/sport";
@@ -127,11 +128,24 @@ const physicalActivities = ref([
   { name: "Высокая" },
 ]);
 
+const toast = useToast();
+
+const showRecommendButtons = ref(false);
+
+function sendRecommendationMark() {
+  showRecommendButtons.value = !showRecommendButtons.value;
+  toast.add({
+    severity: "info",
+    summary: "Ваша оценка отправлена",
+    life: 3000,
+  });
+}
 // Подбор услуг
 </script>
 
 <template>
   <div>
+    <Toast />
     <div class="flex flex-col">
       <h3 class="text-3xl font-semibold py-4">Карта рекомендаций</h3>
       <p class="mb-4 text-gray-500 sm:text-xl w-1/2">
@@ -157,7 +171,7 @@ const physicalActivities = ref([
           )
         "
       >
-        <div class="flex flex-row gap-4 py-8">
+        <div class="flex flex-row justify-between gap-2 py-8">
           <div class="flex flex-col gap-4 justify-center w-8/12">
             <!-- 1 -->
             <div class="flex flex-col">
@@ -242,10 +256,12 @@ const physicalActivities = ref([
 
           <!-- <input type="submit" value="Generate answer" /> -->
 
-          <div class="flex flex-col justify-start gap-8">
-            <div>
+          <div
+            class="flex flex-col justify-start gap-8 bg-white border border-gray-200 rounded-lg shadow-sm p-4 mt-6"
+          >
+            <div class="flex flex-col">
               <button
-                class="h-10 max-w-max px-4 py-2 text-sm font-medium rounded-sm text-white w-64 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300"
+                class="h-12 w-full px-4 py-2 text-base font-medium rounded-sm text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300"
               >
                 Подкрепить данные из профиля
               </button>
@@ -254,16 +270,30 @@ const physicalActivities = ref([
 
             <button
               type="submit"
-              class="h-10 w-full px-4 py-2 text-sm font-medium rounded-sm text-white w-64 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300"
-            >
-              Поиск
-            </button>
-
-            <button
-              class="h-10 w-full px-4 py-2 text-sm font-medium rounded-sm text-white w-64 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300"
+              class="h-12 w-full px-4 py-2 text-base font-medium rounded-sm text-white w-64 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300"
+              @click="showRecommendButtons = !showRecommendButtons"
             >
               Подобрать услуги
             </button>
+
+            <div
+              v-if="showRecommendButtons"
+              class="flex flex-col gap-2 items-center"
+            >
+              <span class="text-lg">Оцените, как вам подборка?</span>
+              <div class="flex flex-col flex-wrap gap-2 text-base w-full">
+                <Button
+                  label="Не понравилась"
+                  severity="danger"
+                  @click="sendRecommendationMark"
+                />
+                <Button
+                  label="Понравилась"
+                  severity="success"
+                  @click="sendRecommendationMark"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </form>

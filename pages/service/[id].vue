@@ -86,6 +86,8 @@ function sendRequest() {
   );
 
   // Добавить метод на добавление услуги в мои услуги
+  // TODO
+  // TODO
 
   visible.value = false;
   toast.add({
@@ -95,6 +97,19 @@ function sendRequest() {
     life: 3000,
   });
 }
+
+const { getNowFormatDate } = useFormatDate();
+const { visitedService } = useStatistics();
+
+// СТАТИСТИКА ПОСЕЩЕНИЙ
+visitedService(
+  user.value.id,
+  service.value.id,
+  institution.value.id,
+  getNowFormatDate()
+);
+
+console.log(getNowFormatDate());
 </script>
 
 <template>

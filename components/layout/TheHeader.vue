@@ -166,7 +166,7 @@ const modalOpened = ref(false);
                         </nuxt-link>
                       </MenuItem>
                     </div>
-                    <div
+                    <!-- <div
                       v-if="!authStore.isAdmin && !authStore.isModerator"
                       class="px-1 py-1"
                     >
@@ -198,7 +198,7 @@ const modalOpened = ref(false);
                           </button>
                         </nuxt-link>
                       </MenuItem>
-                    </div>
+                    </div> -->
 
                     <div class="px-1 py-1">
                       <MenuItem v-slot="{ active }">

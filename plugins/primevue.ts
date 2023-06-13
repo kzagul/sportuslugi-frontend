@@ -17,6 +17,7 @@ import InputMask from "primevue/inputmask";
 import Textarea from "primevue/textarea";
 import Steps from "primevue/steps";
 import Calendar from "primevue/calendar";
+import ProgressBar from "primevue/progressbar";
 
 import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
@@ -58,6 +59,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("Textarea", Textarea);
   nuxtApp.vueApp.component("Steps", Steps);
   nuxtApp.vueApp.component("Calendar", Calendar);
+  nuxtApp.vueApp.component("ProgressBar", ProgressBar);
 
   nuxtApp.vueApp.component("TabView", TabView);
   nuxtApp.vueApp.component("TabPanel", TabPanel);

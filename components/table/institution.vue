@@ -1,6 +1,7 @@
 <template>
   <div class="card">
     <DataTable
+      ref="dt"
       v-model:filters="filters"
       v-model:selection="selectedProduct"
       :value="institutions"
@@ -25,6 +26,13 @@
             <i class="pi pi-search" />
             <InputText v-model="filters['global'].value" placeholder="Поиск" />
           </span>
+          <!-- <div style="text-align: left">
+            <Button
+              icon="pi pi-external-link"
+              label="Export"
+              @click="exportCSV($event)"
+            />
+          </div> -->
         </div>
       </template>
       <template #empty> No customers found. </template>
@@ -108,4 +116,9 @@ function redirectToPage(name) {
 onMounted(() => {
   loading.value = false;
 });
+
+const dt = ref();
+const exportCSV = () => {
+  dt.value.exportCSV();
+};
 </script>
