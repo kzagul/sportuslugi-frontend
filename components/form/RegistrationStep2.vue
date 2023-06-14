@@ -11,23 +11,43 @@
         >
           Учреждение
         </h1>
-        <div class="grid gap-5 my-6">
-          <BaseAutocompliteInput
-            name="institution_name"
-            label="Название учреждения или ИНН"
-            placeholder="Введите название или ИНН"
-            :items="company"
-          >
-            <template #searchItem="result">
-              <div class="text-primary-700 py-[6px] px-4">
-                {{ result.name }}
-              </div>
-              <!-- <div class="py-[6px] px-4">
-                {{ result.company }}
-              </div> -->
-            </template>
-          </BaseAutocompliteInput>
-        </div>
+
+        <TabView>
+          <TabPanel header="Название учреждения">
+            <p>Подключение к существующему учреждению</p>
+            <div class="grid gap-5 mb-6">
+              <!-- label="Название учреждения или ИНН" -->
+              <BaseAutocompliteInput
+                name="institution_name"
+                placeholder="Введите название"
+                :items="company"
+              >
+                <template #searchItem="result">
+                  <div class="text-primary-700 py-[6px] px-4">
+                    {{ result.name }}
+                  </div>
+                </template>
+              </BaseAutocompliteInput>
+            </div>
+          </TabPanel>
+          <TabPanel header="ИНН">
+            <p>Регистрации нового учреждения</p>
+            <div class="grid gap-5 mb-6">
+              <!-- label="Название учреждения или ИНН" -->
+              <BaseAutocompliteInput
+                name="institution_name"
+                placeholder="Введите ИНН"
+                :items="company"
+              >
+                <template #searchItem="result">
+                  <div class="text-primary-700 py-[6px] px-4">
+                    {{ result.name }}
+                  </div>
+                </template>
+              </BaseAutocompliteInput>
+            </div>
+          </TabPanel>
+        </TabView>
       </FormStep>
 
       <FormStep>

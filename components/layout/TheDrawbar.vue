@@ -73,11 +73,16 @@ const menuNavsManaging = ref([
               alt="Спорт услуги лого"
             />
           </NuxtLink> -->
-          <img
+          <!-- <img
             class="mx-auto mb-4 w-20 h-20 rounded-full"
             src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gouch.png"
             alt="Micheal Avatar"
-          />
+          /> -->
+          <span
+            class="flex justify-center items-center text-white text-3xl bg-gray-800 rounded-full w-16 h-16 mx-auto"
+          >
+            {{ Array.from(authStore.user.name)[0] }}
+          </span>
           <h3
             class="text-xl font-bold tracking-tight text-gray-900 dark:text-white"
           >

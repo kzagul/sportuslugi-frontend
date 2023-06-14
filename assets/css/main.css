@@ -43,3 +43,7 @@ html {
   padding: 16px;
   width: 33.3333%;
 }
+
+.card-shadow {
+  @apply shadow transition duration-150 ease-in-out hover:shadow-lg;
+}

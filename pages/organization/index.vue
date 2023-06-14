@@ -27,6 +27,15 @@ const users = computed(() => {
   return authStore.users;
 });
 
+// тест
+const { getUsersAges } = useDemography();
+
+const resAges = getUsersAges(users.value);
+
+console.log(resAges);
+console.log("Все пользователи");
+console.log(users.value);
+
 const getInstitutionOfCurrentUser = computed(() => {
   const currentUser = users.value?.find(
     (item: any) => item.id === user.value?.id
@@ -41,6 +50,8 @@ const institutionId = getInstitutionOfCurrentUser.value?.id;
 
 // SERVICES
 const serviceStore = useServiceStore();
+
+await serviceStore.fetchServices();
 
 const services = computed(() => {
   return serviceStore.getServices;
@@ -106,6 +117,13 @@ console.log(
 
 // totalVisitsOfInstitutionsAll
 // totalVisitsOfInstitution
+
+const selectedTypeOfRating = ref();
+const typesOfRating = ref([
+  { name: "Посещаемость" },
+  { name: "Оценки" },
+  { name: "Заявки" },
+]);
 </script>
 
 <template>
@@ -113,13 +131,15 @@ console.log(
     <div class="py-16">
       <!-- РЕЙТИНГИ И ОЦЕНКИ -->
       <div
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 mt-4 bg-gray-10 rounded-lg shadow text-3xl font-semibold p-4 mb-4"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 mt-4 bg-gray-10 rounded-lg card-shadow text-3xl font-semibold p-4 mb-4 hover:text-primary-500"
       >
-        Рейтинги и оценки
+        <span> Рейтинги и оценки </span>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <!-- 1 -->
-        <div class="flex flex-col items-start bg-gray-10 rounded-lg shadow p-8">
+        <div
+          class="flex flex-col items-start bg-gray-10 rounded-lg card-shadow p-8"
+        >
           <div class="flex justify-between w-full mb-3">
             <div class="flex flex-col gap-12">
               <div>
@@ -151,9 +171,10 @@ console.log(
             </div>
           </div>
         </div>
+
         <!-- 2 -->
         <div
-          class="flex flex-col items-start gap-8 bg-gray-10 rounded-lg shadow p-8"
+          class="flex flex-col items-start gap-8 bg-gray-10 rounded-lg card-shadow p-8"
         >
           <span class="text-xl"> Всего оценок от пользователей </span>
 
@@ -176,20 +197,28 @@ console.log(
               <div
                 class="flex flex-row gap-4 font-medium text-3xl text-red-500"
               >
-                {{ rating.institutionRatingAmount }}
+                {{ 66 }}
               </div>
             </div>
           </div>
         </div>
+
         <!-- 3 - график -->
-        <div class="flex flex-col gap-2 bg-gray-10 rounded-lg shadow p-4">
-          <span class="flex mx-auto text-lg">Оценки учреждения</span>
-          <StatisticsChartDoughnut />
+        <div class="flex flex-col gap-2 bg-gray-10 rounded-lg card-shadow p-4">
+          <TabView>
+            <TabPanel header="Оценки учреждения">
+              <StatisticsChartDoughnut />
+            </TabPanel>
+            <TabPanel header="Оценки услуг">
+              <StatisticsChartDoughnut />
+            </TabPanel>
+          </TabView>
         </div>
       </div>
+
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 mt-4">
         <div
-          class="flex flex-col gap-8 items-start bg-gray-10 rounded-lg shadow p-8"
+          class="flex flex-col gap-8 items-center justify-center bg-gray-10 rounded-lg card-shadow p-8"
         >
           <div class="flex flex-row items-center justify-between w-full px-8">
             <span class="block font-medium mb-3 text-lg">
@@ -214,28 +243,53 @@ console.log(
           </div>
         </div>
 
-        <div class="flex flex-col items-start bg-gray-10 rounded-lg shadow p-4">
-          <span class="flex mx-auto text-lg">Топ 5 популярных услуг</span>
-          по посещениям // по оценкам // по заявкам
-          <span
-            v-for="(service, index) in getInstitutionOfCurrentUser?.services"
-            :key="index"
-          >
-            {{ service.name }}
-          </span>
+        <div
+          class="flex flex-col items-center justify-center bg-gray-10 rounded-lg card-shadow p-4 gap-4"
+        >
+          <div class="flex flex-row items-center gap-4">
+            <span class="flex mx-auto text-primary-700 font-semibold text-xl">
+              Топ 5 услуг
+            </span>
+            <!-- по посещениям // по оценкам // по заявкам -->
+            <!-- <div class="flex flex-col gap-1"> -->
+            <Dropdown
+              v-model="selectedTypeOfRating"
+              :options="typesOfRating"
+              option-label="name"
+              :placeholder="typesOfRating[0].name"
+              class=""
+            />
+          </div>
+          <div class="grid grid-cols-2 gap-8">
+            <div v-for="(service, index) in services" :key="index">
+              <div class="flex flex-row items-center gap-4">
+                <div
+                  class="flex items-center justify-center text-gray-800 font-medium text-xl bg-gray-10 rounded-full shadow p-2 w-8 h-8"
+                >
+                  {{ index + 1 }}
+                </div>
+                <nuxt-link
+                  :to="`/service/${service?.id}`"
+                  class="hover:text-primary-600 hover:underline underline-offset-1"
+                >
+                  {{ service.name }}
+                </nuxt-link>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- ПОСЕЩЕНИЕ УЧРЕЖДЕНИЯ -->
       <div
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 mt-12 bg-gray-10 rounded-lg shadow text-3xl font-semibold p-4"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 mt-12 bg-gray-10 rounded-lg card-shadow text-3xl font-semibold p-4 hover:text-primary-500"
       >
         Посещения
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 py-4">
         <div
-          class="flex flex-col gap-4 items-start bg-gray-10 rounded-lg shadow p-4"
+          class="flex flex-col gap-4 items-start bg-gray-10 rounded-lg card-shadow p-4"
         >
           <div>
             <span class="block font-medium mb-3 text-lg">
@@ -270,17 +324,19 @@ console.log(
           </div>
         </div>
 
-        <div class="flex flex-col items-start bg-gray-10 rounded-lg shadow p-4">
-          <StatisticsChartBasic class="w-full" />
+        <div
+          class="flex flex-col items-start bg-gray-10 rounded-lg card-shadow p-4"
+        >
+          <StatisticsChartBasic2 class="w-full" />
         </div>
       </div>
       <!-- ПОСЕЩЕНИЕ СТРАНИЦ УСЛУГ -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4">
+      <!-- <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4">
         <div
           class="flex flex-col items-start bg-gray-10 rounded-lg shadow p-4 w-full"
         >
-          <!-- Посещение услуг учреждения
-          <span> Топ самых популярных </span> -->
+          Посещение услуг учреждения
+          <span> Топ самых популярных </span>
 
           <StatisticsChartLine class="w-full" />
         </div>
@@ -292,58 +348,61 @@ console.log(
         <div class="flex flex-col gap-2 bg-gray-10 rounded-lg shadow p-4">
           Количество посещений по месяцам
         </div>
-      </div>
+      </div> -->
 
       <!-- ЗАЯВКИ НА УСЛУГИ -->
       <div
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 mt-12 bg-gray-10 rounded-lg shadow text-xl font-semibold p-4"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 mt-4 bg-gray-10 rounded-lg card-shadow text-3xl font-semibold p-4 mb-4 hover:text-primary-500"
       >
         Заявки на услуги
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-        <div class="flex flex-col items-start bg-gray-10 rounded-lg shadow p-8">
+        <div
+          class="flex flex-col items-start bg-gray-10 rounded-lg card-shadow p-8"
+        >
           <div class="flex justify-between w-full mb-3">
             <div class="flex flex-col gap-12">
               <div>
                 <span class="block font-medium mb-3 text-lg">
-                  Средняя оценка учреждения
+                  Всего заявок на "Спортуслуги"
+                </span>
+                <div class="text-green-500 font-medium text-3xl">{{ 12 }}</div>
+              </div>
+
+              <div>
+                <span class="block font-medium mb-3 text-lg">
+                  Количество заявок у вас:
                 </span>
                 <div class="text-green-500 font-medium text-3xl">
-                  {{ rating.institutionMedianRating }}
+                  {{ 3 }}
                 </div>
               </div>
 
               <div>
                 <span class="block font-medium mb-3 text-lg">
-                  Средняя оценка всех услуг учреждения
+                  Соотношение количества заявок к посещениям вашего учреждения в
+                  процентах:
                 </span>
-                <div class="text-green-500 font-medium text-3xl">
-                  {{ 4.8 }}
-                </div>
+
+                <ProgressBar
+                  :value="visitsRelation(3, totalVisitsOfInstitution)"
+                >
+                </ProgressBar>
               </div>
-            </div>
-            <div
-              class="flex items-center justify-center bg-blue-100 rounded-full w-10 h-10"
-            >
-              <BaseIcon
-                :path="mdiStar"
-                :size="32"
-                class="flex justify-center items-center"
-              />
             </div>
           </div>
         </div>
 
-        <div
+        <!-- <div
           class="flex flex-col items-start bg-gray-10 rounded-lg shadow p-4 w-full"
         >
-          <!-- Посещение услуг учреждения
-          <span> Топ самых популярных </span> -->
-
           <StatisticsChartLine class="w-full" />
-        </div>
+        </div> -->
 
-        <div class="flex flex-col items-start bg-gray-10 rounded-lg shadow p-4">
+        <div
+          class="col-span-2 flex flex-col items-start bg-gray-10 rounded-lg card-shadow p-8"
+        >
+          <span class="font-medium text-lg"> Топ 5 услуг по заявкам </span>
           <StatisticsChartBasic class="w-full" />
         </div>
 
@@ -354,39 +413,64 @@ console.log(
 
       <!-- ДЕМОГРАФИЯ -->
       <div
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 mt-12 bg-gray-10 rounded-lg shadow text-xl font-semibold p-4"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 mt-4 bg-gray-10 rounded-lg card-shadow text-3xl font-semibold p-4 mb-4 hover:text-primary-500"
       >
         Демографические показатели
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-        <div class="flex flex-col gap-2 bg-gray-10 rounded-lg shadow p-4">
-          Соотношение полов пользователей, отправивших заявки
-          <StatisticsChartPie1 />
+        <div
+          class="flex flex-col justify-between gap-2 bg-gray-10 rounded-lg card-shadow p-4"
+        >
+          <span class="text-lg">
+            Соотношение полов пользователей, отправивших заявки
+          </span>
+
+          <div class="flex flex-row">
+            <StatisticsChartPie1 />
+            <div class="flex flex-col gap-4 text-sm justify-center">
+              <span>Мужчин: {{ 22 }} </span>
+              <span>Женщин: {{ 14 }}</span>
+            </div>
+          </div>
         </div>
 
-        <div class="flex flex-col gap-2 bg-gray-10 rounded-lg shadow p-4">
-          Возраст и пол Среднее значение
-          <StatisticsChartPie2 />
+        <div
+          class="flex flex-col justify-between gap-2 bg-gray-10 rounded-lg card-shadow p-4"
+        >
+          <span class="text-lg"> Возраст и пол Среднее значение</span>
+
+          <div class="flex flex-row">
+            <StatisticsChartPie2 />
+            <div class="flex flex-col gap-4 text-sm justify-center">
+              <span>Дети: {{ 12 }} </span>
+              <span>Взрослые: {{ 20 }}</span>
+              <span>Пожилые: {{ 4 }}</span>
+            </div>
+          </div>
         </div>
 
-        <div class="flex flex-col gap-2 bg-gray-10 rounded-lg shadow p-4">
+        <div class="flex flex-col gap-2 bg-gray-10 rounded-lg card-shadow p-8">
           <div class="flex justify-between w-full mb-3">
             <div class="flex flex-col gap-12">
               <div>
                 <span class="block font-medium mb-3 text-lg">
-                  Самая популярная возрастная группа у учреждения
+                  Самая популярная возрастная группа учреждения:
                 </span>
-                <div class="text-green-500 font-medium text-3xl">
+                <div
+                  class="flex justify-center text-green-500 font-medium text-3xl"
+                >
                   {{ `Взрослые` }}
                 </div>
               </div>
 
               <div>
                 <span class="block font-medium mb-3 text-lg">
-                  Средний возраст
+                  Средний возраст:
                 </span>
-                <div class="text-green-500 font-medium text-3xl">
+                <div
+                  class="flex justify-center text-green-500 font-medium text-3xl"
+                >
                   {{ 24 }}
                 </div>
               </div>

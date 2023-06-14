@@ -5,6 +5,7 @@ import { useToast } from "primevue/usetoast";
 import { useGeolocation } from "@vueuse/core";
 import { useInstitutionStore } from "~~/stores/institution";
 import { useServiceStore } from "~~/stores/service";
+import { useFormStore } from "~~/stores/form";
 
 import { useUserStore } from "~~/stores/user";
 const authStore = useUserStore();
@@ -15,7 +16,7 @@ const serviceStore = useServiceStore();
 const institutionStore = useInstitutionStore();
 
 const route = useRoute();
-const routeID = String(route.params.id);
+const routeID = String(route.params?.id);
 
 await serviceStore.fetchServiceByID(routeID);
 
@@ -61,7 +62,7 @@ const emailPhoneValue = ref("");
 
 const textAreaValue = ref();
 
-const { getAge } = useFormatDate();
+const { getAge, getNowFormatDate } = useFormatDate();
 
 const userAge = ref(getAge(user.value.birth_date));
 
@@ -70,6 +71,8 @@ const contactInstitutionEmail = computed(() => {
     ? institution.value?.contact_users[0]?.email
     : institution.value?.email;
 });
+
+const formStore = useFormStore();
 
 function sendRequest() {
   sendServiceRequestMail(
@@ -81,13 +84,20 @@ function sendRequest() {
     user.value.email,
     contactInstitutionEmail.value, // institution email
     service.value.name, // institution name
-    `http://localhost:3000/service/${service.value.id}`, // institution id
-    textAreaValue // body
+    `http://localhost:3000/service/${service.value?.id}`, // institution id
+    textAreaValue.value // body
   );
 
   // Добавить метод на добавление услуги в мои услуги
   // TODO
-  // TODO
+
+  formStore.postServiceForm(
+    user.value?.id,
+    service.value?.id,
+    selectedEmailTopic.value.name,
+    textAreaValue.value,
+    getNowFormatDate()
+  );
 
   visible.value = false;
   toast.add({
@@ -98,17 +108,23 @@ function sendRequest() {
   });
 }
 
-const { getNowFormatDate } = useFormatDate();
 const { visitedService } = useStatistics();
 
 // СТАТИСТИКА ПОСЕЩЕНИЙ
 visitedService(
-  user.value.id,
-  service.value.id,
-  institution.value.id,
+  user.value?.id,
+  service.value?.id,
+  institution.value?.id,
   getNowFormatDate()
 );
 
+console.log(getNowFormatDate());
+
+console.log(user.value.name);
+console.log(service.value?.id);
+console.log(selectedEmailTopic.value?.name);
+
+console.log(textAreaValue.value);
 console.log(getNowFormatDate());
 </script>
 
@@ -497,6 +513,8 @@ console.log(getNowFormatDate());
               </YandexMap>
             </ClientOnly>
           </div>
+
+          <BlockComments />
         </div>
       </div>
 
@@ -505,6 +523,14 @@ console.log(getNowFormatDate());
           class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 xl:mb-0"
         >
           Контент
+        </div>
+      </div>
+
+      <div v-if="false" class="grid grid-cols-1 px-4 xl:grid-cols-1 xl:gap-4">
+        <div
+          class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 xl:mb-0"
+        >
+          <BlockComments />
         </div>
       </div>
     </section>
