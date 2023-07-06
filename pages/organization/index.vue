@@ -147,7 +147,8 @@ const typesOfRating = ref([
                   Средняя оценка учреждения
                 </span>
                 <div class="text-green-500 font-medium text-3xl">
-                  {{ rating.institutionMedianRating }}
+                  <!-- {{ 4.8 }} -->
+                  {{ 4.6 }}
                 </div>
               </div>
 
@@ -156,7 +157,7 @@ const typesOfRating = ref([
                   Средняя оценка всех услуг учреждения
                 </span>
                 <div class="text-green-500 font-medium text-3xl">
-                  {{ 4.8 }}
+                  {{ 4.5 }}
                 </div>
               </div>
             </div>
@@ -184,7 +185,8 @@ const typesOfRating = ref([
               <div
                 class="flex flex-row gap-4 font-medium text-3xl text-red-500"
               >
-                {{ rating.institutionRatingAmount }}
+                <!-- {{ rating.institutionRatingAmount }} -->
+                {{ 30 }}
               </div>
             </div>
           </div>
@@ -197,7 +199,7 @@ const typesOfRating = ref([
               <div
                 class="flex flex-row gap-4 font-medium text-3xl text-red-500"
               >
-                {{ 66 }}
+                {{ 45 }}
               </div>
             </div>
           </div>
@@ -217,7 +219,7 @@ const typesOfRating = ref([
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 mt-4">
-        <div
+        <!-- <div
           class="flex flex-col gap-8 items-center justify-center bg-gray-10 rounded-lg card-shadow p-8"
         >
           <div class="flex flex-row items-center justify-between w-full px-8">
@@ -227,7 +229,7 @@ const typesOfRating = ref([
             <div
               class="text-green-500 font-medium text-3xl bg-gray-10 rounded-full shadow p-4"
             >
-              {{ 13 }}
+              {{ 12 }}
             </div>
           </div>
 
@@ -238,13 +240,13 @@ const typesOfRating = ref([
             <div
               class="text-green-500 font-medium text-3xl bg-gray-10 rounded-full shadow p-4"
             >
-              {{ 22 }}
+              {{ 18 }}
             </div>
           </div>
-        </div>
+        </div> -->
 
         <div
-          class="flex flex-col items-center justify-center bg-gray-10 rounded-lg card-shadow p-4 gap-4"
+          class="col-span-2 flex flex-col items-center justify-center bg-gray-10 rounded-lg card-shadow p-4 gap-4"
         >
           <div class="flex flex-row items-center gap-4">
             <span class="flex mx-auto text-primary-700 font-semibold text-xl">
@@ -260,7 +262,7 @@ const typesOfRating = ref([
               class=""
             />
           </div>
-          <div class="grid grid-cols-2 gap-8">
+          <div class="grid grid-cols-5 gap-8 py-8">
             <div v-for="(service, index) in services" :key="index">
               <div class="flex flex-row items-center gap-4">
                 <div
@@ -296,14 +298,16 @@ const typesOfRating = ref([
               Все учреждения:
             </span>
             <div class="text-green-500 font-medium text-3xl">
-              {{ totalVisitsOfInstitutionsAll }}
+              <!-- {{ totalVisitsOfInstitutionsAll }} -->
+              {{ 112 }}
             </div>
           </div>
 
           <div>
             <span class="block font-medium mb-3 text-lg"> Это учреждение </span>
             <div class="text-green-500 font-medium text-3xl">
-              {{ totalVisitsOfInstitution }}
+              <!-- {{ totalVisitsOfInstitution }} -->
+              {{ 43 }}
             </div>
           </div>
 
@@ -315,8 +319,8 @@ const typesOfRating = ref([
             <ProgressBar
               :value="
                 visitsRelation(
-                  totalVisitsOfInstitution,
-                  totalVisitsOfInstitutionsAll
+                  43, //totalVisitsOfInstitution,
+                  112 //totalVisitsOfInstitutionsAll
                 )
               "
             >
@@ -327,6 +331,7 @@ const typesOfRating = ref([
         <div
           class="flex flex-col items-start bg-gray-10 rounded-lg card-shadow p-4"
         >
+          <span class="mx-auto"> Посещения за последние 6 месяцев </span>
           <StatisticsChartBasic2 class="w-full" />
         </div>
       </div>
@@ -366,7 +371,7 @@ const typesOfRating = ref([
                 <span class="block font-medium mb-3 text-lg">
                   Всего заявок на "Спортуслуги"
                 </span>
-                <div class="text-green-500 font-medium text-3xl">{{ 12 }}</div>
+                <div class="text-green-500 font-medium text-3xl">{{ 24 }}</div>
               </div>
 
               <div>
@@ -374,7 +379,7 @@ const typesOfRating = ref([
                   Количество заявок у вас:
                 </span>
                 <div class="text-green-500 font-medium text-3xl">
-                  {{ 3 }}
+                  {{ 15 }}
                 </div>
               </div>
 
@@ -384,10 +389,7 @@ const typesOfRating = ref([
                   процентах:
                 </span>
 
-                <ProgressBar
-                  :value="visitsRelation(3, totalVisitsOfInstitution)"
-                >
-                </ProgressBar>
+                <ProgressBar :value="visitsRelation(15, 43)"> </ProgressBar>
               </div>
             </div>
           </div>

@@ -10,7 +10,7 @@ const services = computed(() => {
   return serviceStore.getServices;
 });
 
-const currentDataLayout = ref("grid");
+const currentDataLayout = ref("table");
 
 function changeDataLayout(layoutType) {
   currentDataLayout.value = layoutType;

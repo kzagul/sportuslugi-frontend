@@ -15,7 +15,7 @@ const setChartData = () => {
     labels: ["1", "2", "3", "4", "5"],
     datasets: [
       {
-        data: [0, 2, 5, 10, 15],
+        data: [0, 2, 5, 6, 19],
         backgroundColor: [
           documentStyle.getPropertyValue("--blue-500"),
           documentStyle.getPropertyValue("--yellow-500"),

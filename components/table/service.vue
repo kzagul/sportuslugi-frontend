@@ -49,6 +49,46 @@
           />
         </template>
       </Column>
+      <!-- <Column
+        field="name"
+        header="Учреждение"
+        style="min-width: 12rem"
+        sortable
+        filter
+      >
+        <template #body="{ data }">
+          {{ data?.name }}
+        </template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText
+            v-model="filterModel.value"
+            type="text"
+            class="p-column-filter"
+            placeholder="Искать по названию"
+            @input="filterCallback()"
+          />
+        </template>
+      </Column> -->
+      <!-- <Column
+        field="name"
+        header="Цена"
+        style="min-width: 12rem"
+        sortable
+        filter
+      >
+        <template #body="{ data }">
+          {{ data?.name }}
+        </template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText
+            v-model="filterModel.value"
+            type="text"
+            class="p-column-filter"
+            placeholder="Искать по названию"
+            @input="filterCallback()"
+          />
+        </template>
+      </Column> -->
       <Column field="redirect" style="min-width: 2rem">
         <template #body="{ data }">
           <button

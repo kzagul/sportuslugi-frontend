@@ -6,11 +6,11 @@
 
 <script setup>
 const chartData = ref({
-  labels: ["Q1", "Q2", "Q3", "Q4", "Q5"],
+  labels: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь"],
   datasets: [
     {
-      label: "Заявки",
-      data: [2, 4, 5, 7, 10],
+      label: "Посещения",
+      data: [0, 0, 0, 0, 11, 32],
       backgroundColor: [
         "rgba(255, 159, 64, 0.2)",
         "rgba(75, 192, 192, 0.2)",

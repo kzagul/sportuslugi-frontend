@@ -149,11 +149,11 @@ function sendRecommendationMark() {
     <div class="flex flex-col">
       <h3 class="text-3xl font-semibold py-4">Карта рекомендаций</h3>
       <p class="mb-4 text-gray-500 sm:text-xl w-1/2">
-        Воспользуйтесь умным подбором услуг
+        Воспользуйтесь умным подбором услуг!
       </p>
       <p class="mb-4 text-gray-500 sm:text-xl w-1/2">
-        Тут описание бла бла бла бла аалаллалалалала бла бла бла бла
-        аалаллалалалала бла бла бла бла аалаллалалалала
+        Заполните в предложенных полях информацию о себе, поля не обязательные,
+        но чем подробнее описание, тем более точный ответ!
       </p>
     </div>
     <main class="main">
@@ -276,7 +276,7 @@ function sendRecommendationMark() {
               Подобрать услуги
             </button>
 
-            <div
+            <!-- <div
               v-if="showRecommendButtons"
               class="flex flex-col gap-2 items-center"
             >
@@ -293,7 +293,7 @@ function sendRecommendationMark() {
                   @click="sendRecommendationMark"
                 />
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </form>

@@ -368,6 +368,78 @@ console.log(getNowFormatDate());
                   />
                 </div>
 
+                <!-- Тип -->
+                <div class="col-span-6 sm:col-span-3">
+                  <label
+                    for="first-name"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Тип</label
+                  >
+                  <input
+                    v-if="institution.workingTime"
+                    v-model="institution.workingTime"
+                    type="text"
+                    class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    :placeholder="institution?.workingTime"
+                    disabled
+                  />
+                  <input
+                    v-else
+                    type="text"
+                    class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    :placeholder="`нет данных`"
+                    disabled
+                  />
+                </div>
+
+                <!-- Город -->
+                <div class="col-span-6 sm:col-span-3">
+                  <label
+                    for="first-name"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Город</label
+                  >
+                  <input
+                    v-if="institution.workingTime"
+                    v-model="institution.workingTime"
+                    type="text"
+                    class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    :placeholder="institution?.workingTime"
+                    disabled
+                  />
+                  <input
+                    v-else
+                    type="text"
+                    class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    :placeholder="`нет данных`"
+                    disabled
+                  />
+                </div>
+
+                <!-- Адрес -->
+                <div class="col-span-6 sm:col-span-3">
+                  <label
+                    for="first-name"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Адрес</label
+                  >
+                  <input
+                    v-if="institution.workingTime"
+                    v-model="institution.workingTime"
+                    type="text"
+                    class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    :placeholder="institution?.workingTime"
+                    disabled
+                  />
+                  <input
+                    v-else
+                    type="text"
+                    class="shadow-md bg-gray-10 border-0 border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    :placeholder="`нет данных`"
+                    disabled
+                  />
+                </div>
+
                 <!--  -->
               </div>
             </form>
@@ -382,6 +454,11 @@ console.log(getNowFormatDate());
               </h3>
               <p class="text-sm font-normal text-gray-500 dark:text-gray-400">
                 {{ institution?.description }}
+                Миссия школы: создавать лучшие условия для развития спорта,
+                привлекать к здоровому образу жизни тюменцев, способствовать
+                физическому и нравственному совершенствованию жителей областной
+                столицы. Наша мечта: стать и быть лучшим учреждением спорта в
+                городе Тюмени.
               </p>
             </div>
           </div>
@@ -393,12 +470,10 @@ console.log(getNowFormatDate());
               Местоположение на карте
             </h3>
             <ClientOnly fallback-tag="span" fallback="Загрузка карты ...">
-              <YandexMap
-                :coordinates="[coords.latitude, coords.longitude]"
-                :zoom="16"
-              >
+              <YandexMap :coordinates="[57.15515, 65.57626]" :zoom="16">
+                <!-- 57.15515, 65.57626 -->
                 <YandexMarker
-                  :coordinates="[coords.latitude, coords.longitude]"
+                  :coordinates="[57.15515, 65.57626]"
                   :marker-id="123"
                 >
                   <template #component>

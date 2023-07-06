@@ -4,11 +4,19 @@ import { useToast } from "primevue/usetoast";
 import { usePrimeVue } from "primevue/config";
 import { useUserStore } from "~~/stores/user";
 import { useFormStore } from "~~/stores/form";
+import { useServiceStore } from "~/stores/service";
 
 definePageMeta({
   middleware: ["user-only"],
 });
 
+const serviceStore = useServiceStore();
+
+await serviceStore.fetchServices();
+
+const services = computed(() => {
+  return serviceStore.getServices;
+});
 const isRedactingModOpened = ref(false);
 
 const isRedactingPhotoModOpened = ref(false);
@@ -427,6 +435,7 @@ function testClick() {
         </div>
 
         <div
+          v-if="false"
           class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800"
         >
           <h3 class="mb-4 text-xl font-semibold dark:text-white">О себе</h3>
@@ -647,7 +656,8 @@ function testClick() {
 
           <TabView>
             <TabPanel header="Отправленные заявки">
-              <DataView :value="currentUserServiceForms" paginator :rows="5">
+              <TableService />
+              <!-- <DataView :value="currentUserServiceForms" paginator :rows="5">
                 <template #list="slotProps">
                   <div class="col-12">
                     <div
@@ -659,14 +669,6 @@ function testClick() {
                         <div
                           class="flex flex-column align-items-center sm:align-items-start gap-3"
                         >
-                          <!-- <div class="text-2xl font-bold text-900">
-                  {{ slotProps.data.user_id }}
-                </div> -->
-                          <!-- <Rating
-                  :model-value="slotProps.data.rating"
-                  readonly
-                  :cancel="false"
-                ></Rating> -->
                           <div class="flex align-items-center gap-3">
                             <span class="flex align-items-center gap-2">
                               Название услуги:
@@ -674,20 +676,12 @@ function testClick() {
                                 slotProps.data.service_id
                               }}</span>
                             </span>
-                            <!-- <Tag
-                    :value="slotProps.data.inventoryStatus"
-                    :severity="getSeverity(slotProps.data)"
-                  ></Tag> -->
                           </div>
                         </div>
 
                         <div
                           class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2"
                         >
-                          <!-- <span class="text-2xl font-semibold"
-                  >${{ slotProps.data.price }}</span
-                > -->
-
                           <nuxt-link
                             class="px-3 py-2 mb-3 mr-3 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                             :to="`/service/${slotProps.data.service_id}`"
@@ -698,10 +692,10 @@ function testClick() {
                     </div>
                   </div>
                 </template>
-              </DataView>
+              </DataView> -->
             </TabPanel>
             <TabPanel header="Избранные услуги">
-              <DataView :value="currentUserServiceForms" paginator :rows="5">
+              <!-- <DataView :value="currentUserServiceForms" paginator :rows="5">
                 <template #list="slotProps">
                   <div class="col-12">
                     <div
@@ -713,14 +707,6 @@ function testClick() {
                         <div
                           class="flex flex-column align-items-center sm:align-items-start gap-3"
                         >
-                          <!-- <div class="text-2xl font-bold text-900">
-                  {{ slotProps.data.user_id }}
-                </div> -->
-                          <!-- <Rating
-                  :model-value="slotProps.data.rating"
-                  readonly
-                  :cancel="false"
-                ></Rating> -->
                           <div class="flex align-items-center gap-3">
                             <span class="flex align-items-center gap-2">
                               Название услуги:
@@ -728,20 +714,12 @@ function testClick() {
                                 slotProps.data.service_id
                               }}</span>
                             </span>
-                            <!-- <Tag
-                    :value="slotProps.data.inventoryStatus"
-                    :severity="getSeverity(slotProps.data)"
-                  ></Tag> -->
                           </div>
                         </div>
 
                         <div
                           class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2"
                         >
-                          <!-- <span class="text-2xl font-semibold"
-                  >${{ slotProps.data.price }}</span
-                > -->
-
                           <nuxt-link
                             class="px-3 py-2 mb-3 mr-3 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                             :to="`/service/${slotProps.data.service_id}`"
@@ -752,7 +730,7 @@ function testClick() {
                     </div>
                   </div>
                 </template>
-              </DataView>
+              </DataView> -->
             </TabPanel>
           </TabView>
 

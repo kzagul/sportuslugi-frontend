@@ -36,6 +36,15 @@ const userMarker = ref(null);
 const name = ref("Custom");
 
 const visible = ref(false);
+
+// For map
+const selectedMapFilter = ref();
+const mapFilters = ref([
+  { name: "Все учреждения" },
+  { name: "Cамое близкое" },
+  { name: "5 самых близких" },
+  { name: "10 самых близких" },
+]);
 </script>
 
 <template>
@@ -100,6 +109,16 @@ const visible = ref(false);
       header="Спортивные учреждения на карте"
       :style="{ width: '80vw' }"
     >
+      <div class="flex flex-row gap-8 my-4">
+        <InputText placeholder="Поиск" />
+        <Dropdown
+          v-model="selectedMapFilter"
+          :options="mapFilters"
+          option-label="name"
+          placeholder="Все учреждения"
+          class="w-64"
+        />
+      </div>
       <ClientOnly fallback-tag="span" fallback="Загрузка карты ...">
         <YandexMap
           :coordinates="[coords.latitude, coords.longitude]"
