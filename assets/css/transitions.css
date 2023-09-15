@@ -1,0 +1,23 @@
+.page-enter-active {
+  transition: all 0.1s out-in;
+}
+.page-leave-active {
+  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.page-enter-from,
+.page-leave-to {
+  transform: translateX(0px);
+  opacity: 0;
+}
+
+.layout-enter-active {
+  transition: all 0.1s out-in;
+}
+.layout-leave-active {
+  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.layout-enter-from,
+.layout-leave-to {
+  transform: translateX(0px);
+  opacity: 0;
+}

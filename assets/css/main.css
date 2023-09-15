@@ -1,7 +1,49 @@
+@import "transitions.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 html {
-    height: 100%;
+  height: 100%;
+}
+
+.wrapper {
+  @apply px-4 md:px-0 md:w-[1200px] mx-auto;
+}
+
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+  color: #000000;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.router-exact-link-active {
+  @apply font-medium text-primary-600;
+}
+
+.h-screen-90 {
+  height: 90vh;
+}
+
+.col-12	{
+  flex: 0 0 auto;
+  padding: 16px;
+  width: 100%;
+}
+
+.col-4 {
+  flex: 0 0 auto;
+  padding: 16px;
+  width: 33.3333%;
+}
+
+.card-shadow {
+  @apply shadow transition duration-150 ease-in-out hover:shadow-lg;
 }
